@@ -39,7 +39,11 @@ function useProvideTheme() {
   }
 }
 
-export function ProvideTheme({ children }: any) {
+export interface LayoutProps {
+  children: React.ReactNode
+}
+
+export function ProvideTheme({ children }: LayoutProps) {
   const theme = useProvideTheme()
   return <themeContext.Provider value={theme}>{children}</themeContext.Provider>
 }

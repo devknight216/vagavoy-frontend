@@ -21,10 +21,14 @@ export interface IAvatarProps extends MuiAvatarProps {
    * Avatar size
    */
   avatarSize?: number
+  /**
+   * Avatar border size
+   */
+  avatarBorderSize?: number
 }
 
 export const Avatar: FC<IAvatarProps> = memo(
-  ({ avatarSize = 1, ...props }: IAvatarProps) => {
+  ({ avatarSize = 1, avatarBorderSize, ...props }: IAvatarProps) => {
     const currentAvatarSize = useMemo(
       () => avatarSizeMapping[avatarSize - 1],
       [avatarSize]
@@ -33,6 +37,9 @@ export const Avatar: FC<IAvatarProps> = memo(
     return (
       <CustomAvatar
         {...props}
+        style={{
+          border: `${avatarBorderSize}px solid white`
+        }}
         sx={{
           width: currentAvatarSize,
           height: currentAvatarSize,

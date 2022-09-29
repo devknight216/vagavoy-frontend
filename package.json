@@ -38,7 +38,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "lint": "eslint --fix",
+    "lint": "eslint --fix \"**/*.@(tsx|ts|jsx|js)\"",
     "lint:fix": "eslint --fix",
     "pretty": "prettier --write ."
   },
@@ -61,6 +61,7 @@
     ]
   },
   "devDependencies": {
+    "@types/babel__core": "^7.1.19",
     "@typescript-eslint/eslint-plugin": "^5.38.1",
     "@typescript-eslint/parser": "^5.38.1",
     "autoprefixer": "^10.4.12",
