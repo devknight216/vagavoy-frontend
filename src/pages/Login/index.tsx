@@ -1,7 +1,7 @@
 import { useTheme } from '@mui/material'
 import { memo } from 'react'
 
-import { Avatar, Button, Icon } from '../../components'
+import { Avatar, Button, Icon, Logo } from '../../components'
 
 export const Login = memo(() => {
   const theme = useTheme()
@@ -25,6 +25,7 @@ export const Login = memo(() => {
           border: '1px solid rgba(0, 51, 0, 0.2) !important'
         }}
       />
+      <Logo />
     </div>
   )
 })
