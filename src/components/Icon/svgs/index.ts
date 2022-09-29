@@ -1,4 +1,4 @@
-import React from 'react'
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ReactComponent as Home } from './home.svg'
 import { ReactComponent as Users } from './users.svg'
 

@@ -1,3 +1,6 @@
+import './App.css'
+
+import { ThemeProvider } from '@mui/material/styles'
 import React from 'react'
 import {
   BrowserRouter as Router,
@@ -5,8 +8,6 @@ import {
   Route,
   Routes
 } from 'react-router-dom'
-import { ThemeProvider } from '@mui/material/styles'
-import './App.css'
 
 import { useTheme } from './contexts'
 import { Login } from './pages'

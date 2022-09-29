@@ -1,5 +1,5 @@
-import { memo } from 'react'
 import { useTheme } from '@mui/material'
+import { memo } from 'react'
 
 import { Avatar, Icon } from '../../components'
 
