@@ -58,9 +58,13 @@ const RightContainer = styled(MuiBox)(() => ({
   alignItems: 'center'
 }))
 
-export interface IHeaderProps {}
+export interface IHeaderProps {
+  onLogin: () => void
+}
 
-export const Header: FC<IHeaderProps> = memo(() => {
+export const Header: FC<IHeaderProps> = memo(({
+  onLogin
+}) => {
   const theme = useTheme()
   const navigate = useNavigate()
   const [openSidebar, setOpenSidebar] = useState(false)
@@ -121,7 +125,7 @@ export const Header: FC<IHeaderProps> = memo(() => {
                 variant="text"
                 buttonFontBold={true}
                 buttonLabel="Sign In"
-                onClick={() => navigate('/login')}
+                onClick={() => onLogin()}
               />
             </div>
           )
