@@ -3,14 +3,14 @@ import './App.css'
 import { ThemeProvider } from '@mui/material/styles'
 import {
   BrowserRouter as Router,
-  Navigate,
+  // Navigate,
   Route,
   Routes
 } from 'react-router-dom'
 
 import { AppLayout } from '../src/components'
 import { useTheme } from './contexts'
-import { UserProfile } from './pages'
+import { Home, UserProfile } from './pages'
 
 function App() {
   const { theme } = useTheme()
@@ -20,8 +20,8 @@ function App() {
       <div className="App">
         <Router>
           <Routes>
-            <Route path="/" element={<Navigate replace to="/user-profile" />} />
             <Route path="/" element={<AppLayout />}>
+              <Route path="/" element={<Home />} />
               <Route path="/user-profile" element={<UserProfile />} />
             </Route>
           </Routes>

@@ -2,12 +2,14 @@ import {
   Box as MuiBox,
   BoxProps as MuiBoxProps,
   styled,
+  useMediaQuery,
   useTheme
 } from '@mui/material'
 import { FC, memo } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { ReactComponent as Full } from '../../assets/logo/full.svg'
+import { ReactComponent as FullMobile } from '../../assets/logo/fullMobile.svg'
 import { ReactComponent as Mark } from '../../assets/logo/mark.svg'
 
 export interface ILogoProps extends MuiBoxProps {
@@ -31,17 +33,13 @@ export const Logo: FC<ILogoProps> = memo(
     const theme = useTheme()
     const navigate = useNavigate()
 
+    const upSM = useMediaQuery(theme.breakpoints.up('sm'))
+
     const handleLogoClick = () => navigate('/login')
 
     return (
       <LogoContainer {...props} onClick={handleLogoClick}>
-        {logoFull ? (
-          <Full
-            color={theme.palette.mode === 'light' ? '#000000' : '#FFFFFF'}
-          />
-        ) : (
-          <Mark />
-        )}
+        {logoFull ? upSM ? <Full /> : <FullMobile /> : <Mark />}
       </LogoContainer>
     )
   }

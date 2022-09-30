@@ -24,10 +24,11 @@ const TopNavigationContainer = styled(MuiBox)(({ theme }) => ({
   alignItems: 'center',
   justifyContent: 'space-between',
   padding: theme.spacing(4, 6),
-  [theme.breakpoints.down('lg')]: {
+  [theme.breakpoints.down('xl')]: {
     columnGap: theme.spacing(7.5)
   },
   [theme.breakpoints.down('sm')]: {
+    height: 60,
     columnGap: theme.spacing(4)
   }
 }))
@@ -42,11 +43,11 @@ const LeftContainer = styled(MuiBox, {
   alignItems: 'center',
   justifyContent: 'flex-start',
 
-  [theme.breakpoints.down('lg')]: {
+  [theme.breakpoints.down('xl')]: {
     columnGap: theme.spacing(4),
     width: '100%'
   },
-  [theme.breakpoints.up('lg')]: {
+  [theme.breakpoints.up('xl')]: {
     columnGap: theme.spacing(14.5),
     width: 'fit-content'
   }
@@ -62,23 +63,24 @@ export interface IHeaderProps {
   onLogin: () => void
 }
 
-export const Header: FC<IHeaderProps> = memo(({
-  onLogin
-}) => {
+export const Header: FC<IHeaderProps> = memo(() => {
   const theme = useTheme()
   const navigate = useNavigate()
   const [openSidebar, setOpenSidebar] = useState(false)
 
   const loggedIn = false
 
-  const upLG = useMediaQuery(theme.breakpoints.up('lg'))
+  const upLG = useMediaQuery(theme.breakpoints.up('xl'))
   const upSM = useMediaQuery(theme.breakpoints.up('sm'))
   const downSM = useMediaQuery(theme.breakpoints.down('sm'))
 
   return (
     <TopNavigationContainer>
       <LeftContainer loggedIn={loggedIn}>
-        <Logo logoFull={upSM} sx={{ marginTop: upSM ? '-6px' : '4px' }} />
+        <Logo
+          logoFull={upSM}
+          sx={{ marginTop: upSM ? '-6px' : '4px' }}
+        />
         <TextField
           textFieldHeight={40}
           textFieldLeftIconName="Search"
@@ -125,7 +127,7 @@ export const Header: FC<IHeaderProps> = memo(({
                 variant="text"
                 buttonFontBold={true}
                 buttonLabel="Sign In"
-                onClick={() => onLogin()}
+                onClick={() => navigate('/login')}
               />
             </div>
           )
