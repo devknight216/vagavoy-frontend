@@ -1,7 +1,7 @@
 import { SvgIcon, SvgIconProps } from '@mui/material'
 import { FC, memo } from 'react'
 
-import RawIcons from './svgs'
+import RawIcons from './svgs/index'
 
 export interface IIconProps extends SvgIconProps {
   /**

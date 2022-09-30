@@ -36,13 +36,13 @@ const LoginModal: React.FC<LoginModalProps> = ({ open, onClose }) => (
         </BorderButton>
       </div>
       <div className="xl:pr-20 flex flex-col items-center mx-auto max-w-[320px] xl:max-w-none w-full">
-        <span className="text-[28px] font-bold py-5">Welcome Back!</span>
+        <span className="text-[28px] font-semibold py-5">Welcome Back!</span>
         <div className="items-start w-full mb-4">
-          <div className="text-[14px] text-green-middle mb-1.5">Email</div>
+          <div className="text-[14px] text-green-500 mb-1.5">Email</div>
           <TextField textFieldHeight={44} fullWidth />
         </div>
         <div className="items-start w-full mb-8">
-          <div className="text-[14px] text-green-middle pb-1.5">Pasword</div>
+          <div className="text-[14px] text-green-500 pb-1.5">Pasword</div>
           <TextField textFieldHeight={44} type="password" fullWidth />
         </div>
         <Button fullWidth variant="contained" buttonLabel="Sign In" />
