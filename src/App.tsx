@@ -1,7 +1,6 @@
 import './App.css'
 
 import { ThemeProvider } from '@mui/material/styles'
-import React from 'react'
 import {
   BrowserRouter as Router,
   Navigate,
@@ -9,6 +8,7 @@ import {
   Routes
 } from 'react-router-dom'
 
+import { AppLayout } from '../src/components'
 import { useTheme } from './contexts'
 import { Login } from './pages'
 
@@ -21,7 +21,9 @@ function App() {
         <Router>
           <Routes>
             <Route path="/" element={<Navigate replace to="/login" />} />
-            <Route path="/login" element={<Login />} />
+            <Route path="/" element={<AppLayout />}>
+              <Route path="/login" element={<Login />} />
+            </Route>
           </Routes>
         </Router>
       </div>

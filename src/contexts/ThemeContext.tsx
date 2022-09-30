@@ -9,14 +9,20 @@ export const themes = {
       values: breakpoints
     },
     palette: palette.light,
-    spacing: 4
+    spacing: 4,
+    typography: {
+      fontFamily: 'proxima_nova'
+    }
   }),
   dark: createTheme({
     breakpoints: {
       values: breakpoints
     },
     palette: palette.dark,
-    spacing: 4
+    spacing: 4,
+    typography: {
+      fontFamily: 'proxima_nova'
+    }
   })
 }
 

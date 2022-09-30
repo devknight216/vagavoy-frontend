@@ -1,0 +1,158 @@
+import {
+  Box as MuiBox,
+  Drawer as MuiDrawer,
+  styled,
+  useMediaQuery,
+  useTheme
+} from '@mui/material'
+import { FC, memo, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+
+import {
+  Button,
+  Icon,
+  Logo,
+  NavigationOption,
+  SideNavigation,
+  TextField
+} from '../index'
+
+const TopNavigationContainer = styled(MuiBox)(({ theme }) => ({
+  width: '100%',
+  height: 80,
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+  padding: theme.spacing(4, 6),
+  [theme.breakpoints.down('lg')]: {
+    columnGap: theme.spacing(7.5)
+  },
+  [theme.breakpoints.down('sm')]: {
+    columnGap: theme.spacing(4)
+  }
+}))
+
+const LeftContainer = styled(MuiBox, {
+  shouldForwardProp: (propName) => propName !== 'loggedIn'
+})<{ loggedIn: boolean }>(({ theme }) => ({
+  padding: theme.spacing(1, 0),
+  display: 'flex',
+  flexDirection: 'row',
+
+  alignItems: 'center',
+  justifyContent: 'flex-start',
+
+  [theme.breakpoints.down('lg')]: {
+    columnGap: theme.spacing(4),
+    width: '100%'
+  },
+  [theme.breakpoints.up('lg')]: {
+    columnGap: theme.spacing(14.5),
+    width: 'fit-content'
+  }
+}))
+
+const RightContainer = styled(MuiBox)(() => ({
+  display: 'flex',
+  flexDirection: 'row',
+  alignItems: 'center'
+}))
+
+export interface IHeaderProps {}
+
+export const Header: FC<IHeaderProps> = memo(() => {
+  const theme = useTheme()
+  const navigate = useNavigate()
+  const [openSidebar, setOpenSidebar] = useState(false)
+
+  const loggedIn = false
+
+  const upLG = useMediaQuery(theme.breakpoints.up('lg'))
+  const upSM = useMediaQuery(theme.breakpoints.up('sm'))
+  const downSM = useMediaQuery(theme.breakpoints.down('sm'))
+
+  return (
+    <TopNavigationContainer>
+      <LeftContainer loggedIn={loggedIn}>
+        <Logo logoFull={upSM} sx={{ marginTop: upSM ? '-6px' : '4px' }} />
+        <TextField
+          textFieldHeight={40}
+          textFieldLeftIconName="Search"
+          placeholder="Search..."
+          sx={{ width: upLG ? '370px' : '100%', maxWidth: 370 }}
+        />
+      </LeftContainer>
+      <RightContainer
+        sx={{ columnGap: loggedIn ? theme.spacing(5.25) : theme.spacing(11) }}>
+        {loggedIn ? (
+          <>
+            {upLG && (
+              <NavigationOption
+                navigationOptionLabel="Connections"
+                navigationOptionLink="connections"
+                navigationOptionIconName="Users"
+              />
+            )}
+            {upSM && (
+              <>
+                <NavigationOption
+                  navigationOptionLabel="News"
+                  navigationOptionLink="news"
+                  navigationOptionIconName="Join"
+                />
+                <NavigationOption
+                  navigationOptionLabel="Messages"
+                  navigationOptionLink="messages"
+                  navigationOptionIconName="Message"
+                />
+              </>
+            )}
+          </>
+        ) : (
+          upSM && (
+            <div className="flex lg:gap-x-11 gap-4">
+              <Button
+                variant="text"
+                buttonFontBold={true}
+                buttonLabel="Join Now"
+                onClick={() => navigate('/signup')}
+              />
+              <Button
+                variant="text"
+                buttonFontBold={true}
+                buttonLabel="Sign In"
+                onClick={() => navigate('/login')}
+              />
+            </div>
+          )
+        )}
+
+        {downSM && (
+          <Icon
+            iconName="Hamburger"
+            iconColor={theme.palette.green.dark}
+            onClick={() => setOpenSidebar(true)}
+          />
+        )}
+      </RightContainer>
+      <MuiDrawer
+        anchor="right"
+        open={openSidebar && downSM}
+        sx={{
+          '& .MuiPaper-root': {
+            width: '100%'
+          }
+        }}
+        onClose={() => setOpenSidebar(false)}>
+        <SideNavigation
+          loggedIn={loggedIn}
+          onCloseSideNavigation={() => setOpenSidebar(false)}
+        />
+      </MuiDrawer>
+    </TopNavigationContainer>
+  )
+})
+
+Header.displayName = 'Header'
+
+export default Header
