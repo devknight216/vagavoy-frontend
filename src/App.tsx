@@ -10,7 +10,7 @@ import {
 
 import { AppLayout } from '../src/components'
 import { useTheme } from './contexts'
-import { Login } from './pages'
+import { UserProfile } from './pages'
 
 function App() {
   const { theme } = useTheme()
@@ -20,9 +20,9 @@ function App() {
       <div className="App">
         <Router>
           <Routes>
-            <Route path="/" element={<Navigate replace to="/login" />} />
+            <Route path="/" element={<Navigate replace to="/user-profile" />} />
             <Route path="/" element={<AppLayout />}>
-              <Route path="/login" element={<Login />} />
+              <Route path="/user-profile" element={<UserProfile />} />
             </Route>
           </Routes>
         </Router>

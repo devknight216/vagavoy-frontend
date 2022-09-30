@@ -1,3 +1,15 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+  --var-green-dark: #003300;
+  --var-green-middle: #707268;
+  --var-green-light1: #D5D8CB;
+  --var-green-light2: #E5E8DB;
+  --var-orange-dark: #DFA224;
+  --var-orange-middle: #FFD276;
+  --var-orange-light1: #FDEBB1;
+  --var-orange-light2: #FEFAEF;
+  font-family: proxima_nova;
+}

@@ -1,1 +1,1 @@
-export * from './Login'
+export { default as UserProfile } from './UserProfile'
