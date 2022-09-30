@@ -41,7 +41,7 @@ const CustomButton = styled(MuiButton, {
 })<IButtonProps>(({ theme, buttonSize, buttonFontBold }) => ({
   borderRadius: '50px',
   columnGap: theme.spacing(2),
-  minWidth: '90px',
+  minWidth: 'max-content',
   height: buttonSize === 'big' ? 44 : 32,
   boxShadow: 'none',
 
@@ -56,9 +56,16 @@ const CustomButton = styled(MuiButton, {
     backgroundColor: 'white'
   },
 
+  '&.MuiButton-text': {
+    color: theme.palette.green.dark,
+    backgroundColor: 'white',
+    '&:hover': {
+      backgroundColor: 'white'
+    }
+  },
+
   '& .MuiTypography-root': {
     textTransform: 'capitalize',
-    fontFamily: 'proxima_nova',
     fontWeight: buttonFontBold ? 700 : 400,
     fontSize: '1rem',
     lineHeight: '24px'
