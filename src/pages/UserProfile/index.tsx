@@ -76,9 +76,17 @@ const UserProfile: React.FC = () => (
             </span>
             <div className="mt-4 sm:mt-[18px] flex flex-row w-full">
               <span className="mr-5 sm:mr-6 w-full sm:w-min">
-                <Button buttonLabel="Message" variant="outlined" className="w-full sm:w-[124px]" />
+                <Button
+                  buttonLabel="Message"
+                  variant="outlined"
+                  className="w-full sm:w-[124px]"
+                />
               </span>
-              <Button buttonLabel="Connect" variant="contained" className="w-full sm:w-[124px]" />
+              <Button
+                buttonLabel="Connect"
+                variant="contained"
+                className="w-full sm:w-[124px]"
+              />
             </div>
           </div>
         </div>

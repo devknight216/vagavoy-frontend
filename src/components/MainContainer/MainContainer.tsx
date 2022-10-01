@@ -1,4 +1,4 @@
-import { styled } from "@mui/material";
+import { styled } from '@mui/material'
 
 export const MainContainer = styled('div')`
   display: flex;
@@ -6,15 +6,15 @@ export const MainContainer = styled('div')`
 
   margin-left: 16px;
   margin-right: 16px;
-  @media(min-width: 640px) {
+  @media (min-width: 640px) {
     margin-left: 32px;
     margin-right: 32px;
   }
-  @media(min-width: 1264px) {
+  @media (min-width: 1264px) {
     margin-left: auto;
     margin-right: auto;
     max-width: 1200px;
   }
 `
 
-export default MainContainer;
+export default MainContainer
