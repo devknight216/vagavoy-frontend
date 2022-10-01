@@ -77,10 +77,7 @@ export const Header: FC<IHeaderProps> = memo(( {onLogin} ) => {
   return (
     <TopNavigationContainer>
       <LeftContainer loggedIn={loggedIn}>
-        <Logo
-          logoFull={upSM}
-          sx={{ marginTop: upSM ? '-6px' : '4px' }}
-        />
+        <Logo logoFull={upSM} sx={{ marginTop: upSM ? '-6px' : '4px' }} />
         <TextField
           textFieldHeight={40}
           textFieldLeftIconName="Search"

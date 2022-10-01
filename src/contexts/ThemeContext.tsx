@@ -11,7 +11,15 @@ export const themes = {
     palette: palette.light,
     spacing: 4,
     typography: {
-      fontFamily: 'proxima_nova'
+      fontFamily: 'proxima_nova',
+      h3: {
+        fontWeight: 700,
+        lineHeight: '44px',
+        fontSize: '2rem',
+        '@media (min-width:576px)': {
+          fontSize: '3rem'
+        }
+      }
     }
   }),
   dark: createTheme({
@@ -21,7 +29,18 @@ export const themes = {
     palette: palette.dark,
     spacing: 4,
     typography: {
-      fontFamily: 'proxima_nova'
+      fontFamily: 'proxima_nova',
+      h3: {
+        fontWeight: 700,
+        lineHeight: '24px',
+        fontSize: '1.375rem',
+        '@media (min-width:576px)': {
+          fontSize: '2rem'
+        },
+        '@media (min-width:1200px)': {
+          fontSize: '3rem'
+        }
+      }
     }
   })
 }

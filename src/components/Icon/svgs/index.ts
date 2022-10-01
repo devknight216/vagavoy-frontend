@@ -6,6 +6,7 @@ import { ReactComponent as Home } from './home.svg'
 import { ReactComponent as Join } from './join.svg'
 import { ReactComponent as Location } from './location.svg'
 import { ReactComponent as Map } from './map.svg'
+import { ReactComponent as Message } from './message.svg'
 import { ReactComponent as Next } from './next.svg'
 import { ReactComponent as Pencil } from './pencil.svg'
 import { ReactComponent as Picture } from './picture.svg'
@@ -25,6 +26,7 @@ const RawIcons: IIcon = {
   Join,
   Location,
   Map,
+  Message,
   Next,
   Pencil,
   Picture,
