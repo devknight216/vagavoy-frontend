@@ -24,7 +24,6 @@ const TopNavigationContainer = styled(MuiBox)(({ theme }) => ({
   alignItems: 'center',
   justifyContent: 'space-between',
   padding: theme.spacing(4, 6),
-  backgroundColor: 'white',
   [theme.breakpoints.down('xl')]: {
     columnGap: theme.spacing(7.5)
   },

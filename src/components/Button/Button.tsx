@@ -58,7 +58,7 @@ const CustomButton = styled(MuiButton, {
 
   '&.MuiButton-text': {
     color: theme.palette.green.dark,
-    backgroundColor: 'white',
+    backgroundColor: '#F5F5F5',
     '&:hover': {
       backgroundColor: 'white'
     }
