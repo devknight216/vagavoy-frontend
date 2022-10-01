@@ -9,7 +9,7 @@ export const AppLayout = memo(() => {
   const [login, setLogin] = React.useState(false)
   return (
     <div className="w-full flex flex-col bg-[#F5F5F5]">
-      <div className="w-full mx-auto xl:max-w-[1200px]">
+      <div className="w-full mx-auto xl:max-w-[1200px] bg-white">
         <Header onLogin={() => setLogin(true)} />
       </div>
 
