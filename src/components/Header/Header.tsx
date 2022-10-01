@@ -24,6 +24,7 @@ const TopNavigationContainer = styled(MuiBox)(({ theme }) => ({
   alignItems: 'center',
   justifyContent: 'space-between',
   padding: theme.spacing(4, 6),
+  backgroundColor: 'white',
   [theme.breakpoints.down('xl')]: {
     columnGap: theme.spacing(7.5)
   },
@@ -77,10 +78,7 @@ export const Header: FC<IHeaderProps> = memo(() => {
   return (
     <TopNavigationContainer>
       <LeftContainer loggedIn={loggedIn}>
-        <Logo
-          logoFull={upSM}
-          sx={{ marginTop: upSM ? '-6px' : '4px' }}
-        />
+        <Logo logoFull={upSM} sx={{ marginTop: upSM ? '-6px' : '4px' }} />
         <TextField
           textFieldHeight={40}
           textFieldLeftIconName="Search"

@@ -6,12 +6,12 @@ interface AvatarProps {
   src: string
 }
 
-export const Avatar = styled('img')<AvatarProps>(({size, borderWidth}) => ({
+export const Avatar = styled('img')<AvatarProps>(({ size, borderWidth }) => ({
   width: size,
   height: size,
   borderRadius: '100%',
   borderColor: 'white',
-  borderWidth,
+  borderWidth
 }))
 
 Avatar.displayName = 'Avatar'

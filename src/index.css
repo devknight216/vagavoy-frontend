@@ -5,11 +5,11 @@
 :root {
   --var-green-dark: #003300;
   --var-green-middle: #707268;
-  --var-green-light1: #D5D8CB;
-  --var-green-light2: #E5E8DB;
-  --var-orange-dark: #DFA224;
-  --var-orange-middle: #FFD276;
-  --var-orange-light1: #FDEBB1;
-  --var-orange-light2: #FEFAEF;
+  --var-green-light1: #d5d8cb;
+  --var-green-light2: #e5e8db;
+  --var-orange-dark: #dfa224;
+  --var-orange-middle: #ffd276;
+  --var-orange-light1: #fdebb1;
+  --var-orange-light2: #fefaef;
   font-family: proxima_nova;
 }
