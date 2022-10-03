@@ -1,58 +1,54 @@
-import { alpha, styled, useTheme } from '@mui/material'
-import { memo } from 'react'
+import AssignmentOutlinedIcon from '@mui/icons-material/AssignmentOutlined'
+import { styled } from '@mui/material'
+import { FC, memo } from 'react'
 
 import Icon from '../Icon'
-
-interface TripButtonProps{
-  type?: string
-  onClick: () => void
+export interface ITripButtonProps {
+  tripButtonType?: 'Gallery' | 'Recommendation'
+  tripButtonTitle: string
+  tripButtonDescription: string
+  onClick?: () => void
 }
-const TripButtonDiv = styled('div')(({ theme }) => ({
-  backgroundColor: alpha(theme.palette.green.light2, 0.2),
-  borderRadius: '8px',
-  borderColor: theme.palette.green.light2,
-  borderWidth: '1px',
-  borderStyle: 'solid',
+
+const StyledDiv = styled('div')(({ theme }) => ({
+  width: 'calc(100% - 105px)',
+  [theme.breakpoints.down('sm')]: {
+    width: 'calc(100% - 58px)'
+  }
 }))
-const TripButton: React.FC<TripButtonProps> = memo(( {type} ) => {
-  const theme = useTheme()  
-  if(type==="1")
-  return(
-    <TripButtonDiv className="flex flex-row items-center mr-[14px] sm:w-[381px] sm:h-[70px] w-[255px] h-[47px]" onClick={() => {}}>
-      <img src="/images/trip-image.png" className="sm:m-2 m-1 sm:w-[69px] sm:h-[54px] w-[50px] h-[39px]" />
-      <div className='flex flex-col m-1'>
-        <span className='font-bold text-sm'>
-          Trip Gallery
-        </span>
-        <span className='text-sm'>
-          Pictures and videos from my trip
-        </span>
+
+export const TripButton: FC<ITripButtonProps> = memo(
+  ({
+    tripButtonType = 'Gallery',
+    tripButtonTitle,
+    tripButtonDescription
+  }: ITripButtonProps) => {
+    return (
+      <div className="md:w-1/2 bg-[#e5e8db] bg-opacity-20 sm:h-[70px] h-[47px] rounded-lg w-full border border-green-100 p-2 pr-3 flex md:justify-between items-center max-w-[381px]">
+        {tripButtonType === 'Gallery' ? (
+          <img
+            src="/images/trip-image.png"
+            className="md:mr-3 mr-2 sm:w-[69px] sm:h-[54px] w-[50px] h-[39px]"
+          />
+        ) : (
+          <div className="flex md:mr-3 mr-2 sm:w-[69px] sm:h-[54px] w-[50px] h-[39px] md:min-w-[69px] min-w-[50px] bg-green-300 rounded-lg items-center justify-center">
+            <AssignmentOutlinedIcon className="sm:w-[37px] sm:h-[37px] w-[22px] h-[22px]" />
+          </div>
+        )}
+        <StyledDiv>
+          <div className="font-bold text-green-700 text-[14px] w-full truncate">
+            {tripButtonTitle}
+          </div>
+          <div className="text-green-700 text-[14px] w-full truncate">
+            {tripButtonDescription}
+          </div>
+        </StyledDiv>
+        <Icon iconName="Next" iconSize={24} className="hidden md:block" />
       </div>
-      <Icon
-        iconName="Next"
-        iconColor={theme.palette.green.dark}
-        className="ml-7 mr-3"
-      />
-    </TripButtonDiv>
-  )
-  return(
-    <TripButtonDiv className="flex flex-row items-center sm:w-[381px] sm:h-[70px] w-[255px] h-[47px]" onClick={() => {}}>
-      <img src="/images/trip-image.png" className="sm:m-2 m-1 sm:w-[69px] sm:h-[54px] w-[50px] h-[39px]" />
-      <div className='flex flex-col m-1'>
-        <span className='font-bold text-sm'>
-          Trip Recommendations
-        </span>
-        <span className='text-sm'>
-          Some of the more nitty-gritty details...
-        </span>
-      </div>
-      <Icon
-        iconName="Next"
-        iconColor={theme.palette.green.dark}
-        className="ml-7 mr-3"
-      />
-    </TripButtonDiv>
-  )
-})
+    )
+  }
+)
+
+TripButton.displayName = 'TripButton'
 
 export default TripButton

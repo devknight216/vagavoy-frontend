@@ -1,10 +1,9 @@
-import { Share } from '@mui/icons-material'
 import React from 'react'
-import { Avatar, Button, Icon } from 'src/components'
+import { Avatar, Button, Icon, TripLogContainer } from 'src/components'
 import MainContainer from 'src/components/MainContainer'
-import TripButton from 'src/components/TripButton'
+
 const UserProfile: React.FC = () => (
-  <div className='w-full'>
+  <div className="w-full">
     <img
       src="/images/user-profile-wallpaper.jpg"
       className="w-full min-h-[100px] h-auto sm:h-[300px] object-cover object-[100%_50%]"
@@ -71,7 +70,7 @@ const UserProfile: React.FC = () => (
                 buttonLabel="Share Profile"
                 variant="outlined"
                 buttonFontBold
-                endIcon={<Share />}
+                buttonRightIconName="Share"
                 fullWidth
               />
             </span>
@@ -111,27 +110,33 @@ const UserProfile: React.FC = () => (
           <span className="sm:text-[28px] text-[24px] text-black font-bold font-700 sm:font-600">
             Travel Log
           </span>
-          <div className="flex flex-row  sm:mt-8 mt-4">
-            <img src="/images/ar-flag.jpg" className="sm:w-[64px] sm:h-[44px] w-[44px] h-[31px]" />
-            <div className="flex flex-col ml-3">
-              <span className="sm:text-[18px] text-[14px] font-bold text-green-700">
-                Utila, Honduras
-              </span>
-              <span className="text-[14px] font-400 text-green-500">
-                Mar 20-27, 2022
-              </span>
-              <div className="mt-3 sm:text-base text-sm">
-                I learned to scuba dive in high school and did my open water
-                certification dive at an old rock quarry in the middle of
-                Missouri. Although I wanted to, I hadn't been scuba diving again
-                since. But finally, six years later I got to go again - but this
-                time in Utila, in one of the biggest reefs in the world!
-              </div>
-              <div className="mt-4 flex flex-col sm:flex-row">
-                <TripButton type="1" onClick={()=>{}}></TripButton>
-                <TripButton type="2" onClick={() => {}}></TripButton>
-              </div>
-            </div>
+          <div className="flex flex-col border-b border-b-green-100 sm:pt-8 pt-4 sm:pl-8 pl-5">
+            <TripLogContainer
+              tripLogImageSource="/images/Honduras.jpg"
+              tripLocation="Utila, Honduras"
+              tripPeriod="Mar 20-27, 2022"
+              tripDescription="I learned to scuba dive in high school and did my open water certification dive at an old rock quarry in the middle of Missouri. Although I wanted to,     I hadn’t been scuba diving again since. But finally, six years later I got to go again – but this time in Utila, in one of the biggest reefs in the world!"
+            />
+          </div>
+          <div className="flex flex-col sm:pt-8 pt-4 sm:pl-8 pl-5">
+            <TripLogContainer
+              tripLogImageSource="/images/Egypt.png"
+              tripLocation="Egypt"
+              tripPeriod="Jan 14-Apr 14,2021"
+              tripDescription="Went backpacking in Egypt with a friend for three months after I graduated and before starting work. It was during at the height of COVID and all the hotels were all nearly empty. We went north-south-east and west in the country and did it all for <$25 / day everything included!"
+              showBorder={true}
+            />
+            <TripLogContainer
+              tripLocation="Dahab, Egypt"
+              tripPeriod="Jan 14-Apr 14,2021"
+              tripDescription="Went backpacking in Egypt with a friend for three months after I graduated and before starting work. It was during at the height of COVID and all the hotels were all nearly empty. We went north-south-east and west in the country and did it all for <$25 / day everything included!"
+              showBorder={true}
+            />
+            <TripLogContainer
+              tripLocation="Western Desert, Egypt"
+              tripPeriod="Jan 14-Apr 14,2021"
+              tripDescription="Went backpacking in Egypt with a friend for three months after I graduated and before starting work. It was during at the height of COVID and all the hotels were all nearly empty. We went north-south-east and west in the country and did it all for <$25 / day everything included!"
+            />
           </div>
         </div>
       </div>

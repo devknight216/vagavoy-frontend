@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ReactComponent as Airplane } from './airplane.svg'
 import { ReactComponent as Close } from './close.svg'
+import { ReactComponent as Document } from './document.svg'
 import { ReactComponent as Hamburger } from './hamburger.svg'
 import { ReactComponent as Home } from './home.svg'
 import { ReactComponent as Join } from './join.svg'
@@ -21,6 +22,7 @@ interface IIcon {
 const RawIcons: IIcon = {
   Airplane,
   Close,
+  Document,
   Hamburger,
   Home,
   Join,

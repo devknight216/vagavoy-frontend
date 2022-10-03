@@ -63,7 +63,7 @@ export interface IHeaderProps {
   onLogin: () => void
 }
 
-export const Header: FC<IHeaderProps> = memo(( {onLogin} ) => {
+export const Header: FC<IHeaderProps> = memo(({ onLogin }) => {
   const theme = useTheme()
   const navigate = useNavigate()
   const [openSidebar, setOpenSidebar] = useState(false)

@@ -103,9 +103,10 @@ export const TextField: FC<ITextFieldProps> = memo(
     ...props
   }: ITextFieldProps) => {
     return (
-      <TextFieldContainer width={textFieldWidth} sx={sx}>
+      <TextFieldContainer width={textFieldWidth}>
         <CustomTextField
           {...props}
+          sx={sx}
           label={label}
           variant="outlined"
           textFieldWidth={textFieldWidth}
