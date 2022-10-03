@@ -35,7 +35,7 @@ export const Logo: FC<ILogoProps> = memo(
 
     const upSM = useMediaQuery(theme.breakpoints.up('sm'))
 
-    const handleLogoClick = () => navigate('/login')
+    const handleLogoClick = () => navigate('/')
 
     return (
       <LogoContainer {...props} onClick={handleLogoClick}>
