@@ -41,7 +41,7 @@ const SignOutModal: React.FC<SignOutModalProps> = ({ open, onClose }) => {
         src="/images/login.jpg"
         className="w-[480px] h-auto hidden xl:block"
       />
-      <div className="max-w-[575px] w-full px-4 pt-5 xl:pl-[60px] sm:pr-8 min-h-[500px]">
+      <div className="max-w-[575px] w-full px-4 pt-5 xl:pl-[60px] sm:pr-8 min-h-[500px] mb-16">
         <div className="flex flex-row-reverse">
           <BorderButton
             className="w-8 h-8 sm:w-11 sm:h-11"
