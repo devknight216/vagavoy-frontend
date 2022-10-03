@@ -1,9 +1,10 @@
 import { Close } from '@mui/icons-material'
 import { Dialog, DialogProps, IconButton, Paper, styled } from '@mui/material'
 import React from 'react'
-import Button from 'src/components/Button'
-import Divider from 'src/components/Divider'
-import TextField from 'src/components/TextField'
+
+import Button from '../../Button'
+import Divider from '../../Divider'
+import TextField from '../../TextField'
 
 interface AboutModalProps extends DialogProps {
   onClose: () => void
