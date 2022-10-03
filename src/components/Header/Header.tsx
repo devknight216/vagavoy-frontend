@@ -6,8 +6,8 @@ import {
   useTheme
 } from '@mui/material'
 import { FC, memo, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 
+// import { useNavigate } from 'react-router-dom'
 import {
   Button,
   Icon,
@@ -61,11 +61,11 @@ const RightContainer = styled(MuiBox)(() => ({
 
 export interface IHeaderProps {
   onLogin: () => void
+  onSignOut: () => void
 }
 
-export const Header: FC<IHeaderProps> = memo(( {onLogin} ) => {
+export const Header: FC<IHeaderProps> = memo(( {onLogin, onSignOut} ) => {
   const theme = useTheme()
-  const navigate = useNavigate()
   const [openSidebar, setOpenSidebar] = useState(false)
 
   const loggedIn = false
@@ -118,7 +118,7 @@ export const Header: FC<IHeaderProps> = memo(( {onLogin} ) => {
                 variant="text"
                 buttonFontBold={true}
                 buttonLabel="Join Now"
-                onClick={() => navigate('/signup')}
+                onClick={() => onSignOut()}
               />
               <Button
                 variant="text"
