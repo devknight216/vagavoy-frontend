@@ -20,7 +20,7 @@ export const TripGalleryCard: FC<ITripGalleryCardProps> = memo(
     tripGalleryCardLocation
   }: ITripGalleryCardProps) => {
     return (
-      <div className="flex sm:items-center flex-col border-none relative">
+      <div className="flex sm:items-center flex-col border-none relative cursor-pointer">
         <img src={tripGalleryCardImageSrc} className="w-full aspect-square" />
         <div className="w-full items-center absolute bottom-11 sm:bottom-8 flex flex-col gap-y-[12px]">
           <Typography className="font-bold text-[22px] landing-6 text-white">

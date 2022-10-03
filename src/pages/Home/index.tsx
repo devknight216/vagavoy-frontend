@@ -66,7 +66,7 @@ export const Home = memo(() => {
           <Typography className="sm:font-bold font-semibold sm:text-[32px] text-[28px]">
             Featured Travellers
           </Typography>
-          <div className="flex flex-row xl:gap-x-[30px] gap-x-[20px] gap-y-[30px] grid xl:grid-cols-4 sm:grid-cols-3 grid-cols-2 divide-x">
+          <div className="flex-row xl:gap-x-[30px] gap-x-[20px] gap-y-[30px] grid xl:grid-cols-4 sm:grid-cols-3 grid-cols-2 divide-x">
             <UserCard userProfile={userInfo1} />
             <UserCard userProfile={userInfo2} />
             <UserCard userProfile={userInfo3} />
@@ -80,7 +80,7 @@ export const Home = memo(() => {
           <Typography className="sm:font-bold font-semibold sm:text-[32px] text-[28px]">
             This is How You Vagavoy!
           </Typography>
-          <div className="flex flex-row xl:gap-x-[30px] gap-x-[20px] gap-y-[30px] grid xl:grid-cols-4 sm:grid-cols-2 grid-cols-1 divide-x">
+          <div className="flex-row xl:gap-x-[30px] gap-x-[20px] gap-y-[30px] grid xl:grid-cols-4 sm:grid-cols-2 grid-cols-1 divide-x">
             <FaqCard
               faqCardName="Discover"
               faqCardImageSrc="/images/discover.png"
@@ -108,7 +108,7 @@ export const Home = memo(() => {
           <Typography className="sm:font-bold font-semibold sm:text-[32px] text-[28px]">
             Popular Trip Galleries
           </Typography>
-          <div className="flex flex-row xl:gap-x-[30px] gap-x-[20px] gap-y-[30px] grid xl:grid-cols-4 sm:grid-cols-2 grid-cols-1 divide-x">
+          <div className="flex-row xl:gap-x-[30px] gap-x-[20px] gap-y-[30px] grid xl:grid-cols-4 sm:grid-cols-2 grid-cols-1 divide-x">
             <TripGalleryCard
               tripGalleryCardImageSrc="/images/profileBanner1.jpg"
               tripGalleryCardLocation="Utila, Honduras"
