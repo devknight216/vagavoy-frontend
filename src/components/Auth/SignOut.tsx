@@ -50,7 +50,7 @@ const SignOutModal: React.FC<SignOutModalProps> = ({ open, onClose }) => {
           </BorderButton>
         </div>
         <div className="xl:pr-20 flex flex-col items-center mx-auto max-w-[320px] xl:max-w-none w-full">
-          <span className="text-[28px] font-semibold py-5">Welcome Back!</span>
+          <span className="text-[28px] font-semibold py-5">Welcome To Vagavoy!</span>
           <div className="items-start w-full mb-4">
             <div className="text-[14px] text-green-500 mb-1.5">Full Name</div>
             <TextField textFieldHeight={44} fullWidth />
