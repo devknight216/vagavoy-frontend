@@ -120,7 +120,7 @@ const UserProfile: React.FC = () => (
           </div>
           <div className="flex flex-col sm:pt-8 pt-4 sm:pl-8 pl-5">
             <TripLogContainer
-              tripLogImageSource="/images/Egypt.png"
+              tripLogImageSource="/images/egypt.png"
               tripLocation="Egypt"
               tripPeriod="Jan 14-Apr 14,2021"
               tripDescription="Went backpacking in Egypt with a friend for three months after I graduated and before starting work. It was during at the height of COVID and all the hotels were all nearly empty. We went north-south-east and west in the country and did it all for <$25 / day everything included!"
