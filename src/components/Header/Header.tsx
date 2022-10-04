@@ -7,7 +7,7 @@ import {
 } from '@mui/material'
 import { FC, memo, useState } from 'react'
 
-// import { useNavigate } from 'react-router-dom'
+// import { useNavigate } from 'react-rUper-dom'
 import {
   Button,
   Icon,
@@ -61,10 +61,10 @@ const RightContainer = styled(MuiBox)(() => ({
 
 export interface IHeaderProps {
   onLogin: () => void
-  onSignOut: () => void
+  onSignup: () => void
 }
 
-export const Header: FC<IHeaderProps> = memo(( {onLogin, onSignOut} ) => {
+export const Header: FC<IHeaderProps> = memo(( {onLogin, onSignup} ) => {
   const theme = useTheme()
   const [openSidebar, setOpenSidebar] = useState(false)
 
@@ -118,7 +118,7 @@ export const Header: FC<IHeaderProps> = memo(( {onLogin, onSignOut} ) => {
                 variant="text"
                 buttonFontBold={true}
                 buttonLabel="Join Now"
-                onClick={() => onSignOut()}
+                onClick={() => onSignup()}
               />
               <Button
                 variant="text"
@@ -150,6 +150,8 @@ export const Header: FC<IHeaderProps> = memo(( {onLogin, onSignOut} ) => {
         <SideNavigation
           loggedIn={loggedIn}
           onCloseSideNavigation={() => setOpenSidebar(false)}
+          onLogin={onLogin}
+          onSignup={onSignup}
         />
       </MuiDrawer>
     </TopNavigationContainer>

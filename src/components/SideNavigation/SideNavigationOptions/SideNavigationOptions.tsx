@@ -1,6 +1,5 @@
 import { Typography, useTheme } from '@mui/material'
 import { FC, memo } from 'react'
-import { useNavigate } from 'react-router-dom'
 
 import { Divider, Icon } from '../../index'
 
@@ -9,12 +8,13 @@ export interface ISideNavigationOptionsProps {
    * Login Status
    */
   loggedIn: boolean
+  onLogin: () => void
+  onSignup: () => void
 }
 
 export const SideNavigationOptions: FC<ISideNavigationOptionsProps> = memo(
-  ({ loggedIn }: ISideNavigationOptionsProps) => {
+  ({ loggedIn, onLogin, onSignup }: ISideNavigationOptionsProps) => {
     const theme = useTheme()
-    const navigate = useNavigate()
 
     return (
       <div className="flex flex-col border-green-10 shadow-3xl px-2">
@@ -37,7 +37,7 @@ export const SideNavigationOptions: FC<ISideNavigationOptionsProps> = memo(
           <div className="flex flex-col mt-4.75 pl-2.5 gap-7">
             <div
               className="flex items-center gap-x-3.5 cursor-pointer"
-              onClick={() => navigate('login')}>
+              onClick={() => onLogin()}>
               <Icon
                 iconName="Users"
                 iconSize={30}
@@ -55,7 +55,7 @@ export const SideNavigationOptions: FC<ISideNavigationOptionsProps> = memo(
             </div>
             <div
               className="flex items-center gap-x-3.5 cursor-pointer"
-              onClick={() => navigate('signup')}>
+              onClick={() => onSignup()}>
               <Icon
                 iconName="Join"
                 iconSize={30}

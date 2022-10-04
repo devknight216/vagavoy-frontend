@@ -14,7 +14,7 @@ import React from 'react'
 import Button from '../Button'
 import TextField from '../TextField'
 
-interface SignOutModalProps extends DialogProps {
+interface SignUpModalProps extends DialogProps {
   onClose: () => void
 }
 
@@ -33,7 +33,7 @@ const StyledPaper = styled(Paper)`
   }
 `
 
-const SignOutModal: React.FC<SignOutModalProps> = ({ open, onClose }) => {
+const SignUpModal: React.FC<SignUpModalProps> = ({ open, onClose }) => {
   const theme = useTheme()
   return (
     <Dialog open={open} onClose={() => onClose()} PaperComponent={StyledPaper}>
@@ -85,4 +85,4 @@ const SignOutModal: React.FC<SignOutModalProps> = ({ open, onClose }) => {
   )
 }
 
-export default SignOutModal
+export default SignUpModal
