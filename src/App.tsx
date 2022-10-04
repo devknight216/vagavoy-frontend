@@ -10,6 +10,7 @@ import {
 
 import { AppLayout } from '../src/components'
 import { useTheme } from './contexts'
+import { ScrollToTop } from './hooks'
 import { Home, UserProfile } from './pages'
 
 function App() {
@@ -19,12 +20,14 @@ function App() {
     <ThemeProvider theme={theme}>
       <div className="App">
         <Router>
-          <Routes>
-            <Route path="/" element={<AppLayout />}>
-              <Route path="/" element={<Home />} />
-              <Route path="/user-profile" element={<UserProfile />} />
-            </Route>
-          </Routes>
+          <ScrollToTop>
+            <Routes>
+              <Route path="/" element={<AppLayout />}>
+                <Route path="/" element={<Home />} />
+                <Route path="/user-profile" element={<UserProfile />} />
+              </Route>
+            </Routes>
+          </ScrollToTop>
         </Router>
       </div>
     </ThemeProvider>
