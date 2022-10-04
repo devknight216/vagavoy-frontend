@@ -51,10 +51,10 @@ const UserProfile: React.FC = () => {
         />
         <div className="px-1 xl:px-3 pt-3 sm:pt-8">
           <div className="flex flex-row justify-between items-end text-green-700">
-            <span className="text-[18px] sm:text-[24px] font-bold">
+            <span className="text-lg sm:text-[24px] font-bold">
               Charlie Hummel
             </span>
-            <span className="text-[14px] sm:text-[22px] font-normal sm:font-bold">
+            <span className="text-sm sm:text-[22px] font-normal sm:font-bold">
               500+ Connections
             </span>
           </div>
@@ -66,10 +66,10 @@ const UserProfile: React.FC = () => {
                   iconColor="var(--var-green-light1)"
                   iconSize={22}
                 />
-                <span className="ml-2 text-[18px] text-green-500">
+                <span className="ml-2 sm:text-lg text-sm text-green-500">
                   Currently In:
                 </span>
-                <span className="ml-2 text-[18px] text-green-700 font-bold">
+                <span className="ml-2 sm:text-lg text-sm text-green-700 font-bold">
                   Saint Louis, MO
                 </span>
               </div>
@@ -79,10 +79,10 @@ const UserProfile: React.FC = () => {
                   iconColor="var(--var-green-light1)"
                   iconSize={22}
                 />
-                <span className="ml-2 text-[18px] text-green-500">
+                <span className="ml-2 sm:text-lg text-sm text-green-500">
                   Last Trip:
                 </span>
-                <span className="ml-2 text-[18px] text-green-700 font-bold">
+                <span className="ml-2 sm:text-lg text-sm text-green-700 font-bold">
                   Utila, Honduras
                 </span>
               </div>
@@ -92,10 +92,10 @@ const UserProfile: React.FC = () => {
                   iconColor="var(--var-green-light1)"
                   iconSize={22}
                 />
-                <span className="ml-2 text-[18px] text-green-500">
+                <span className="ml-2 sm:text-lg text-sm text-green-500">
                   Next Spot On Bucket List:
                 </span>
-                <span className="ml-2 text-[18px] text-green-700 font-bold">
+                <span className="ml-2 sm:text-lg text-sm text-green-700 font-bold">
                   Colombia
                 </span>
               </div>
