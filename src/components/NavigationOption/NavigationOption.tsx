@@ -38,7 +38,7 @@ export const NavigationOption: FC<INavigationOptionProps> = memo(
       <>
         {navigationOptionDirection === 'column' ? (
           <div
-            className="flex flex-col gap-y-0.5"
+            className="flex flex-col gap-y-0.5 justify-center items-center cursor-pointer"
             onClick={() => navigate(navigationOptionLink)}
             {...props}>
             <Icon
@@ -46,13 +46,13 @@ export const NavigationOption: FC<INavigationOptionProps> = memo(
               iconColor={theme.palette.green.dark}
             />
             <Typography
-              sx={{ fontSize: 12, lineHeight: '18px', fontWeight: 400 }}>
+              sx={{ fontSize: 12, lineHeight: '18px', fontWeight: 400, color: theme.palette.green.dark }}>
               {navigationOptionLabel}
             </Typography>
           </div>
         ) : (
           <div
-            className="flex flex-row gap-x-2.75"
+            className="flex flex-row gap-x-[11px] cursor-pointer items-center"
             onClick={() => navigate(navigationOptionLink)}
             {...props}>
             <Icon
@@ -60,7 +60,7 @@ export const NavigationOption: FC<INavigationOptionProps> = memo(
               iconColor={theme.palette.green.dark}
             />
             <Typography
-              sx={{ fontSize: 12, lineHeight: '18px', fontWeight: 400 }}>
+              sx={{ fontSize: 18, lineHeight: '24px', fontWeight: 400, color: theme.palette.green.dark }}>
               {navigationOptionLabel}
             </Typography>
           </div>

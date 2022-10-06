@@ -21,7 +21,7 @@ export const FaqCard: FC<IFaqCardProps> = memo(
     return (
       <div className="flex sm:items-center flex-col border-none sm:px-0 px-4">
         <img src={faqCardImageSrc} className="w-[72px] h-[72px]" />
-        <div className="flex sm:items-center itmes-start mt-6 flex flex-col gap-y-2">
+        <div className="sm:items-center itmes-start mt-6 flex flex-col gap-y-2">
           <Typography className="w-fit sm:text-center text-left font-bold sm:text-[28px] text-[24px] leading-6 text-green-700">
             {faqCardName}
           </Typography>

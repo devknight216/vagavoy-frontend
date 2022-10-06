@@ -1,7 +1,7 @@
 import { Typography, useTheme } from '@mui/material'
 import { FC, memo } from 'react'
 
-import { Divider, Icon } from '../../index'
+import { Avatar, Divider, Icon, NavigationOption } from '../../index'
 
 export interface ISideNavigationOptionsProps {
   /**
@@ -17,7 +17,7 @@ export const SideNavigationOptions: FC<ISideNavigationOptionsProps> = memo(
     const theme = useTheme()
 
     return (
-      <div className="flex flex-col border-green-10 shadow-3xl px-2">
+      <div className="flex flex-col border-green-10 shadow-3xl px-4">
         {!loggedIn && (
           <div className="pl-2.5">
             <Typography
@@ -26,15 +26,32 @@ export const SideNavigationOptions: FC<ISideNavigationOptionsProps> = memo(
                 fontSize: 28,
                 lineHeight: '24px',
                 color: 'black',
-                marginTop: 6.5
+                marginTop: 6.5,
+                marginBottom: '19px'
               }}>
               Welcome to Vagavoy!
             </Typography>
           </div>
         )}
-        <Divider sx={{ margin: '19px 0px' }} />
-        {!loggedIn && (
-          <div className="flex flex-col mt-4.75 pl-2.5 gap-7">
+        {loggedIn && (
+          <div className="flex flex-row gap-x-3 items-center mt-[26px] ml-[18px] mb-[26px]">
+            <Avatar
+              size={60}
+              src="https://mui.com/static/images/avatar/1.jpg"
+            />
+            <div className="flex flex-col gap-y-1">
+              <Typography className="text-lg leading-6 font-bold text-green-700">
+                Charlie Hummel
+              </Typography>
+              <Typography className="text-xs leading-[15px] text-green-700">
+                500+ connections
+              </Typography>
+            </div>
+          </div>
+        )}
+        <Divider />
+        {!loggedIn ? (
+          <div className="flex flex-col mt-[19px] pl-2.5 gap-7">
             <div
               className="flex items-center gap-x-3.5 cursor-pointer"
               onClick={() => onLogin()}>
@@ -71,6 +88,27 @@ export const SideNavigationOptions: FC<ISideNavigationOptionsProps> = memo(
                 Join Now
               </Typography>
             </div>
+          </div>
+        ) : (
+          <div className="flex flex-col mt-[25px] gap-y-6">
+            <NavigationOption
+              navigationOptionDirection="row"
+              navigationOptionLabel="Connections"
+              navigationOptionLink="connections"
+              navigationOptionIconName="Users"
+            />
+            <NavigationOption
+              navigationOptionDirection="row"
+              navigationOptionLabel="News"
+              navigationOptionLink="news"
+              navigationOptionIconName="Join"
+            />
+            <NavigationOption
+              navigationOptionDirection="row"
+              navigationOptionLabel="Messages"
+              navigationOptionLink="messages"
+              navigationOptionIconName="Message"
+            />
           </div>
         )}
       </div>

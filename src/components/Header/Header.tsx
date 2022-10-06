@@ -64,11 +64,11 @@ export interface IHeaderProps {
   onSignup: () => void
 }
 
-export const Header: FC<IHeaderProps> = memo(( {onLogin, onSignup} ) => {
+export const Header: FC<IHeaderProps> = memo(({ onLogin, onSignup }) => {
   const theme = useTheme()
   const [openSidebar, setOpenSidebar] = useState(false)
 
-  const loggedIn = false
+  const loggedIn = true
 
   const upLG = useMediaQuery(theme.breakpoints.up('xl'))
   const upSM = useMediaQuery(theme.breakpoints.up('sm'))
@@ -91,13 +91,18 @@ export const Header: FC<IHeaderProps> = memo(( {onLogin, onSignup} ) => {
           <>
             {upLG && (
               <NavigationOption
-                navigationOptionLabel="Connections"
-                navigationOptionLink="connections"
-                navigationOptionIconName="Users"
+                navigationOptionLabel="Home"
+                navigationOptionLink="home"
+                navigationOptionIconName="Home"
               />
             )}
             {upSM && (
               <>
+                <NavigationOption
+                  navigationOptionLabel="Connections"
+                  navigationOptionLink="connections"
+                  navigationOptionIconName="Users"
+                />
                 <NavigationOption
                   navigationOptionLabel="News"
                   navigationOptionLink="news"
