@@ -1,6 +1,7 @@
 import CloudDownloadOutlinedIcon from '@mui/icons-material/CloudDownloadOutlined'
 import { styled, Typography, useTheme } from '@mui/material'
 import { FC, memo, useState } from 'react'
+import EditButton from 'src/components/EditButton'
 export interface IBannerImageProps {
   /**
    * Banner Image
@@ -38,7 +39,7 @@ export const BannerImage: FC<IBannerImageProps> = memo(
     }
 
     return (
-      <div className="bg-green-300 flex items-center justify-center w-full min-h-[100px] h-auto sm:h-[200px] xl:h-[300px]">
+      <div className="bg-green-300 flex items-center justify-center w-full min-h-[100px] h-auto sm:h-[200px] xl:h-[300px] relative">
         {newBannerImage && (
           <img
             src={newBannerImage}
@@ -54,7 +55,7 @@ export const BannerImage: FC<IBannerImageProps> = memo(
                 accept="image/*"
                 onChange={onFileChange}
               />
-              <div className="sm:flex flex-col cursor-pointer items-center justify-center">
+              <div className="sm:flex flex-col cursor-pointer items-center justify-center hidden">
                 <CloudDownloadOutlinedIcon
                   sx={{
                     width: 44,
@@ -69,7 +70,7 @@ export const BannerImage: FC<IBannerImageProps> = memo(
                   Recomended size 1600x300 px
                 </Typography>
               </div>
-              {/* <span className="flex flex-col cursor-pointer items-center justify-center sm:hidden">
+              <span className="flex flex-col cursor-pointer items-center justify-center sm:hidden">
                 <div className="flex flex-row gap-x-2">
                   <CloudDownloadOutlinedIcon
                     sx={{
@@ -83,10 +84,19 @@ export const BannerImage: FC<IBannerImageProps> = memo(
                 <Typography className="text-[18px] leading-6 font-bold ml-6 mt-1">
                   Banner Photo
                 </Typography>
-              </span> */}
+              </span>
             </label>
           )}
         </div>
+        {newBannerImage && currentUser && (
+          <label
+            htmlFor="File-Upload-BannerImage"
+            className="w-fit absolute xl:bottom-[13px] xl:right-[calc((100%-1136px)/2)] sm:top-8 sm:right-8 top-6 right-6">
+            <div className="flex-col items-center justify-center cursor-pointer">
+              <EditButton />
+            </div>
+          </label>
+        )}
       </div>
     )
   }

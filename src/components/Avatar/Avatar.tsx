@@ -1,7 +1,7 @@
 import { Typography } from '@mui/material'
 import { styled, useTheme } from '@mui/material/styles'
 import { FC, memo, useState } from 'react'
-import { Icon } from 'src/components'
+import { EditButton, Icon } from 'src/components'
 
 interface IAvatarProps {
   size?: number
@@ -32,7 +32,13 @@ const readFile = (file: Blob) => {
 }
 
 export const Avatar: FC<IAvatarProps> = memo(
-  ({ src = '', size, borderWidth, currentUser = false, className }) => {
+  ({
+    src = '',
+    size,
+    borderWidth,
+    currentUser = false,
+    className
+  }) => {
     const theme = useTheme()
     const [avatarImage, setAvatarImage] = useState(src)
 
@@ -45,7 +51,7 @@ export const Avatar: FC<IAvatarProps> = memo(
     }
 
     return (
-      <>
+      <div className="w-fit relative">
         {avatarImage && (
           <CustomAvatar
             src={avatarImage}
@@ -59,9 +65,10 @@ export const Avatar: FC<IAvatarProps> = memo(
             avatarImage
               ? 'hidden'
               : 'block' +
-                ' rounded-full border-white flex items-center justify-center bg-green-100 ' + className
+                ' rounded-full border-white flex items-center justify-center bg-green-100 ' +
+                className
           }>
-          {currentUser && (
+          {currentUser ? (
             <label htmlFor="File-Upload-Avatar">
               <Input
                 id="File-Upload-Avatar"
@@ -80,9 +87,24 @@ export const Avatar: FC<IAvatarProps> = memo(
                 </Typography>
               </div>
             </label>
+          ) : (
+            <Icon
+              iconName="Picture"
+              iconSize={44}
+              iconColor={theme.palette.green.middle}
+            />
           )}
         </div>
-      </>
+        {avatarImage && currentUser && (
+          <label
+            htmlFor="File-Upload-Avatar"
+            className="w-fit absolute xl:bottom-[13px] xl:right-[38px] bottom-[0px] right-[0px]">
+            <div className="flex-col items-center justify-center cursor-pointer">
+              <EditButton />
+            </div>
+          </label>
+        )}
+      </div>
     )
   }
 )

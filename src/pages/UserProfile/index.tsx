@@ -47,7 +47,7 @@ export const UserProfile = memo(() => {
         <Avatar
           // src="https://mui.com/static/images/avatar/2.jpg"
           currentUser={currentUser}
-          className="w-[94px] sm:w-[124px] xl:w-[260px] h-[92px] sm:h-[124px] xl:h-[260px] border-[4px] xl:border-[8px] -mt-[46px] sm:-mt-[62px] xl:-mt-[180px]"
+          className="w-[94px] h-[94px] sm:w-[132px] sm:h-[132px] xl:w-[260px] xl:h-[260px] border-[4px] xl:border-[8px] -mt-[46px] sm:-mt-[62px] xl:-mt-[180px]"
         />
         <div className="px-1 xl:px-3 pt-3 sm:pt-8">
           <div className="flex flex-row justify-between items-end text-green-700">
