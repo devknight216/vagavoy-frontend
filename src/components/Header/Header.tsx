@@ -92,7 +92,7 @@ export const Header: FC<IHeaderProps> = memo(({ onLogin, onSignup }) => {
             {upLG && (
               <NavigationOption
                 navigationOptionLabel="Home"
-                navigationOptionLink="home"
+                navigationOptionLink="/"
                 navigationOptionIconName="Home"
               />
             )}
@@ -112,6 +112,11 @@ export const Header: FC<IHeaderProps> = memo(({ onLogin, onSignup }) => {
                   navigationOptionLabel="Messages"
                   navigationOptionLink="messages"
                   navigationOptionIconName="Message"
+                />
+                <NavigationOption
+                  navigationOptionLabel="Profile"
+                  navigationOptionLink="user-profile"
+                  navigationOptionAvatarSrc="https://mui.com/static/images/avatar/1.jpg"
                 />
               </>
             )}

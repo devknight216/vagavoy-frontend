@@ -1,2 +1,2 @@
-export { default as UserProfile } from './UserProfile'
 export { Home } from './Home'
+export { UserProfile } from './UserProfile'

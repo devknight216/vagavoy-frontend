@@ -2,7 +2,7 @@ import { Typography, useTheme } from '@mui/material'
 import { FC, memo } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-import { Icon } from '../index'
+import { Avatar, Icon } from '../index'
 
 export interface INavigationOptionProps {
   /**
@@ -12,7 +12,11 @@ export interface INavigationOptionProps {
   /**
    * Navigation Option IconName
    */
-  navigationOptionIconName: string
+  navigationOptionIconName?: string
+  /**
+   * Navigation Option Avatar Source
+   */
+  navigationOptionAvatarSrc?: string
   /**
    * Navigation Option Label
    */
@@ -27,6 +31,7 @@ export const NavigationOption: FC<INavigationOptionProps> = memo(
   ({
     navigationOptionDirection = 'column',
     navigationOptionIconName,
+    navigationOptionAvatarSrc = '',
     navigationOptionLabel,
     navigationOptionLink,
     ...props
@@ -35,37 +40,55 @@ export const NavigationOption: FC<INavigationOptionProps> = memo(
     const navigate = useNavigate()
 
     return (
-      <>
-        {navigationOptionDirection === 'column' ? (
-          <div
-            className="flex flex-col gap-y-0.5 justify-center items-center cursor-pointer"
-            onClick={() => navigate(navigationOptionLink)}
-            {...props}>
-            <Icon
-              iconName={navigationOptionIconName}
-              iconColor={theme.palette.green.dark}
-            />
-            <Typography
-              sx={{ fontSize: 12, lineHeight: '18px', fontWeight: 400, color: theme.palette.green.dark }}>
+      <div
+        className="cursor-pointer"
+        onClick={() => navigate(navigationOptionLink)}
+        {...props}>
+        {navigationOptionAvatarSrc ? (
+          <div className="flex flex-col gap-y-[2px] justify-center items-center">
+            <Avatar size={24} src={navigationOptionAvatarSrc} />
+            <Typography className="text-xs leading-[18px] text-green-700">
               {navigationOptionLabel}
             </Typography>
           </div>
         ) : (
-          <div
-            className="flex flex-row gap-x-[11px] cursor-pointer items-center"
-            onClick={() => navigate(navigationOptionLink)}
-            {...props}>
-            <Icon
-              iconName={navigationOptionIconName}
-              iconColor={theme.palette.green.dark}
-            />
-            <Typography
-              sx={{ fontSize: 18, lineHeight: '24px', fontWeight: 400, color: theme.palette.green.dark }}>
-              {navigationOptionLabel}
-            </Typography>
-          </div>
+          <>
+            {navigationOptionDirection === 'column' ? (
+              <div className="flex flex-col gap-y-0.5 justify-center items-center">
+                <Icon
+                  iconName={navigationOptionIconName}
+                  iconColor={theme.palette.green.dark}
+                />
+                <Typography
+                  sx={{
+                    fontSize: 12,
+                    lineHeight: '18px',
+                    fontWeight: 400,
+                    color: theme.palette.green.dark
+                  }}>
+                  {navigationOptionLabel}
+                </Typography>
+              </div>
+            ) : (
+              <div className="flex flex-row gap-x-[11px] items-center">
+                <Icon
+                  iconName={navigationOptionIconName}
+                  iconColor={theme.palette.green.dark}
+                />
+                <Typography
+                  sx={{
+                    fontSize: 18,
+                    lineHeight: '24px',
+                    fontWeight: 400,
+                    color: theme.palette.green.dark
+                  }}>
+                  {navigationOptionLabel}
+                </Typography>
+              </div>
+            )}
+          </>
         )}
-      </>
+      </div>
     )
   }
 )

@@ -1,8 +1,9 @@
 import { Typography, useTheme } from '@mui/material'
-import React, { useState } from 'react'
+import { memo, useState } from 'react'
 import TextTruncate from 'react-text-truncate'
 import { Avatar, Button, Icon, Logo, TripLogContainer } from 'src/components'
 import MainContainer from 'src/components/MainContainer'
+import { BannerImage } from 'src/components/UserProfilePage'
 
 const tripLogs1 = [
   {
@@ -34,20 +35,17 @@ const tripLogs2 = [
   }
 ]
 
-const UserProfile: React.FC = () => {
+export const UserProfile = memo(() => {
   const [line, setLine] = useState(3)
   const theme = useTheme()
 
   return (
     <div className="w-full">
-      <img
-        src="/images/user-profile-wallpaper.jpg"
-        className="w-full min-h-[100px] h-auto sm:h-[300px] object-cover object-[100%_50%]"
-      />
+      <BannerImage />
       <MainContainer className="">
         <Avatar
           src="https://mui.com/static/images/avatar/2.jpg"
-          className="rounded-full w-[92px] sm:w-[260px] border-[4px] sm:border-[8px] -mt-[46px] sm:-mt-[180px]"
+          className="rounded-full w-[92px] sm:w-[124px] xl:w-[260px] border-[4px] sm:border-[8px] -mt-[46px] sm:-mt-[62px] xl:-mt-[180px]"
         />
         <div className="px-1 xl:px-3 pt-3 sm:pt-8">
           <div className="flex flex-row justify-between items-end text-green-700">
@@ -201,6 +199,8 @@ const UserProfile: React.FC = () => {
       </div>
     </div>
   )
-}
+})
+
+UserProfile.displayName = 'UserProfile'
 
 export default UserProfile
