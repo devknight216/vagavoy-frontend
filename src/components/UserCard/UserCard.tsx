@@ -29,10 +29,9 @@ export const UserCard: FC<IUserCardProps> = memo(
           src={userProfile.bannerImage}
           className="w-full sm:h-[145px] h-[96px] rounded-2xl rounded-br-none rounded-bl-sm border-[1px] border-green-100"
         />
-        <Avatar
-          src={userProfile.profileImage}
-          className="rounded-full w-[92px] border-[4px] absolute top-[38px] sm:top-[99px] mx:auto"
-        />
+        <div className="absolute top-[38px] sm:top-[99px] mx:auto">
+          <Avatar size={92} src={userProfile.profileImage} borderWidth={4} />
+        </div>
         <div className="mt-[50px] sm:mt-[62px] flex flex-col gap-y-2">
           <Typography
             sx={{

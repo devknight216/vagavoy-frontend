@@ -38,14 +38,16 @@ const tripLogs2 = [
 export const UserProfile = memo(() => {
   const [line, setLine] = useState(3)
   const theme = useTheme()
+  const currentUser = true
 
   return (
     <div className="w-full">
-      <BannerImage />
+      <BannerImage currentUser={currentUser} />
       <MainContainer className="">
         <Avatar
-          src="https://mui.com/static/images/avatar/2.jpg"
-          className="rounded-full w-[92px] sm:w-[124px] xl:w-[260px] border-[4px] sm:border-[8px] -mt-[46px] sm:-mt-[62px] xl:-mt-[180px]"
+          // src="https://mui.com/static/images/avatar/2.jpg"
+          currentUser={currentUser}
+          className="w-[94px] sm:w-[124px] xl:w-[260px] h-[92px] sm:h-[124px] xl:h-[260px] border-[4px] xl:border-[8px] -mt-[46px] sm:-mt-[62px] xl:-mt-[180px]"
         />
         <div className="px-1 xl:px-3 pt-3 sm:pt-8">
           <div className="flex flex-row justify-between items-end text-green-700">

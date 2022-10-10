@@ -1,18 +1,91 @@
-import { styled } from '@mui/material/styles'
+import { Typography } from '@mui/material'
+import { styled, useTheme } from '@mui/material/styles'
+import { FC, memo, useState } from 'react'
+import { Icon } from 'src/components'
 
-interface AvatarProps {
+interface IAvatarProps {
   size?: number
   borderWidth?: number
-  src: string
+  src?: string
+  className?: string
+  currentUser?: boolean
 }
 
-export const Avatar = styled('img')<AvatarProps>(({ size, borderWidth }) => ({
+const CustomAvatar = styled('img')<IAvatarProps>(({ size, borderWidth }) => ({
   width: size,
   height: size,
   borderRadius: '100%',
   borderColor: 'white',
   borderWidth
 }))
+
+const Input = styled('input')(() => ({
+  display: 'none'
+}))
+
+const readFile = (file: Blob) => {
+  return new Promise((resolve) => {
+    const reader = new FileReader()
+    reader.addEventListener('load', () => resolve(reader.result), false)
+    reader.readAsDataURL(file)
+  })
+}
+
+export const Avatar: FC<IAvatarProps> = memo(
+  ({ src = '', size, borderWidth, currentUser = false, className }) => {
+    const theme = useTheme()
+    const [avatarImage, setAvatarImage] = useState(src)
+
+    const onFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+      if (e.target.files && e.target.files.length > 0) {
+        const file = e.target.files[0]
+        const imageDataUrl = (await readFile(file)) as string
+        setAvatarImage(imageDataUrl)
+      }
+    }
+
+    return (
+      <>
+        {avatarImage && (
+          <CustomAvatar
+            src={avatarImage}
+            size={size}
+            borderWidth={borderWidth}
+            className={className}
+          />
+        )}
+        <div
+          className={
+            avatarImage
+              ? 'hidden'
+              : 'block' +
+                ' rounded-full border-white flex items-center justify-center bg-green-100 ' + className
+          }>
+          {currentUser && (
+            <label htmlFor="File-Upload-Avatar">
+              <Input
+                id="File-Upload-Avatar"
+                type="file"
+                accept="image/*"
+                onChange={onFileChange}
+              />
+              <div className="flex-col items-center justify-center cursor-pointer">
+                <Icon
+                  iconName="Picture"
+                  iconSize={44}
+                  iconColor={theme.palette.green.middle}
+                />
+                <Typography className="text-lg leading-6 font-bold mt-3 text-green-500 xl:flex hidden">
+                  Add Your Profile Picture
+                </Typography>
+              </div>
+            </label>
+          )}
+        </div>
+      </>
+    )
+  }
+)
 
 Avatar.displayName = 'Avatar'
 

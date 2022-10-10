@@ -1,7 +1,6 @@
 import CloudDownloadOutlinedIcon from '@mui/icons-material/CloudDownloadOutlined'
 import { styled, Typography, useTheme } from '@mui/material'
 import { FC, memo, useState } from 'react'
-
 export interface IBannerImageProps {
   /**
    * Banner Image
@@ -39,43 +38,56 @@ export const BannerImage: FC<IBannerImageProps> = memo(
     }
 
     return (
-      <>
-        <div className="bg-green-300 flex items-center justify-center w-full min-h-[100px] h-auto sm:h-[200px] xl:h-[300px]">
-          {newBannerImage && (
-            <img
-              src={newBannerImage}
-              className="w-full min-h-[100px] h-auto sm:h-[200px] xl:h-[300px] object-cover object-[100%_50%]"
-            />
-          )}
-          <div className={newBannerImage ? 'hidden' : 'block'}>
-            {currentUser && (
-              <label htmlFor="contained-button-file">
-                <Input
-                  id="contained-button-file"
-                  type="file"
-                  accept="image/*"
-                  onChange={onFileChange}
+      <div className="bg-green-300 flex items-center justify-center w-full min-h-[100px] h-auto sm:h-[200px] xl:h-[300px]">
+        {newBannerImage && (
+          <img
+            src={newBannerImage}
+            className="w-full min-h-[100px] h-[100px] sm:h-[200px] xl:h-[300px] object-cover object-[100%_50%]"
+          />
+        )}
+        <div className={newBannerImage ? 'hidden' : 'block'}>
+          {currentUser && (
+            <label htmlFor="File-Upload-BannerImage">
+              <Input
+                id="File-Upload-BannerImage"
+                type="file"
+                accept="image/*"
+                onChange={onFileChange}
+              />
+              <div className="sm:flex flex-col cursor-pointer items-center justify-center">
+                <CloudDownloadOutlinedIcon
+                  sx={{
+                    width: 44,
+                    height: 44,
+                    color: theme.palette.green.dark
+                  }}
                 />
-                <span className="flex flex-col cursor-pointer items-center justify-center">
+                <Typography className="text-[28px] leading-6 font-semibold mt-[21px]">
+                  Add Your Banner Photo
+                </Typography>
+                <Typography className="text-[14px] leading-[21px] text-green-700 mt-2">
+                  Recomended size 1600x300 px
+                </Typography>
+              </div>
+              {/* <span className="flex flex-col cursor-pointer items-center justify-center sm:hidden">
+                <div className="flex flex-row gap-x-2">
                   <CloudDownloadOutlinedIcon
                     sx={{
-                      width: 44,
-                      height: 44,
                       color: theme.palette.green.dark
                     }}
                   />
-                  <Typography className="text-[28px] leading-6 font-semibold">
-                    Add Your Banner Photo
+                  <Typography className="text-[18px] leading-6 font-bold">
+                    Add Your
                   </Typography>
-                  <Typography className="text-[14px] leading-[21px] text-green-700">
-                    Recomended size 1600x300 px
-                  </Typography>
-                </span>
-              </label>
-            )}
-          </div>
+                </div>
+                <Typography className="text-[18px] leading-6 font-bold ml-6 mt-1">
+                  Banner Photo
+                </Typography>
+              </span> */}
+            </label>
+          )}
         </div>
-      </>
+      </div>
     )
   }
 )
