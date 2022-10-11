@@ -1,19 +1,10 @@
-import { Close } from '@mui/icons-material'
-import { Dialog, DialogProps, IconButton, Paper, styled } from '@mui/material'
+import { Dialog, DialogProps, Paper, styled } from '@mui/material'
 import React from 'react'
-
-import Button from '../../Button'
-import Divider from '../../Divider'
-import TextField from '../../TextField'
+import { Button, CloseButton, Divider, TextField } from 'src/components'
 
 interface AboutModalProps extends DialogProps {
   onClose: () => void
 }
-
-const BorderButton = styled(IconButton)`
-  border: 1px solid var(--var-green-light1);
-  color: black;
-`
 
 const StyledPaper = styled(Paper)`
   flex-direction: col !important;
@@ -35,10 +26,10 @@ const AboutModal: React.FC<AboutModalProps> = ({ open, onClose }) => {
   const CHARACTER_LIMIT = 2600
   const [name, setName] = React.useState('')
 
-  const handleChange =
-    (event: { target: { value: any } }) => {
-      setName(event.target.value)
-    }
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setName(event.target.value)
+  }
+
   return (
     <Dialog
       open={open}
@@ -51,11 +42,7 @@ const AboutModal: React.FC<AboutModalProps> = ({ open, onClose }) => {
           Edit About
         </span>
         <div className="flex flex-row-reverse">
-          <BorderButton
-            className="w-8 h-8 sm:w-11 sm:h-11"
-            onClick={() => onClose()}>
-            <Close />
-          </BorderButton>
+          <CloseButton onClose={onClose} />
         </div>
       </div>
       <Divider></Divider>

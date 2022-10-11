@@ -1,10 +1,11 @@
 import {
-  Box as MuiBox,
+  Box,
   InputAdornment as MuiInputAdornment,
   styled,
   TextField as MuiTextField,
   TextFieldProps as MuiTextFieldProps
 } from '@mui/material'
+import Typography from '@mui/material/Typography'
 import { FC, memo } from 'react'
 
 import { Icon } from '../index'
@@ -46,7 +47,7 @@ const CustomTextField = styled(MuiTextField, {
 
   '& .MuiOutlinedInput-input': {
     fontFamily: 'proxima_nova',
-    fontSize: '16px',
+    fontSize: '14px',
     fontWeight: 400,
     fontStyle: 'normal',
     lineHeight: '24px',
@@ -63,12 +64,13 @@ const CustomTextField = styled(MuiTextField, {
   }
 }))
 
-const TextFieldContainer = styled(MuiBox, {
+const TextFieldContainer = styled(Box, {
   shouldForwardProp: (propName) => propName !== 'width'
 })<{ width: number | undefined }>((props) => ({
   width: props.width ? props.width : '100%',
   display: 'flex',
-  flexDirection: 'column'
+  flexDirection: 'column',
+  rowGap: '8px'
 }))
 
 // const CustomTypography = styled(MuiTypography, {
@@ -90,7 +92,7 @@ const TextFieldContainer = styled(MuiBox, {
 export const TextField: FC<ITextFieldProps> = memo(
   ({
     textFieldWidth,
-    textFieldHeight = 38,
+    textFieldHeight = 44,
     textFieldLeftIconName,
     label,
     value,
@@ -104,10 +106,14 @@ export const TextField: FC<ITextFieldProps> = memo(
   }: ITextFieldProps) => {
     return (
       <TextFieldContainer width={textFieldWidth}>
+        <Box>
+          <Typography className='text-sm leading-[21px] text-green-500 ml-[2px]'>
+            {label}
+          </Typography>
+        </Box>
         <CustomTextField
           {...props}
           sx={sx}
-          label={label}
           variant="outlined"
           textFieldWidth={textFieldWidth}
           textFieldHeight={multiline ? undefined : textFieldHeight}

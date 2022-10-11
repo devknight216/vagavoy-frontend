@@ -91,7 +91,7 @@ export const BannerImage: FC<IBannerImageProps> = memo(
         {newBannerImage && currentUser && (
           <label
             htmlFor="File-Upload-BannerImage"
-            className="w-fit absolute xl:bottom-[13px] xl:right-[calc((100%-1136px)/2)] sm:top-8 sm:right-8 top-6 right-6">
+            className="w-fit absolute xl:bottom-[13px] xl:right-[calc((100%-1176px)/2)] sm:top-8 sm:right-8 top-6 right-6">
             <div className="flex-col items-center justify-center cursor-pointer">
               <EditButton />
             </div>

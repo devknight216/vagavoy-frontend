@@ -98,7 +98,7 @@ export const Avatar: FC<IAvatarProps> = memo(
         {avatarImage && currentUser && (
           <label
             htmlFor="File-Upload-Avatar"
-            className="w-fit absolute xl:bottom-[13px] xl:right-[38px] bottom-[0px] right-[0px]">
+            className="w-fit absolute xl:bottom-3 xl:right-[38px] bottom-[0px] right-[0px]">
             <div className="flex-col items-center justify-center cursor-pointer">
               <EditButton />
             </div>
