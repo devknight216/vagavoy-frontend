@@ -1,10 +1,10 @@
 export interface IProfile {
-  id: number
+  id?: number
   firstName: string
   lastName: string
   profileImage?: string
   bannerImage?: string
   location?: string
-  lastTripLocation?: string,
+  lastTripLocation?: string
   nextSpotOnBucketList?: string
 }

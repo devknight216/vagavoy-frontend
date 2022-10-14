@@ -1,6 +1,7 @@
 import './App.css'
 
 import { ThemeProvider } from '@mui/material/styles'
+import { Provider } from 'react-redux'
 import {
   BrowserRouter as Router,
   // Navigate,
@@ -12,25 +13,28 @@ import { AppLayout } from '../src/components'
 import { useTheme } from './contexts'
 import { ScrollToTop } from './hooks'
 import { Home, UserProfile } from './pages'
+import { store } from './store/store'
 
 function App() {
   const { theme } = useTheme()
 
   return (
-    <ThemeProvider theme={theme}>
-      <div className="App">
-        <Router>
-          <ScrollToTop>
-            <Routes>
-              <Route path="/" element={<AppLayout />}>
-                <Route path="/" element={<Home />} />
-                <Route path="/user-profile" element={<UserProfile />} />
-              </Route>
-            </Routes>
-          </ScrollToTop>
-        </Router>
-      </div>
-    </ThemeProvider>
+    <Provider store={store}>
+      <ThemeProvider theme={theme}>
+        <div className="App">
+          <Router>
+            <ScrollToTop>
+              <Routes>
+                <Route path="/" element={<AppLayout />}>
+                  <Route path="/" element={<Home />} />
+                  <Route path="/user-profile" element={<UserProfile />} />
+                </Route>
+              </Routes>
+            </ScrollToTop>
+          </Router>
+        </div>
+      </ThemeProvider>
+    </Provider>
   )
 }
 

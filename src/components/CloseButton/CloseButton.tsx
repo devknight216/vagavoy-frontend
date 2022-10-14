@@ -18,7 +18,7 @@ export const CloseButton: FC<ICloseButtonProps> = memo(
         className="w-8 h-8 sm:w-11 sm:h-11"
         onClick={() => onClose()}
         {...props}>
-        <Close className='text-green-700'/>
+        <Close className="text-green-700" />
       </BorderButton>
     )
   }

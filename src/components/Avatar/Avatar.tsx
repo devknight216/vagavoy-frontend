@@ -32,13 +32,7 @@ const readFile = (file: Blob) => {
 }
 
 export const Avatar: FC<IAvatarProps> = memo(
-  ({
-    src = '',
-    size,
-    borderWidth,
-    currentUser = false,
-    className
-  }) => {
+  ({ src = '', size, borderWidth, currentUser = false, className }) => {
     const theme = useTheme()
     const [avatarImage, setAvatarImage] = useState(src)
 

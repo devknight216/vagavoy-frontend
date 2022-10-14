@@ -1,7 +1,13 @@
 import { Typography, useTheme } from '@mui/material'
 import { memo, useState } from 'react'
 import TextTruncate from 'react-text-truncate'
-import { Avatar, Button, Logo, MainInfo, TripLogContainer } from 'src/components'
+import {
+  Avatar,
+  Button,
+  Logo,
+  MainInfo,
+  TripLogContainer
+} from 'src/components'
 import MainContainer from 'src/components/MainContainer'
 import { BannerImage } from 'src/components/UserProfilePage'
 
@@ -59,7 +65,7 @@ export const UserProfile = memo(() => {
           className="w-[94px] h-[94px] sm:w-[132px] sm:h-[132px] xl:w-[260px] xl:h-[260px] border-[4px] xl:border-[8px] -mt-[46px] sm:-mt-[62px] xl:-mt-[180px]"
         />
         <div className="px-1 xl:px-3 pt-3 sm:pt-8">
-          <MainInfo user={userInfo} currentUser={currentUser}/>
+          <MainInfo user={userInfo} currentUser={currentUser} />
         </div>
         <div className="flex flex-col">
           <div className="flex flex-col mt-4 sm:mt-6 w-full text-left px-[31px] py-10 bg-green-100 rounded-[16px]">

@@ -1,5 +1,7 @@
 import { FC, memo, useState } from 'react'
+import { useSelector } from 'react-redux'
 import { Button, EditButton, Icon } from 'src/components'
+import { RootState } from 'src/store/store'
 import { IProfile } from 'src/types'
 
 import MainInfoEditModal from './MainInfoEditModal'
@@ -16,14 +18,15 @@ export interface IMainInfoProps {
 }
 
 export const MainInfo: FC<IMainInfoProps> = memo(
-  ({ user, currentUser = true }: IMainInfoProps) => {
+  ({ currentUser = true }: IMainInfoProps) => {
     const [openAboutModal, setOpenAboutModal] = useState(false)
+    const primaryProfile = useSelector((state: RootState) => state.account)
 
     return (
-      <div className='relative'>
+      <div className="relative">
         <div className="flex flex-row justify-between items-end text-green-700">
           <span className="text-lg sm:text-[24px] font-bold">
-            {user?.firstName + ' ' + user?.lastName}
+            {primaryProfile?.firstName + ' ' + primaryProfile?.lastName}
           </span>
           <span className="text-sm sm:text-[22px] font-normal sm:font-bold">
             500+ Connections
@@ -41,7 +44,7 @@ export const MainInfo: FC<IMainInfoProps> = memo(
                 Currently In:
               </span>
               <span className="ml-2 sm:text-lg text-sm text-green-700 font-bold">
-                {user?.location}
+                {primaryProfile?.location}
               </span>
             </div>
             <div className="flex flex-row items-center mt-4">
@@ -54,7 +57,7 @@ export const MainInfo: FC<IMainInfoProps> = memo(
                 Last Trip:
               </span>
               <span className="ml-2 sm:text-lg text-sm text-green-700 font-bold">
-                {user?.lastTripLocation}
+                {primaryProfile?.lastTripLocation}
               </span>
             </div>
             <div className="flex flex-row items-center mt-4">
@@ -67,7 +70,7 @@ export const MainInfo: FC<IMainInfoProps> = memo(
                 Next Spot On Bucket List:
               </span>
               <span className="ml-2 sm:text-lg text-sm text-green-700 font-bold">
-                {user?.nextSpotOnBucketList}
+                {primaryProfile?.nextSpotOnBucketList}
               </span>
             </div>
           </div>
@@ -101,10 +104,14 @@ export const MainInfo: FC<IMainInfoProps> = memo(
         </div>
         {currentUser && (
           <div className="flex-col items-center justify-center cursor-pointer absolute sm:-top-[76px] -top-[42px] right-0">
-            <EditButton onClick={() => setOpenAboutModal(true)}/>
+            <EditButton onClick={() => setOpenAboutModal(true)} />
           </div>
         )}
-        <MainInfoEditModal open={openAboutModal} onClose={() => setOpenAboutModal(false)} />
+        <MainInfoEditModal
+          open={openAboutModal}
+          onClose={() => setOpenAboutModal(false)}
+          primaryProfile={primaryProfile}
+        />
       </div>
     )
   }

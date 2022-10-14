@@ -22,11 +22,20 @@ const SideNavigationContainer = styled(Box)(() => ({
 }))
 
 export const SideNavigation: FC<ISideNavigationProps> = memo(
-  ({ loggedIn = false, onCloseSideNavigation, onLogin, onSignup }: ISideNavigationProps) => {
+  ({
+    loggedIn = false,
+    onCloseSideNavigation,
+    onLogin,
+    onSignup
+  }: ISideNavigationProps) => {
     return (
       <SideNavigationContainer>
         <SideNavigationHeader onCloseSideNavigation={onCloseSideNavigation} />
-        <SideNavigationOptions loggedIn={loggedIn} onLogin={onLogin} onSignup={onSignup} />
+        <SideNavigationOptions
+          loggedIn={loggedIn}
+          onLogin={onLogin}
+          onSignup={onSignup}
+        />
       </SideNavigationContainer>
     )
   }

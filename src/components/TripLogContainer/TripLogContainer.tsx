@@ -40,7 +40,9 @@ export const TripLogContainer: FC<ITripLogContainerProps> = memo(
             ))}
         </div>
         {!showAllLogs && tripLogs.length > 1 && (
-          <div className="cursor-pointer sm:pl-[46px] pl-9" onClick={() => setShowAllLogs(true)}>
+          <div
+            className="cursor-pointer sm:pl-[46px] pl-9"
+            onClick={() => setShowAllLogs(true)}>
             <Typography className="text-lg font-bold leading-6 text-green-700">
               See all Charlie's Stops In Egypt...
             </Typography>

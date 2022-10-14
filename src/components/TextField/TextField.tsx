@@ -107,7 +107,7 @@ export const TextField: FC<ITextFieldProps> = memo(
     return (
       <TextFieldContainer width={textFieldWidth}>
         <Box>
-          <Typography className='text-sm leading-[21px] text-green-500 ml-[2px]'>
+          <Typography className="text-sm leading-[21px] text-green-500 ml-[2px]">
             {label}
           </Typography>
         </Box>

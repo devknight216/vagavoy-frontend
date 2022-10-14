@@ -12,7 +12,10 @@ export const AppLayout = memo(() => {
   return (
     <div className="w-full flex flex-col bg-[#F5F5F5]">
       <div className="w-full mx-auto xl:max-w-[1200px]">
-        <Header onLogin={() => setLogin(true)} onSignup={() => setSignup(true)} />
+        <Header
+          onLogin={() => setLogin(true)}
+          onSignup={() => setSignup(true)}
+        />
       </div>
 
       <Box sx={{ display: 'flex', flexDirection: 'row', flex: 1 }}>
