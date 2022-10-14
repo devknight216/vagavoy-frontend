@@ -14,7 +14,6 @@ export type ITextFieldProps = MuiTextFieldProps & {
   textFieldWidth?: number
   textFieldHeight?: number
   textFieldLeftIconName?: string
-  textFieldOverflow?: boolean
   textFieldMaxLength?: number
 }
 
@@ -42,6 +41,11 @@ const CustomTextField = styled(MuiTextField, {
       '& .MuiOutlinedInput-notchedOutline': {
         border: `1px solid ${theme.palette.green.light1}`
       }
+    },
+
+    '&.MuiInputBase-multiline': {
+      borderRadius: 16,
+      padding: '16px'
     }
   },
 
@@ -59,8 +63,14 @@ const CustomTextField = styled(MuiTextField, {
       opacity: 1
     }
   },
+
   '& .MuiSvgIcon-root': {
     color: theme.palette.green.light1
+  },
+
+  '& .MuiFormHelperText-root': {
+    margin: '12px 0px 0px 0px',
+    textAlign: 'end'
   }
 }))
 
@@ -99,18 +109,20 @@ export const TextField: FC<ITextFieldProps> = memo(
     multiline,
     placeholder,
     disabled,
-    textFieldOverflow,
-    // textFieldMaxLength,
     sx,
     ...props
   }: ITextFieldProps) => {
     return (
       <TextFieldContainer width={textFieldWidth}>
-        <Box>
-          <Typography className="text-sm leading-[21px] text-green-500 ml-[2px]">
-            {label}
-          </Typography>
-        </Box>
+        {label ? (
+          <Box>
+            <Typography className="text-sm leading-[21px] text-green-500 ml-[2px]">
+              {label}
+            </Typography>
+          </Box>
+        ) : (
+          <></>
+        )}
         <CustomTextField
           {...props}
           sx={sx}
@@ -139,8 +151,6 @@ export const TextField: FC<ITextFieldProps> = memo(
             ...props.InputLabelProps,
             shrink: true
           }}
-          minRows={4}
-          maxRows={textFieldOverflow ? 4 : undefined}
         />
       </TextFieldContainer>
     )

@@ -1,6 +1,5 @@
 import { Typography, useTheme } from '@mui/material'
-import { memo, useState } from 'react'
-import TextTruncate from 'react-text-truncate'
+import { memo } from 'react'
 import {
   Avatar,
   Button,
@@ -9,7 +8,7 @@ import {
   TripLogContainer
 } from 'src/components'
 import MainContainer from 'src/components/MainContainer'
-import { BannerImage } from 'src/components/UserProfilePage'
+import { About, BannerImage } from 'src/components/UserProfilePage'
 
 const tripLogs1 = [
   {
@@ -41,17 +40,7 @@ const tripLogs2 = [
   }
 ]
 
-const userInfo = {
-  id: 1,
-  firstName: 'Charlie',
-  lastName: 'Hummel',
-  location: 'Saint Louis, MO',
-  lastTripLocation: 'Utila, Honduras',
-  nextSpotOnBucketList: 'Colombia'
-}
-
 export const UserProfile = memo(() => {
-  const [line, setLine] = useState(3)
   const theme = useTheme()
   const currentUser = true
 
@@ -65,35 +54,10 @@ export const UserProfile = memo(() => {
           className="w-[94px] h-[94px] sm:w-[132px] sm:h-[132px] xl:w-[260px] xl:h-[260px] border-[4px] xl:border-[8px] -mt-[46px] sm:-mt-[62px] xl:-mt-[180px]"
         />
         <div className="px-1 xl:px-3 pt-3 sm:pt-8">
-          <MainInfo user={userInfo} currentUser={currentUser} />
+          <MainInfo currentUser={currentUser} />
         </div>
         <div className="flex flex-col">
-          <div className="flex flex-col mt-4 sm:mt-6 w-full text-left px-[31px] py-10 bg-green-100 rounded-[16px]">
-            <span className="mb-7 sm:text-[28px] text-[24px] text-black font-bold font-700 sm:font-600">
-              About
-            </span>
-            <TextTruncate
-              line={line}
-              element="span"
-              truncateText=""
-              text="My favorite kind of travel is adventure travel. I like to go
-                    off-the-beaten path when I can to explore places and meet people
-                    that aren't used to tourists. When I'm in a new city, I avoid taxis
-                    and try to do everything either on-foot, by bike or using public
-                    transport. Back home, I work as a management consultant which gives
-                    me nice chunks of time between projects to travel and means I spend
-                    another 100+ nights / year away from home just for work."
-              textTruncateChild={
-                <button
-                  onClick={() => {
-                    setLine(9999999999)
-                  }}
-                  style={{ color: 'var(--var-green-middle)' }}>
-                  ...See More
-                </button>
-              }
-            />
-          </div>
+          <About currentUser={currentUser} />
           <div className="flex flex-col mt-4 sm:mt-8 sm:mb-16 mb-12 text-left py-4 sm:py-[42px] px-4 sm:px-8 rounded-[16px] border-[1px]">
             <span className="sm:text-[28px] text-[24px] text-black font-bold font-700 sm:font-600">
               Travel Log

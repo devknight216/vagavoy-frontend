@@ -3,18 +3,19 @@ import { FC, memo } from 'react'
 import Icon from '../Icon'
 
 export interface IEditButtonProps {
-  /**
-   * Function fired when the edit button clicked
-   */
   onClick?: () => void
+  className?: string
 }
 
 export const EditButton: FC<IEditButtonProps> = memo(
-  ({ onClick, ...props }: IEditButtonProps) => {
+  ({ onClick, className, ...props }: IEditButtonProps) => {
     return (
       <div
         onClick={onClick}
-        className="sm:w-[44px] sm:h-[44px] w-[32px] h-[32px] rounded-full bg-white flex items-center justify-center cursor-pointer border border-green-300"
+        className={
+          'sm:w-[44px] sm:h-[44px] w-[32px] h-[32px] rounded-full bg-white flex items-center justify-center cursor-pointer border border-green-300 ' +
+          className
+        }
         {...props}>
         <Icon
           iconName="Pencil"

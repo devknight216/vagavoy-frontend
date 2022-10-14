@@ -2,15 +2,10 @@ import { FC, memo, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { Button, EditButton, Icon } from 'src/components'
 import { RootState } from 'src/store/store'
-import { IProfile } from 'src/types'
 
 import MainInfoEditModal from './MainInfoEditModal'
 
 export interface IMainInfoProps {
-  /**
-   * User Information
-   */
-  user?: IProfile
   /**
    * Current User
    */
@@ -19,7 +14,7 @@ export interface IMainInfoProps {
 
 export const MainInfo: FC<IMainInfoProps> = memo(
   ({ currentUser = true }: IMainInfoProps) => {
-    const [openAboutModal, setOpenAboutModal] = useState(false)
+    const [openEditModal, setOpenEditModal] = useState(false)
     const primaryProfile = useSelector((state: RootState) => state.account)
 
     return (
@@ -104,12 +99,12 @@ export const MainInfo: FC<IMainInfoProps> = memo(
         </div>
         {currentUser && (
           <div className="flex-col items-center justify-center cursor-pointer absolute sm:-top-[76px] -top-[42px] right-0">
-            <EditButton onClick={() => setOpenAboutModal(true)} />
+            <EditButton onClick={() => setOpenEditModal(true)} />
           </div>
         )}
         <MainInfoEditModal
-          open={openAboutModal}
-          onClose={() => setOpenAboutModal(false)}
+          open={openEditModal}
+          onClose={() => setOpenEditModal(false)}
           primaryProfile={primaryProfile}
         />
       </div>
