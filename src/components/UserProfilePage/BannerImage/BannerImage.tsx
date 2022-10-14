@@ -40,11 +40,13 @@ export const BannerImage: FC<IBannerImageProps> = memo(
 
     return (
       <div className="bg-green-300 flex items-center justify-center w-full min-h-[100px] h-auto sm:h-[200px] xl:h-[300px] relative">
-        {newBannerImage && (
+        {newBannerImage ? (
           <img
             src={newBannerImage}
             className="w-full min-h-[100px] h-[100px] sm:h-[200px] xl:h-[300px] object-cover object-[100%_50%]"
           />
+        ) : (
+          <></>
         )}
         <div className={newBannerImage ? 'hidden' : 'block'}>
           {currentUser && (

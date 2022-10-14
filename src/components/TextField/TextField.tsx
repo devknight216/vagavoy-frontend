@@ -15,64 +15,69 @@ export type ITextFieldProps = MuiTextFieldProps & {
   textFieldHeight?: number
   textFieldLeftIconName?: string
   textFieldMaxLength?: number
+  textFieldBorderRadius?: number
 }
 
 const CustomTextField = styled(MuiTextField, {
   shouldForwardProp: (propName) =>
-    propName !== 'textFieldWidth' && propName !== 'textFieldHeight'
-})<ITextFieldProps>(({ theme, textFieldWidth, textFieldHeight }) => ({
-  width: textFieldWidth === 0 ? '100%' : textFieldWidth,
-  '& .MuiOutlinedInput-root': {
-    padding: theme.spacing(0, 3),
-    minHeight: textFieldHeight,
-    position: 'relative',
+    propName !== 'textFieldWidth' &&
+    propName !== 'textFieldHeight' &&
+    propName !== 'textFieldBorderRadius'
+})<ITextFieldProps>(
+  ({ theme, textFieldWidth, textFieldHeight, textFieldBorderRadius }) => ({
+    width: textFieldWidth === 0 ? '100%' : textFieldWidth,
+    '& .MuiOutlinedInput-root': {
+      padding: theme.spacing(0, 3),
+      minHeight: textFieldHeight,
+      position: 'relative',
 
-    '& .MuiOutlinedInput-notchedOutline': {
-      border: `1px solid ${theme.palette.green.light1}`
-    },
-
-    '&:hover': {
       '& .MuiOutlinedInput-notchedOutline': {
         border: `1px solid ${theme.palette.green.light1}`
+      },
+
+      '&:hover': {
+        '& .MuiOutlinedInput-notchedOutline': {
+          border: `1px solid ${theme.palette.green.light1}`
+        }
+      },
+
+      '&.Mui-focused': {
+        '& .MuiOutlinedInput-notchedOutline': {
+          border: `1px solid ${theme.palette.green.light1}`
+        }
+      },
+
+      '&.MuiInputBase-multiline': {
+        borderRadius: textFieldBorderRadius,
+        padding: '10px 16px'
       }
     },
 
-    '&.Mui-focused': {
-      '& .MuiOutlinedInput-notchedOutline': {
-        border: `1px solid ${theme.palette.green.light1}`
+    '& .MuiOutlinedInput-input': {
+      fontFamily: 'proxima_nova',
+      fontSize: '14px',
+      fontWeight: 400,
+      fontStyle: 'normal',
+      lineHeight: '24px',
+      color: theme.palette.green.dark,
+      padding: '0px',
+
+      '&::placeholder': {
+        color: theme.palette.green.middle,
+        opacity: 1
       }
     },
 
-    '&.MuiInputBase-multiline': {
-      borderRadius: 16,
-      padding: '16px'
+    '& .MuiSvgIcon-root': {
+      color: theme.palette.green.light1
+    },
+
+    '& .MuiFormHelperText-root': {
+      margin: '12px 0px 0px 0px',
+      textAlign: 'end'
     }
-  },
-
-  '& .MuiOutlinedInput-input': {
-    fontFamily: 'proxima_nova',
-    fontSize: '14px',
-    fontWeight: 400,
-    fontStyle: 'normal',
-    lineHeight: '24px',
-    color: theme.palette.green.dark,
-    padding: '0px',
-
-    '&::placeholder': {
-      color: theme.palette.green.middle,
-      opacity: 1
-    }
-  },
-
-  '& .MuiSvgIcon-root': {
-    color: theme.palette.green.light1
-  },
-
-  '& .MuiFormHelperText-root': {
-    margin: '12px 0px 0px 0px',
-    textAlign: 'end'
-  }
-}))
+  })
+)
 
 const TextFieldContainer = styled(Box, {
   shouldForwardProp: (propName) => propName !== 'width'
@@ -104,6 +109,7 @@ export const TextField: FC<ITextFieldProps> = memo(
     textFieldWidth,
     textFieldHeight = 44,
     textFieldLeftIconName,
+    textFieldBorderRadius,
     label,
     value,
     multiline,
@@ -129,6 +135,7 @@ export const TextField: FC<ITextFieldProps> = memo(
           variant="outlined"
           textFieldWidth={textFieldWidth}
           textFieldHeight={multiline ? undefined : textFieldHeight}
+          textFieldBorderRadius={textFieldBorderRadius}
           multiline={multiline}
           disabled={disabled}
           value={value}

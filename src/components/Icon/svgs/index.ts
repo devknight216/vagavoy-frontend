@@ -13,6 +13,7 @@ import { ReactComponent as Pencil } from './pencil.svg'
 import { ReactComponent as Picture } from './picture.svg'
 import { ReactComponent as Search } from './search.svg'
 import { ReactComponent as Share } from './share.svg'
+import { ReactComponent as Travel } from './travel.svg'
 import { ReactComponent as Upload } from './upload.svg'
 import { ReactComponent as User } from './user.svg'
 import { ReactComponent as Users } from './users.svg'
@@ -36,6 +37,7 @@ const RawIcons: IIcon = {
   Picture,
   Search,
   Share,
+  Travel,
   Upload,
   User,
   Users

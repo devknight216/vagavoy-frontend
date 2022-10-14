@@ -52,6 +52,7 @@ export const AboutEditModal: FC<IAboutEditModalProps> = memo(
           <TextField
             value={bio}
             multiline={true}
+            textFieldBorderRadius={16}
             placeholder="Write a litte bit about yourself here (e.g., your favorite kinds of travel, who you travel with, what you do when you're not travelling, etc."
             onChange={(e) => setBio(e.target.value)}
             rows={12}
