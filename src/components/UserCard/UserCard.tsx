@@ -40,7 +40,9 @@ export const UserCard: FC<IUserCardProps> = memo(
               lineHeight: '24px',
               color: theme.palette.green.dark
             }}>
-            {userProfile.firstName + ' ' + userProfile.lastName}
+            {userProfile.mainInfo?.firstName +
+              ' ' +
+              userProfile.mainInfo?.lastName}
           </Typography>
           <Typography
             sx={{
@@ -49,7 +51,7 @@ export const UserCard: FC<IUserCardProps> = memo(
               lineHeight: '24px',
               color: theme.palette.green.middle
             }}>
-            Last Trip: {userProfile.lastTripLocation}
+            Last Trip: {userProfile.mainInfo?.lastTripLocation}
           </Typography>
         </div>
       </div>

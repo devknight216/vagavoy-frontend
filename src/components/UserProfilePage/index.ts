@@ -1,3 +1,5 @@
 export * from './About'
 export * from './BannerImage'
 export * from './MainInfo'
+export * from './TravelLog'
+export * from './TripGalleryUploadForm'

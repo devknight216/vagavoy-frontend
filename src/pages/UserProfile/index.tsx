@@ -1,15 +1,8 @@
 import { Typography, useTheme } from '@mui/material'
 import { memo } from 'react'
-import {
-  Avatar,
-  Button,
-  Logo,
-  MainInfo,
-} from 'src/components'
+import { Avatar, Button, Logo, MainInfo } from 'src/components'
 import MainContainer from 'src/components/MainContainer'
-import { About, BannerImage } from 'src/components/UserProfilePage'
-import TravelLog from 'src/components/UserProfilePage/TravelLog'
-
+import { About, BannerImage, TravelLog } from 'src/components/UserProfilePage'
 
 export const UserProfile = memo(() => {
   const theme = useTheme()

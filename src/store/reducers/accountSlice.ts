@@ -1,18 +1,31 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { IProfile } from 'src/types'
+import { IMainInfo, IProfile } from 'src/types'
 
 const initialState: IProfile = {
-  firstName: 'Charlie',
-  lastName: 'Hummel',
-  // bio: 'My favorite kind of travel is adventure travel. I like to go off-the-beaten path when I can to explore places and meet people that aren’t used to tourists. When I’m in a new city, I avoid taxis and try to do everything either on-foot, by bike or using public transport. Back home, I work as a management consultant which gives me nice chunks of time between projects to travel and means I spend another 100+ nights / year away from home just for work.',
-  bio: ''
+  mainInfo: {
+    firstName: 'Charlie',
+    lastName: 'Hummel'
+  }
 }
 
-export const setPrimaryProfile = createAsyncThunk(
-  'account/setPrimaryProfile',
-  async (data: IProfile) => {
-    return data === undefined ? initialState : data
-  }
+export const setMainInfo = createAsyncThunk(
+  'account/setMainInfo',
+  async (mainInfo: IMainInfo) => mainInfo
+)
+
+export const setAbout = createAsyncThunk(
+  'account/setAbout',
+  async (about: string | undefined) => about
+)
+
+export const setProfileImage = createAsyncThunk(
+  'account/setProfileImage',
+  async (profileImage: string) => profileImage
+)
+
+export const setBannerImage = createAsyncThunk(
+  'account/setBannerImage',
+  async (bannerImage: string) => bannerImage
 )
 
 const accountSlice = createSlice({
@@ -20,7 +33,18 @@ const accountSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: {
-    [setPrimaryProfile.fulfilled.toString()]: (_state, action) => action.payload
+    [setMainInfo.fulfilled.toString()]: (state, action) => {
+      state.mainInfo = action.payload
+    },
+    [setAbout.fulfilled.toString()]: (state, action) => {
+      state.about = action.payload
+    },
+    [setProfileImage.fulfilled.toString()]: (state, action) => {
+      state.profileImage = action.payload
+    },
+    [setBannerImage.fulfilled.toString()]: (state, action) => {
+      state.bannerImage = action.payload
+    }
   }
 })
 

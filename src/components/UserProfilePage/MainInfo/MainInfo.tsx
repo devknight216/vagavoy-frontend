@@ -15,13 +15,15 @@ export interface IMainInfoProps {
 export const MainInfo: FC<IMainInfoProps> = memo(
   ({ currentUser = true }: IMainInfoProps) => {
     const [openEditModal, setOpenEditModal] = useState(false)
-    const primaryProfile = useSelector((state: RootState) => state.account)
+    const userMainInfo = useSelector(
+      (state: RootState) => state.account.mainInfo
+    )
 
     return (
       <div className="relative">
         <div className="flex flex-row justify-between items-end text-green-700">
           <span className="text-lg sm:text-[24px] font-bold">
-            {primaryProfile?.firstName + ' ' + primaryProfile?.lastName}
+            {userMainInfo?.firstName + ' ' + userMainInfo?.lastName}
           </span>
           <span className="text-sm sm:text-[22px] font-normal sm:font-bold">
             500+ Connections
@@ -39,7 +41,7 @@ export const MainInfo: FC<IMainInfoProps> = memo(
                 Currently In:
               </span>
               <span className="ml-2 sm:text-lg text-sm text-green-700 font-bold">
-                {primaryProfile?.location}
+                {userMainInfo?.location}
               </span>
             </div>
             <div className="flex flex-row items-center mt-4">
@@ -52,7 +54,7 @@ export const MainInfo: FC<IMainInfoProps> = memo(
                 Last Trip:
               </span>
               <span className="ml-2 sm:text-lg text-sm text-green-700 font-bold">
-                {primaryProfile?.lastTripLocation}
+                {userMainInfo?.lastTripLocation}
               </span>
             </div>
             <div className="flex flex-row items-center mt-4">
@@ -65,7 +67,7 @@ export const MainInfo: FC<IMainInfoProps> = memo(
                 Next Spot On Bucket List:
               </span>
               <span className="ml-2 sm:text-lg text-sm text-green-700 font-bold">
-                {primaryProfile?.nextSpotOnBucketList}
+                {userMainInfo?.nextSpotOnBucketList}
               </span>
             </div>
           </div>
@@ -105,7 +107,6 @@ export const MainInfo: FC<IMainInfoProps> = memo(
         <MainInfoEditModal
           open={openEditModal}
           onClose={() => setOpenEditModal(false)}
-          primaryProfile={primaryProfile}
         />
       </div>
     )

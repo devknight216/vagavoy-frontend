@@ -1,11 +1,14 @@
-export interface IProfile {
-  id?: number
+export interface IMainInfo {
   firstName?: string
   lastName?: string
-  profileImage?: string
-  bannerImage?: string
   location?: string
-  bio?: string
   lastTripLocation?: string
   nextSpotOnBucketList?: string
+}
+export interface IProfile {
+  id?: number
+  mainInfo?: IMainInfo
+  profileImage?: string
+  bannerImage?: string
+  about?: string
 }

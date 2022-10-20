@@ -1,14 +1,13 @@
 import { Dialog, Paper, styled } from '@mui/material'
 import { FC, memo, useState } from 'react'
+import { useSelector } from 'react-redux'
 import { Button, CloseButton, TextField } from 'src/components'
-import { setPrimaryProfile } from 'src/store/reducers/accountSlice'
-import { useAppDispatch } from 'src/store/store'
-import { IProfile } from 'src/types'
+import { setAbout } from 'src/store/reducers/accountSlice'
+import { RootState, useAppDispatch } from 'src/store/store'
 
 export interface IAboutEditModalProps {
   open: boolean
   onClose: () => void
-  primaryProfile: IProfile
 }
 
 const StyledPaper = styled(Paper)`
@@ -19,17 +18,15 @@ const StyledPaper = styled(Paper)`
 `
 
 export const AboutEditModal: FC<IAboutEditModalProps> = memo(
-  ({ open, onClose, primaryProfile }: IAboutEditModalProps) => {
+  ({ open, onClose }: IAboutEditModalProps) => {
     const CHARACTER_LIMIT = 2600
     const dispatch = useAppDispatch()
-    const [bio, setBio] = useState(primaryProfile?.bio || '')
+    const [bio, setBio] = useState(
+      useSelector((state: RootState) => state.account.about)
+    )
 
     const handleSaveButtonClick = async () => {
-      await dispatch(
-        setPrimaryProfile({
-          bio
-        })
-      )
+      await dispatch(setAbout(bio))
       onClose()
     }
 
@@ -56,7 +53,7 @@ export const AboutEditModal: FC<IAboutEditModalProps> = memo(
             placeholder="Write a litte bit about yourself here (e.g., your favorite kinds of travel, who you travel with, what you do when you're not travelling, etc."
             onChange={(e) => setBio(e.target.value)}
             rows={12}
-            helperText={`${bio.length}/${CHARACTER_LIMIT}`}
+            helperText={`${bio?.length}/${CHARACTER_LIMIT}`}
             inputProps={{ maxLength: CHARACTER_LIMIT }}
           />
           <Button

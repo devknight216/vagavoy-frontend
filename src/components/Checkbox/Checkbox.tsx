@@ -48,6 +48,7 @@ export const Checkbox: FC<ICheckboxProps> = memo(
           {checkboxLabel}
         </Typography>
       }
+      className="w-fit"
     />
   )
 )

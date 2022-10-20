@@ -4,7 +4,11 @@ import { useDispatch } from 'react-redux'
 import reducer from './reducers'
 
 export const store = configureStore({
-  reducer
+  reducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: false
+    })
 })
 
 export type RootState = ReturnType<typeof store.getState>

@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ReactComponent as Airplane } from './airplane.svg'
+import { ReactComponent as Calendar } from './calendar.svg'
 import { ReactComponent as Close } from './close.svg'
 import { ReactComponent as Document } from './document.svg'
 import { ReactComponent as Hamburger } from './hamburger.svg'
@@ -24,6 +25,7 @@ interface IIcon {
 
 const RawIcons: IIcon = {
   Airplane,
+  Calendar,
   Close,
   Document,
   Hamburger,

@@ -49,7 +49,7 @@ const CustomTextField = styled(MuiTextField, {
 
       '&.MuiInputBase-multiline': {
         borderRadius: textFieldBorderRadius,
-        padding: '10px 16px'
+        padding: '10px 12px'
       }
     },
 
@@ -58,9 +58,10 @@ const CustomTextField = styled(MuiTextField, {
       fontSize: '14px',
       fontWeight: 400,
       fontStyle: 'normal',
-      lineHeight: '24px',
+      lineHeight: '21px',
       color: theme.palette.green.dark,
       padding: '0px',
+      marginTop: '2px',
 
       '&::placeholder': {
         color: theme.palette.green.middle,

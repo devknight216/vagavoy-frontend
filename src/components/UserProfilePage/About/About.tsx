@@ -18,7 +18,7 @@ export const About: FC<IAboutProps> = memo(
   ({ currentUser = true }: IAboutProps) => {
     const [line, setLine] = useState(3)
     const [openEditModal, setOpenEditModal] = useState(false)
-    const primaryProfile = useSelector((state: RootState) => state.account)
+    const bio = useSelector((state: RootState) => state.account.about)
 
     return (
       <div
@@ -28,13 +28,13 @@ export const About: FC<IAboutProps> = memo(
         <Typography className="sm:text-[28px] text-[18px] leading-6 text-black font-bold font-700 sm:font-600 ml-1">
           About
         </Typography>
-        {primaryProfile.bio?.length ? (
+        {bio?.length ? (
           <div className="sm:text-[16px] leading-[21px] text-green-700 text-sm">
             <TextTruncate
               line={line}
               element="span"
               truncateText=""
-              text={primaryProfile.bio}
+              text={bio}
               textTruncateChild={
                 <button
                   onClick={() => {
@@ -64,7 +64,7 @@ export const About: FC<IAboutProps> = memo(
             />
           </div>
         )}
-        {currentUser && primaryProfile.bio?.length ? (
+        {currentUser && bio?.length ? (
           <div className="flex-col items-center justify-center cursor-pointer absolute sm:top-8 sm:right-8 top-2 right-2">
             <EditButton
               onClick={() => setOpenEditModal(true)}
@@ -77,7 +77,6 @@ export const About: FC<IAboutProps> = memo(
         <AboutEditModal
           open={openEditModal}
           onClose={() => setOpenEditModal(false)}
-          primaryProfile={primaryProfile}
         />
       </div>
     )

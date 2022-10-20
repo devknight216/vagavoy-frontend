@@ -1,14 +1,13 @@
 import { Dialog, Paper, styled } from '@mui/material'
 import { FC, memo, useState } from 'react'
+import { useSelector } from 'react-redux'
 import { Button, CloseButton, TextField } from 'src/components'
-import { setPrimaryProfile } from 'src/store/reducers/accountSlice'
-import { useAppDispatch } from 'src/store/store'
-import { IProfile } from 'src/types'
+import { setMainInfo } from 'src/store/reducers/accountSlice'
+import { RootState, useAppDispatch } from 'src/store/store'
 
 export interface IMainInfoEditModalProps {
   open: boolean
   onClose: () => void
-  primaryProfile: IProfile
 }
 
 const StyledPaper = styled(Paper)`
@@ -19,22 +18,23 @@ const StyledPaper = styled(Paper)`
 `
 
 export const MainInfoEditModal: FC<IMainInfoEditModalProps> = memo(
-  ({ open, onClose, primaryProfile }: IMainInfoEditModalProps) => {
+  ({ open, onClose }: IMainInfoEditModalProps) => {
     const dispatch = useAppDispatch()
+    const mainInfo = useSelector((state: RootState) => state.account.mainInfo)
     const [fullName, setFullName] = useState(
-      primaryProfile?.firstName + ' ' + primaryProfile?.lastName
+      mainInfo?.firstName + ' ' + mainInfo?.lastName
     )
-    const [location, setLocation] = useState(primaryProfile?.location || '')
+    const [location, setLocation] = useState(mainInfo?.location || '')
     const [lastTripLocation, setLastTripLocation] = useState(
-      primaryProfile.lastTripLocation || ''
+      mainInfo?.lastTripLocation || ''
     )
     const [nextSpotOnBucketList, setNextSpotOnBucketList] = useState(
-      primaryProfile.nextSpotOnBucketList || ''
+      mainInfo?.nextSpotOnBucketList || ''
     )
 
     const handleSaveButtonClick = async () => {
       await dispatch(
-        setPrimaryProfile({
+        setMainInfo({
           firstName: fullName.split(' ')[0],
           lastName: fullName.split(' ')[1],
           location,
