@@ -1,7 +1,9 @@
 import { Typography } from '@mui/material'
 import { styled, useTheme } from '@mui/material/styles'
-import { FC, memo, useState } from 'react'
+import { FC, memo } from 'react'
 import { EditButton, Icon } from 'src/components'
+import { setProfileImage } from 'src/store/reducers/accountSlice'
+import { useAppDispatch } from 'src/store/store'
 
 interface IAvatarProps {
   size?: number
@@ -34,21 +36,22 @@ const readFile = (file: Blob) => {
 export const Avatar: FC<IAvatarProps> = memo(
   ({ src = '', size, borderWidth, currentUser = false, className }) => {
     const theme = useTheme()
-    const [avatarImage, setAvatarImage] = useState(src)
+    const dispatch = useAppDispatch()
 
     const onFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
       if (e.target.files && e.target.files.length > 0) {
         const file = e.target.files[0]
         const imageDataUrl = (await readFile(file)) as string
-        setAvatarImage(imageDataUrl)
+
+        await dispatch(setProfileImage(imageDataUrl))
       }
     }
 
     return (
       <div className="w-fit relative">
-        {avatarImage && (
+        {src && (
           <CustomAvatar
-            src={avatarImage}
+            src={src}
             size={size}
             borderWidth={borderWidth}
             className={className}
@@ -56,7 +59,7 @@ export const Avatar: FC<IAvatarProps> = memo(
         )}
         <div
           className={
-            avatarImage
+            src
               ? 'hidden'
               : 'block' +
                 ' rounded-full border-white flex items-center justify-center bg-green-100 ' +
@@ -89,7 +92,7 @@ export const Avatar: FC<IAvatarProps> = memo(
             />
           )}
         </div>
-        {avatarImage && currentUser && (
+        {src && currentUser && (
           <label
             htmlFor="File-Upload-Avatar"
             className="w-fit absolute xl:bottom-3 xl:right-[38px] bottom-[0px] right-[0px]">

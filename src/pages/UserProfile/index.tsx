@@ -1,19 +1,25 @@
 import { Typography, useTheme } from '@mui/material'
 import { memo } from 'react'
+import { useSelector } from 'react-redux'
 import { Avatar, Button, Logo, MainInfo } from 'src/components'
 import MainContainer from 'src/components/MainContainer'
 import { About, BannerImage, TravelLog } from 'src/components/UserProfilePage'
+import { RootState } from 'src/store/store'
 
 export const UserProfile = memo(() => {
   const theme = useTheme()
   const currentUser = true
+
+  const profileImage = useSelector(
+    (state: RootState) => state.account.profileImage
+  )
 
   return (
     <div className="w-full">
       <BannerImage currentUser={currentUser} />
       <MainContainer className="">
         <Avatar
-          // src="https://mui.com/static/images/avatar/2.jpg"
+          src={profileImage}
           currentUser={currentUser}
           className="w-[94px] h-[94px] sm:w-[132px] sm:h-[132px] xl:w-[260px] xl:h-[260px] border-[4px] xl:border-[8px] -mt-[46px] sm:-mt-[62px] xl:-mt-[180px]"
         />

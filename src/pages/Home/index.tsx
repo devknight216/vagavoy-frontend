@@ -4,7 +4,7 @@ import {
   Button,
   FaqCard,
   Logo,
-  TripGalleryCard,
+  PopularTripGalleryCard,
   UserCard
 } from 'src/components'
 import MainContainer from 'src/components/MainContainer'
@@ -109,19 +109,19 @@ export const Home = memo(() => {
             Popular Trip Galleries
           </Typography>
           <div className="flex-row xl:gap-x-[30px] gap-x-[20px] gap-y-[30px] grid xl:grid-cols-4 sm:grid-cols-2 grid-cols-1 divide-x">
-            <TripGalleryCard
+            <PopularTripGalleryCard
               tripGalleryCardImageSrc="/images/profileBanner1.jpg"
               tripGalleryCardLocation="Utila, Honduras"
             />
-            <TripGalleryCard
+            <PopularTripGalleryCard
               tripGalleryCardImageSrc="/images/profileBanner2.jpg"
               tripGalleryCardLocation="Utila, Honduras"
             />
-            <TripGalleryCard
+            <PopularTripGalleryCard
               tripGalleryCardImageSrc="/images/profileBanner3.jpg"
               tripGalleryCardLocation="Utila, Honduras"
             />
-            <TripGalleryCard
+            <PopularTripGalleryCard
               tripGalleryCardImageSrc="/images/profileBanner4.jpg"
               tripGalleryCardLocation="Utila, Honduras"
             />

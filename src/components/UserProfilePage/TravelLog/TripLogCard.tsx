@@ -1,8 +1,9 @@
 import Typography from '@mui/material/Typography'
 import { FC, memo, useState } from 'react'
 import Flag from 'react-world-flags'
-import { TripLogElement } from 'src/components'
 import { ITripLog } from 'src/types'
+
+import { TripLogElement } from './TripLogElement'
 
 export interface ITripLogCardProps {
   tripLogCardCountryCode: string

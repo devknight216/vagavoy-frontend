@@ -1,12 +1,11 @@
 import CloudDownloadOutlinedIcon from '@mui/icons-material/CloudDownloadOutlined'
 import { styled, Typography, useTheme } from '@mui/material'
-import { FC, memo, useState } from 'react'
+import { FC, memo } from 'react'
+import { useSelector } from 'react-redux'
 import EditButton from 'src/components/EditButton'
+import { setBannerImage } from 'src/store/reducers/accountSlice'
+import { RootState, useAppDispatch } from 'src/store/store'
 export interface IBannerImageProps {
-  /**
-   * Banner Image
-   */
-  bannerImage?: string
   /**
    * Current User
    */
@@ -26,29 +25,33 @@ const readFile = (file: Blob) => {
 }
 
 export const BannerImage: FC<IBannerImageProps> = memo(
-  ({ bannerImage = '', currentUser = true }: IBannerImageProps) => {
+  ({ currentUser = true }: IBannerImageProps) => {
     const theme = useTheme()
-    const [newBannerImage, setNewBannerImage] = useState(bannerImage)
+    const dispatch = useAppDispatch()
+    const bannerImage = useSelector(
+      (state: RootState) => state.account.bannerImage
+    )
 
     const onFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
       if (e.target.files && e.target.files.length > 0) {
         const file = e.target.files[0]
         const imageDataUrl = (await readFile(file)) as string
-        setNewBannerImage(imageDataUrl)
+
+        await dispatch(setBannerImage(imageDataUrl))
       }
     }
 
     return (
       <div className="bg-green-300 flex items-center justify-center w-full min-h-[100px] h-auto sm:h-[200px] xl:h-[300px] relative">
-        {newBannerImage ? (
+        {bannerImage ? (
           <img
-            src={newBannerImage}
+            src={bannerImage}
             className="w-full min-h-[100px] h-[100px] sm:h-[200px] xl:h-[300px] object-cover object-[100%_50%]"
           />
         ) : (
           <></>
         )}
-        <div className={newBannerImage ? 'hidden' : 'block'}>
+        <div className={bannerImage ? 'hidden' : 'block'}>
           {currentUser && (
             <label htmlFor="File-Upload-BannerImage">
               <Input
@@ -90,7 +93,7 @@ export const BannerImage: FC<IBannerImageProps> = memo(
             </label>
           )}
         </div>
-        {newBannerImage && currentUser && (
+        {bannerImage && currentUser && (
           <label
             htmlFor="File-Upload-BannerImage"
             className="w-fit absolute xl:bottom-[13px] xl:right-[calc((100%-1176px)/2)] sm:top-8 sm:right-8 top-5 right-5">

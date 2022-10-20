@@ -3,7 +3,7 @@ import { FC, memo } from 'react'
 
 import { Button } from '../index'
 
-export interface ITripGalleryCardProps {
+export interface IPopularTripGalleryCardProps {
   /**
    * TripGalleryCard Image Source
    */
@@ -14,11 +14,11 @@ export interface ITripGalleryCardProps {
   tripGalleryCardLocation: string
 }
 
-export const TripGalleryCard: FC<ITripGalleryCardProps> = memo(
+export const PopularTripGalleryCard: FC<IPopularTripGalleryCardProps> = memo(
   ({
     tripGalleryCardImageSrc,
     tripGalleryCardLocation
-  }: ITripGalleryCardProps) => {
+  }: IPopularTripGalleryCardProps) => {
     return (
       <div className="flex sm:items-center flex-col border-none relative cursor-pointer">
         <img src={tripGalleryCardImageSrc} className="w-full aspect-square" />
@@ -38,6 +38,6 @@ export const TripGalleryCard: FC<ITripGalleryCardProps> = memo(
   }
 )
 
-TripGalleryCard.displayName = 'TripGalleryCard'
+PopularTripGalleryCard.displayName = 'PopularTripGalleryCard'
 
-export default TripGalleryCard
+export default PopularTripGalleryCard
