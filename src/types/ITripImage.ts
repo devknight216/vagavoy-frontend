@@ -1,5 +1,5 @@
 export type ITripImage = {
-  tripImageId: number
+  tripImageId?: number
   src: string
   backgroundInfo: string
 }

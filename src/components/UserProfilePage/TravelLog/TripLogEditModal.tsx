@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Dialog, Paper, styled } from '@mui/material'
 import { FC, memo, useState } from 'react'
 import ReactFlagsSelect from 'react-flags-select'
@@ -9,7 +10,8 @@ import {
   Checkbox,
   CloseButton,
   TextField,
-  TripGalleryUploadForm
+  TripGalleryUploadForm,
+  TripRecommendationForm
 } from 'src/components'
 import {
   addTripLog,
@@ -17,7 +19,8 @@ import {
   selectTripLogEntity
 } from 'src/store/reducers/tripLogsSlice'
 import { useAppDispatch } from 'src/store/store'
-import { ITripImage } from 'src/types'
+import { ITripImage, ITripRecommendation } from 'src/types'
+
 export interface ITripLogEditModalProps {
   tripLogId?: number
   open: boolean
@@ -70,6 +73,10 @@ export const TripLogEditModal: FC<ITripLogEditModalProps> = memo(
     const [tripGallery, setTripGallery] = useState<ITripImage[]>(
       tripLog?.tripGallery || []
     )
+    const [tripRecommendations, setTripRtripRecommendations] = useState<
+      ITripRecommendation[]
+    >(tripLog?.tripRecommendations || [{ title: '', description: '' }])
+
     const [selectedCountry, setSelectedCountry] = useState(
       tripLog?.tripCountryCode
     )
@@ -82,7 +89,8 @@ export const TripLogEditModal: FC<ITripLogEditModalProps> = memo(
           tripStartDate,
           tripEndDate,
           tripDescription,
-          tripGallery
+          tripGallery,
+          tripRecommendations
         })
       )
       onClose()
@@ -95,6 +103,12 @@ export const TripLogEditModal: FC<ITripLogEditModalProps> = memo(
 
     const handleChangeTripGallery = (gallery: ITripImage[]) => {
       setTripGallery(gallery)
+    }
+
+    const handleChangeTripRecommendations = (
+      recommendation: ITripRecommendation[]
+    ) => {
+      setTripRtripRecommendations(recommendation)
     }
 
     return (
@@ -197,30 +211,12 @@ export const TripLogEditModal: FC<ITripLogEditModalProps> = memo(
               />
 
               {/** Trip Recommendations */}
-              <div className="flex flex-col gap-y-4 sm:mt-10 mt-8 text-lg leading-6 font-bold">
-                <span>Trip Recommendations</span>
-                <TextField
-                  label="Section Title"
-                  placeholder="Select a Section"
-                />
-                <TextField
-                  label="Information"
-                  multiline={true}
-                  placeholder="Write some things you want to remember and / or tips that could help other travellers"
-                  rows={5}
-                />
-                <Button
-                  buttonLabel="Add Next"
-                  variant="outlined"
-                  buttonFontBold
-                  buttonLeftIconName="Pencil"
-                  sx={{
-                    width: 150,
-                    padding: '10px 14px',
-                    justifyContent: 'flex-start'
-                  }}
-                />
-              </div>
+              <TripRecommendationForm
+                tripRecommendations={tripRecommendations}
+                handleChangeTripRecommendations={
+                  handleChangeTripRecommendations
+                }
+              />
 
               {/** Agreement */}
               <div className="flex flex-col mt-6">

@@ -1,10 +1,7 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import CloudDownloadOutlinedIcon from '@mui/icons-material/CloudDownloadOutlined'
 import { styled, useTheme } from '@mui/material'
-import { FC, useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
+import { FC } from 'react'
 import Button from 'src/components/Button'
-import { selectTripLogEntity } from 'src/store/reducers/tripLogsSlice'
 import { ITripImage } from 'src/types'
 
 import TripImageCard from './TripImageCard'
@@ -41,7 +38,6 @@ export const TripGalleryUploadForm: FC<ITripGalleryUploadFormProps> = ({
         files.map(async (file) => {
           const imageDataUrl = (await readFile(file)) as string
           newTripGallery.push({
-            tripImageId: newTripGallery.length + 1,
             src: imageDataUrl,
             backgroundInfo: ''
           })
