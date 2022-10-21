@@ -1,15 +1,13 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import CloudDownloadOutlinedIcon from '@mui/icons-material/CloudDownloadOutlined'
-import { styled, Typography, useTheme } from '@mui/material'
-import { FC, memo, useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
-import { Button, Icon, TextField } from 'src/components'
-import { fetchGallery } from 'src/store/reducers/tripGallerySlice'
-import { RootState, useAppDispatch } from 'src/store/store'
+import { styled } from '@mui/material'
+import { FC, memo } from 'react'
+import { Icon, TextField } from 'src/components'
 import { ITripImage } from 'src/types'
 
 export interface ITripImageCardProps {
   tripImage: ITripImage
+  handleChangeTripImage: (tripImage: ITripImage) => void
+  handleRemoveTripImage: () => void
+  handleChangeDescription: (description: string) => void
 }
 
 const Input = styled('input')(() => ({
@@ -25,38 +23,69 @@ const readFile = (file: Blob) => {
 }
 
 export const TripImageCard: FC<ITripImageCardProps> = memo(
-  ({ tripImage }: ITripImageCardProps) => {
-    const theme = useTheme()
-    const dispatch = useAppDispatch()
-    const [backgroundInfo, setBackgroundInfo] = useState(
-      tripImage.backgroundInfo
-    )
-
+  ({
+    tripImage,
+    handleChangeTripImage,
+    handleRemoveTripImage,
+    handleChangeDescription
+  }: ITripImageCardProps) => {
     const onFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
       if (e.target.files && e.target.files.length > 0) {
         const file = e.target.files[0]
-        console.log(file)
         const imageDataUrl = (await readFile(file)) as string
+        const newTripImage: ITripImage = {
+          ...tripImage,
+          src: imageDataUrl
+        }
+        handleChangeTripImage(newTripImage)
       }
     }
 
     return (
       <div className="flex sm:flex-row flex-col gap-x-6 gap-y-4">
-        <img
-          src={tripImage.src}
-          className="sm:w-[150px] sm:h-[117px] w-[82px] h-[79px]"
-        />
-        <div className="w-full flex flex-col gap-y-2 sm:justify-center">
-          <span className="text-sm leading-[21px] text-green-500">
+        <div
+          style={{ backgroundImage: `url(${tripImage.src})` }}
+          className="sm:w-[150px] sm:h-[117px] w-[82px] h-[79px] rounded-lg flex items-center justify-center bg-cover bg-center relative">
+          <label htmlFor={`File-Upload-Trip-Image-Card-${tripImage.src}`}>
+            <Input
+              id={`File-Upload-Trip-Image-Card-${tripImage.src}`}
+              type="file"
+              accept="image/*"
+              onChange={onFileChange}
+              multiple
+            />
+            <span className="text-lg leading-6 font-bold text-white cursor-pointer">
+              Edit
+            </span>
+          </label>
+
+          <div
+            className="w-5 h-5 bg-[#FF4F55] absolute top-[6px] right-[6px] rounded-full flex items-center justify-center cursor-pointer"
+            onClick={() => handleRemoveTripImage()}>
+            <Icon iconSize={14} className="text-white" iconName="Cross" />
+          </div>
+        </div>
+
+        <div className="flex-1 flex-col sm:justify-center">
+          <div className="text-sm leading-[21px] text-green-500">
             Background Info
-          </span>
-          <TextField
-            rows={3}
-            value={backgroundInfo}
-            multiline={true}
-            placeholder="Background Information"
-            onChange={(e) => setBackgroundInfo(e.target.value)}
-          />
+          </div>
+          <div className="h-[89px] mt-[7px]">
+            <TextField
+              rows={3}
+              value={tripImage.backgroundInfo}
+              multiline={true}
+              placeholder="Background Information"
+              onChange={(e) => handleChangeDescription(e.target.value)}
+              sx={{
+                height: '100%',
+                '& .MuiOutlinedInput-root': {
+                  padding: '10px 16px !important',
+                  height: '100%'
+                }
+              }}
+            />
+          </div>
         </div>
       </div>
     )

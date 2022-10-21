@@ -55,6 +55,11 @@ export const AboutEditModal: FC<IAboutEditModalProps> = memo(
             rows={12}
             helperText={`${bio?.length}/${CHARACTER_LIMIT}`}
             inputProps={{ maxLength: CHARACTER_LIMIT }}
+            sx={{
+              '& .MuiOutlinedInput-root': {
+                padding: '16px !important'
+              }
+            }}
           />
           <Button
             buttonLabel="Save"

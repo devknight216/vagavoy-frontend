@@ -1,7 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ReactComponent as Airplane } from './airplane.svg'
+import { ReactComponent as ButtonPicture } from './buttonPicture.svg'
 import { ReactComponent as Calendar } from './calendar.svg'
 import { ReactComponent as Close } from './close.svg'
+import { ReactComponent as Cross } from './cross.svg'
 import { ReactComponent as Document } from './document.svg'
 import { ReactComponent as Hamburger } from './hamburger.svg'
 import { ReactComponent as Home } from './home.svg'
@@ -12,6 +14,7 @@ import { ReactComponent as Message } from './message.svg'
 import { ReactComponent as Next } from './next.svg'
 import { ReactComponent as Pencil } from './pencil.svg'
 import { ReactComponent as Picture } from './picture.svg'
+import { ReactComponent as Plus } from './plus.svg'
 import { ReactComponent as Search } from './search.svg'
 import { ReactComponent as Share } from './share.svg'
 import { ReactComponent as Travel } from './travel.svg'
@@ -25,8 +28,10 @@ interface IIcon {
 
 const RawIcons: IIcon = {
   Airplane,
+  ButtonPicture,
   Calendar,
   Close,
+  Cross,
   Document,
   Hamburger,
   Home,
@@ -37,6 +42,7 @@ const RawIcons: IIcon = {
   Next,
   Pencil,
   Picture,
+  Plus,
   Search,
   Share,
   Travel,

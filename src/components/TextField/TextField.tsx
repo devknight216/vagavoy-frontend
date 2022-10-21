@@ -54,6 +54,7 @@ const CustomTextField = styled(MuiTextField, {
     },
 
     '& .MuiOutlinedInput-input': {
+      height: '100%',
       fontFamily: 'proxima_nova',
       fontSize: '14px',
       fontWeight: 400,
@@ -61,7 +62,6 @@ const CustomTextField = styled(MuiTextField, {
       lineHeight: '21px',
       color: theme.palette.green.dark,
       padding: '0px',
-      marginTop: '2px',
 
       '&::placeholder': {
         color: theme.palette.green.middle,
@@ -84,26 +84,11 @@ const TextFieldContainer = styled(Box, {
   shouldForwardProp: (propName) => propName !== 'width'
 })<{ width: number | undefined }>((props) => ({
   width: props.width ? props.width : '100%',
+  height: '100%',
   display: 'flex',
   flexDirection: 'column',
   rowGap: '8px'
 }))
-
-// const CustomTypography = styled(MuiTypography, {
-//   shouldForwardProp: (propName) => propName !== 'disabled'
-// })<{ disabled: boolean }>(() => ({
-//   // color: disabled
-//   //   ? theme.palette.typography.disabled
-//   //   : theme.palette.typography.primary,
-//   fontFamily: 'Inter',
-//   letterSpacing: '0.1px'
-// }))
-
-// const MaxLetter = styled(MuiTypography)(() => ({
-//   // color: theme.palette.typography.secondary,
-//   position: 'absolute',
-//   right: 0
-// }))
 
 export const TextField: FC<ITextFieldProps> = memo(
   ({

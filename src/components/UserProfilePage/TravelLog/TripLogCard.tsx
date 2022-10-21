@@ -13,6 +13,7 @@ export interface ITripLogCardProps {
 export const TripLogCard: FC<ITripLogCardProps> = memo(
   ({ tripLogCardCountryCode, tripLogs = [] }: ITripLogCardProps) => {
     const [showAllLogs, setShowAllLogs] = useState(false)
+    const regionNames = new Intl.DisplayNames(['en'], { type: 'region' })
 
     return (
       <div className="flex flex-col border-b border-b-green-100 sm:pt-8 pt-4 sm:pl-8 pl-5 showBottomBorder last:border-none relative">
@@ -32,7 +33,9 @@ export const TripLogCard: FC<ITripLogCardProps> = memo(
             className="cursor-pointer sm:pl-[46px] pl-9 mb-5"
             onClick={() => setShowAllLogs(true)}>
             <Typography className="text-lg font-bold leading-6 text-green-700">
-              See all Charlie's Stops In Egypt...
+              {`See all Charlie's Stops In ${regionNames.of(
+                tripLogCardCountryCode
+              )}...`}
             </Typography>
           </div>
         )}

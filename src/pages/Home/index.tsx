@@ -11,38 +11,46 @@ import MainContainer from 'src/components/MainContainer'
 
 const userInfo1 = {
   id: 1,
-  firstName: 'Charlie',
-  lastName: 'Hummel',
+  mainInfo: {
+    firstName: 'Charlie',
+    lastName: 'Hummel',
+    lastTripLocation: 'Utila, Honduras'
+  },
   profileImage: 'https://mui.com/static/images/avatar/2.jpg',
-  bannerImage: '/images/profileBanner1.jpg',
-  lastTripLocation: 'Utila, Honduras'
+  bannerImage: '/images/profileBanner1.jpg'
 }
 
 const userInfo2 = {
   id: 2,
-  firstName: 'Chloe',
-  lastName: 'Amande',
+  mainInfo: {
+    firstName: 'Chloe',
+    lastName: 'Amande',
+    lastTripLocation: 'Egypt'
+  },
   profileImage: 'https://mui.com/static/images/avatar/5.jpg',
-  bannerImage: '/images/profileBanner2.jpg',
-  lastTripLocation: 'Egypt'
+  bannerImage: '/images/profileBanner2.jpg'
 }
 
 const userInfo3 = {
   id: 3,
-  firstName: 'Kate',
-  lastName: 'Ericson',
+  mainInfo: {
+    firstName: 'Kate',
+    lastName: 'Ericson',
+    lastTripLocation: 'Colombia'
+  },
   profileImage: 'https://mui.com/static/images/avatar/1.jpg',
-  bannerImage: '/images/profileBanner3.jpg',
-  lastTripLocation: 'Colombia'
+  bannerImage: '/images/profileBanner3.jpg'
 }
 
 const userInfo4 = {
   id: 4,
-  firstName: 'Charlie',
-  lastName: 'Hummel',
+  mainInfo: {
+    firstName: 'Charlie',
+    lastName: 'Hummel',
+    lastTripLocation: 'Mali'
+  },
   profileImage: 'https://mui.com/static/images/avatar/4.jpg',
-  bannerImage: '/images/profileBanner4.jpg',
-  lastTripLocation: 'Mali'
+  bannerImage: '/images/profileBanner4.jpg'
 }
 
 export const Home = memo(() => {

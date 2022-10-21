@@ -1,6 +1,7 @@
 import {
   createAsyncThunk,
   createEntityAdapter,
+  createSelector,
   createSlice
 } from '@reduxjs/toolkit'
 import { ITripLog, ITripLogBase } from 'src/types'
@@ -44,6 +45,14 @@ const tripLogsSlice = createSlice({
     }
   }
 })
+
+const { selectById } = tripLogsAdapter.getSelectors()
+
+export const getTripLogsState = (rootState: RootState) => rootState.tripLogs
+
+export const selectTripLogEntity = (id: number) => {
+  return createSelector(getTripLogsState, (state) => selectById(state, id))
+}
 
 export const tripLogsSelectors = tripLogsAdapter.getSelectors<RootState>(
   (state) => state.tripLogs

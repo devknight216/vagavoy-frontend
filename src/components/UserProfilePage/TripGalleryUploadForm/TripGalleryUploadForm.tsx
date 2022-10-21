@@ -1,13 +1,18 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import CloudDownloadOutlinedIcon from '@mui/icons-material/CloudDownloadOutlined'
 import { styled, useTheme } from '@mui/material'
-import { FC } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { tripGallerySelectors } from 'src/store/reducers/tripGallerySlice'
+import Button from 'src/components/Button'
+import { selectTripLogEntity } from 'src/store/reducers/tripLogsSlice'
 import { ITripImage } from 'src/types'
 
-import { TripImageCard } from './TripImageCard'
+import TripImageCard from './TripImageCard'
 
-export interface ITripGalleryUploadFormProps {}
+export interface ITripGalleryUploadFormProps {
+  gallery: ITripImage[]
+  handleChangeTripGallery: (tripGallery: ITripImage[]) => void
+}
 
 const Input = styled('input')(() => ({
   display: 'none'
@@ -21,16 +26,18 @@ const readFile = (file: Blob) => {
   })
 }
 
-export const TripGalleryUploadForm: FC<ITripGalleryUploadFormProps> = () => {
-  const tripGallery = useSelector(tripGallerySelectors.selectAll)
+export const TripGalleryUploadForm: FC<ITripGalleryUploadFormProps> = ({
+  gallery,
+  handleChangeTripGallery
+}) => {
   const theme = useTheme()
 
   const onFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
       const files = Array.from(e.target.files)
-      const newTripGallery: ITripImage[] = []
+      const newTripGallery = [...gallery]
 
-      Promise.all(
+      await Promise.all(
         files.map(async (file) => {
           const imageDataUrl = (await readFile(file)) as string
           newTripGallery.push({
@@ -42,7 +49,27 @@ export const TripGalleryUploadForm: FC<ITripGalleryUploadFormProps> = () => {
       ).catch((err) => {
         console.log(err.message)
       })
+
+      handleChangeTripGallery(newTripGallery)
     }
+  }
+
+  const handleChangeTripImage = (index: number, tripImage: ITripImage) => {
+    handleChangeTripGallery(
+      gallery.map((ti, i) => (i === index ? tripImage : ti))
+    )
+  }
+
+  const handleRemoveTripImage = (index: number) => {
+    handleChangeTripGallery(gallery.filter((_, i) => i !== index))
+  }
+
+  const handleChangeDescription = (index: number, description: string) => {
+    handleChangeTripGallery(
+      gallery.map((ti, i) =>
+        i === index ? { ...ti, backgroundInfo: description } : ti
+      )
+    )
   }
 
   return (
@@ -52,11 +79,46 @@ export const TripGalleryUploadForm: FC<ITripGalleryUploadFormProps> = () => {
         Upload a maximum of 5 photos now. After saving, you can upload an
         unlimited number in your Trip Gallery link
       </span>
-      {tripGallery.length > 0 ? (
-        <div className="flex flex-col gap-y-4">
-          {tripGallery?.map((tripImage, index) => (
-            <TripImageCard key={index} tripImage={tripImage} />
-          ))}
+      {gallery.length > 0 ? (
+        <div className="flex flex-col gap-y-5">
+          <div className="flex flex-col gap-y-4">
+            {gallery?.map((tripImage, index) => (
+              <TripImageCard
+                key={index}
+                tripImage={tripImage}
+                handleChangeTripImage={(tripImage) =>
+                  handleChangeTripImage(index, tripImage)
+                }
+                handleRemoveTripImage={() => handleRemoveTripImage(index)}
+                handleChangeDescription={(description: string) =>
+                  handleChangeDescription(index, description)
+                }
+              />
+            ))}
+          </div>
+          <label htmlFor="File-Upload-Travel-Log-Trip-Gallery">
+            <Input
+              id="File-Upload-Travel-Log-Trip-Gallery"
+              type="file"
+              accept="image/*"
+              onChange={onFileChange}
+              multiple
+            />
+            <div>
+              <Button
+                component="span"
+                buttonLabel="Add Next"
+                variant="outlined"
+                buttonFontBold
+                buttonLeftIconName="ButtonPicture"
+                sx={{
+                  width: 150,
+                  padding: '10px 14px',
+                  justifyContent: 'flex-start'
+                }}
+              />
+            </div>
+          </label>
         </div>
       ) : (
         <label htmlFor="File-Upload-Travel-Log-Trip-Gallery">

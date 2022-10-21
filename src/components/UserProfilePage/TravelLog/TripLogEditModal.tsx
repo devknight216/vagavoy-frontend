@@ -1,6 +1,7 @@
 import { Dialog, Paper, styled } from '@mui/material'
 import { FC, memo, useState } from 'react'
 import ReactFlagsSelect from 'react-flags-select'
+import { useSelector } from 'react-redux'
 import Flag from 'react-world-flags'
 import {
   Button,
@@ -10,12 +11,15 @@ import {
   TextField,
   TripGalleryUploadForm
 } from 'src/components'
-import { addTripLog } from 'src/store/reducers/tripLogsSlice'
+import {
+  addTripLog,
+  selectTripLogEntity
+} from 'src/store/reducers/tripLogsSlice'
 import { useAppDispatch } from 'src/store/store'
-import { ITripLog } from 'src/types'
+import { ITripImage } from 'src/types'
 export interface ITripLogEditModalProps {
+  tripLogId?: number
   open: boolean
-  tripLog?: ITripLog
   mode?: 'add' | 'edit'
   onClose: () => void
 }
@@ -46,28 +50,45 @@ const CountrySelector = styled(ReactFlagsSelect)(({ theme }) => ({
 }))
 
 export const TripLogEditModal: FC<ITripLogEditModalProps> = memo(
-  ({ open, mode, onClose }: ITripLogEditModalProps) => {
+  ({ open, mode, tripLogId, onClose }: ITripLogEditModalProps) => {
+    const regionNames = new Intl.DisplayNames(['en'], { type: 'region' })
     const dispatch = useAppDispatch()
-    const [tripStartDate, setTripStartDate] = useState<Date>(new Date())
-    const [tripEndDate, setTripEndDate] = useState<Date>(new Date())
-
-    const [tripLocation, setTripLocation] = useState('')
-    const [tripDescription, setTripDescription] = useState('')
-    const [selectedCountry, setSelectedCountry] = useState('')
+    const tripLog = useSelector(selectTripLogEntity(tripLogId || -1))
+    const [tripStartDate, setTripStartDate] = useState<Date>(
+      tripLog?.tripStartDate || new Date()
+    )
+    const [tripEndDate, setTripEndDate] = useState<Date>(
+      tripLog?.tripEndDate || new Date()
+    )
+    const [tripLocation, setTripLocation] = useState(
+      tripLog?.tripLocation || ''
+    )
+    const [tripDescription, setTripDescription] = useState(
+      tripLog?.tripDescription || ''
+    )
+    const [tripGallery, setTripGallery] = useState<ITripImage[]>(
+      tripLog?.tripGallery || []
+    )
+    const [selectedCountry, setSelectedCountry] = useState(
+      tripLog?.tripCountryCode
+    )
 
     const handleSaveButtonClick = async () => {
-      if (mode === 'add') {
-        dispatch(
-          addTripLog({
-            tripCountryCode: selectedCountry,
-            tripLocation,
-            tripStartDate,
-            tripEndDate,
-            tripDescription
-          })
-        )
-      }
+      dispatch(
+        addTripLog({
+          tripCountryCode: selectedCountry || '',
+          tripLocation,
+          tripStartDate,
+          tripEndDate,
+          tripDescription,
+          tripGallery
+        })
+      )
       onClose()
+    }
+
+    const handleChangeTripGallery = (gallery: ITripImage[]) => {
+      setTripGallery(gallery)
     }
 
     return (
@@ -80,7 +101,13 @@ export const TripLogEditModal: FC<ITripLogEditModalProps> = memo(
         <div className="overflow-hidden">
           <div className="flex flex-row items-center justify-between sm:h-[88px] h-[72px] sm:px-8 px-4 border-b border-green-100">
             <span className="sm:text-[28px] text-[22px] sm:font-semibold font-bold">
-              Add New Travel
+              {mode === 'edit'
+                ? `Edit Travel Log - ${
+                    tripLog?.tripLocation +
+                    ', ' +
+                    regionNames.of(tripLog?.tripCountryCode || '')
+                  }`
+                : 'Add New Travel'}
             </span>
             <div className="flex flex-row-reverse">
               <CloseButton onClose={onClose} />
@@ -104,7 +131,7 @@ export const TripLogEditModal: FC<ITripLogEditModalProps> = memo(
 
                   <CountrySelector
                     searchable
-                    selected={selectedCountry}
+                    selected={selectedCountry || ''}
                     placeholder="Select Trip Country"
                     onSelect={(code) => setSelectedCountry(code)}
                   />
@@ -153,7 +180,10 @@ export const TripLogEditModal: FC<ITripLogEditModalProps> = memo(
               </div>
 
               {/** Trip Gallery */}
-              <TripGalleryUploadForm />
+              <TripGalleryUploadForm
+                gallery={tripGallery}
+                handleChangeTripGallery={handleChangeTripGallery}
+              />
 
               {/** Trip Recommendations */}
               <div className="flex flex-col gap-y-4 sm:mt-10 mt-8 text-lg leading-6 font-bold">

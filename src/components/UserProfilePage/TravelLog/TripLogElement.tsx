@@ -1,7 +1,9 @@
 import { Typography } from '@mui/material'
-import { FC, memo } from 'react'
-import { TripButton } from 'src/components'
+import { FC, memo, useState } from 'react'
+import { EditButton, PlusButton, TripButton } from 'src/components'
 import { ITripLog } from 'src/types'
+
+import TripLogEditModal from './TripLogEditModal'
 
 export interface ITripLogElementProps extends ITripLog {}
 
@@ -42,27 +44,43 @@ const getPeriod = (startDate: Date | null, endDate: Date | null) => {
 
 export const TripLogElement: FC<ITripLogElementProps> = memo(
   ({
+    tripLogId,
     tripCountryCode,
     tripLocation,
     tripStartDate,
     tripEndDate,
-    tripDescription,
-    ...props
+    tripDescription
   }: ITripLogElementProps) => {
     const regionNames = new Intl.DisplayNames(['en'], { type: 'region' })
+    const [mode, setMode] = useState<'add' | 'edit'>('add')
+    const [openEditModal, setOpenEditModal] = useState(false)
 
     return (
-      <div
-        className="flex flex-col relative sm:pl-[46px] pl-9 pb-8 w-full border-l border-dashed border-l-green-700 last:border-transparent"
-        {...props}>
+      <div className="flex flex-col relative sm:pl-[46px] pl-9 pb-8 w-full border-l border-dashed border-l-green-700 last:border-transparent">
         <div className="absolute w-[24px] h-[24px] sm:-left-3 -left-3 rounded-full bg-green-700 border-[6px] border-white" />
-        <div className="flex flex-col sm:mt-0 -mt-[6px]">
-          <Typography className="font-bold text-lg leading-6 text-green-700">
-            {tripLocation + ', ' + regionNames.of(tripCountryCode)}
-          </Typography>
-          <Typography className="font-bold text-[14px] leading-[21px] text-green-500 -mt-[2px]">
-            {getPeriod(tripStartDate, tripEndDate)}
-          </Typography>
+        <div className="flex flex-row justify-between">
+          <div className="flex flex-col sm:mt-0 -mt-[6px]">
+            <Typography className="font-bold text-lg leading-6 text-green-700">
+              {tripLocation + ', ' + regionNames.of(tripCountryCode)}
+            </Typography>
+            <Typography className="font-bold text-[14px] leading-[21px] text-green-500 -mt-[2px]">
+              {getPeriod(tripStartDate, tripEndDate)}
+            </Typography>
+          </div>
+          <div className="flex flex-row gap-x-4">
+            <PlusButton
+              onClick={() => {
+                setMode('add')
+                setOpenEditModal(true)
+              }}
+            />
+            <EditButton
+              onClick={() => {
+                setMode('edit')
+                setOpenEditModal(true)
+              }}
+            />
+          </div>
         </div>
         <Typography className="text-base leading-6 text-green-700 mt-3">
           {tripDescription}
@@ -79,6 +97,12 @@ export const TripLogElement: FC<ITripLogElementProps> = memo(
             tripButtonDescription="Some of the more nitty-gnitty .."
           />
         </div>
+        <TripLogEditModal
+          open={openEditModal}
+          mode={mode}
+          tripLogId={tripLogId}
+          onClose={() => setOpenEditModal(false)}
+        />
       </div>
     )
   }
