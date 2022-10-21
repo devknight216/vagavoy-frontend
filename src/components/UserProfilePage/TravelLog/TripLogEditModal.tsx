@@ -13,6 +13,7 @@ import {
 } from 'src/components'
 import {
   addTripLog,
+  removeTrip,
   selectTripLogEntity
 } from 'src/store/reducers/tripLogsSlice'
 import { useAppDispatch } from 'src/store/store'
@@ -87,6 +88,11 @@ export const TripLogEditModal: FC<ITripLogEditModalProps> = memo(
       onClose()
     }
 
+    const handleDeleteButtonClick = async () => {
+      dispatch(removeTrip(tripLogId || -1))
+      onClose()
+    }
+
     const handleChangeTripGallery = (gallery: ITripImage[]) => {
       setTripGallery(gallery)
     }
@@ -100,15 +106,20 @@ export const TripLogEditModal: FC<ITripLogEditModalProps> = memo(
         maxWidth="sm">
         <div className="overflow-hidden">
           <div className="flex flex-row items-center justify-between sm:h-[88px] h-[72px] sm:px-8 px-4 border-b border-green-100">
-            <span className="sm:text-[28px] text-[22px] sm:font-semibold font-bold">
-              {mode === 'edit'
-                ? `Edit Travel Log - ${
-                    tripLog?.tripLocation +
-                    ', ' +
-                    regionNames.of(tripLog?.tripCountryCode || '')
-                  }`
-                : 'Add New Travel'}
-            </span>
+            <div className="flex flex-col sm:flex-row">
+              <span className="sm:text-[28px] text-[22px] sm:font-semibold font-bold">
+                {mode === 'edit' ? 'Edit Travel Log' : 'Add New Travel'}
+              </span>
+              <span className="sm:text-[28px] text-[22px] sm:font-semibold font-bold">
+                {mode === 'edit'
+                  ? ` - ${
+                      tripLog?.tripLocation +
+                      ', ' +
+                      regionNames.of(tripLog?.tripCountryCode || '')
+                    }`
+                  : ''}
+              </span>
+            </div>
             <div className="flex flex-row-reverse">
               <CloseButton onClose={onClose} />
             </div>
@@ -224,7 +235,7 @@ export const TripLogEditModal: FC<ITripLogEditModalProps> = memo(
               <div className="flex justify-between items-center mt-8">
                 <span
                   className="font-bold text-lg leading-6 text-green-500 cursor-pointer"
-                  onClick={handleSaveButtonClick}>
+                  onClick={handleDeleteButtonClick}>
                   Delete Trip
                 </span>
                 <Button

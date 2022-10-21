@@ -33,7 +33,9 @@ const tripLogsSlice = createSlice({
   initialState: tripLogsAdapter.getInitialState({
     loading: false
   }),
-  reducers: {},
+  reducers: {
+    removeTrip: tripLogsAdapter.removeOne
+  },
   extraReducers: {
     [addTripLog.pending.toString()]: (state) => {
       state.loading = true
@@ -57,5 +59,7 @@ export const selectTripLogEntity = (id: number) => {
 export const tripLogsSelectors = tripLogsAdapter.getSelectors<RootState>(
   (state) => state.tripLogs
 )
+
+export const { removeTrip } = tripLogsSlice.actions
 
 export default tripLogsSlice.reducer

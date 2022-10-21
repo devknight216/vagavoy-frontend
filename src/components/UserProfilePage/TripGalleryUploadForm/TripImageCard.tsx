@@ -42,7 +42,7 @@ export const TripImageCard: FC<ITripImageCardProps> = memo(
     }
 
     return (
-      <div className="flex sm:flex-row flex-col gap-x-6 gap-y-4">
+      <div className="flex sm:flex-row flex-col gap-x-6 gap-y-[6px]">
         <div
           style={{ backgroundImage: `url(${tripImage.src})` }}
           className="sm:w-[150px] sm:h-[117px] w-[82px] h-[79px] rounded-lg flex items-center justify-center bg-cover bg-center relative">
