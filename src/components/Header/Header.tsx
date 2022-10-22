@@ -68,7 +68,7 @@ export const Header: FC<IHeaderProps> = memo(({ onLogin, onSignup }) => {
   const theme = useTheme()
   const [openSidebar, setOpenSidebar] = useState(false)
 
-  const loggedIn = true
+  const loggedIn = false
 
   const upLG = useMediaQuery(theme.breakpoints.up('xl'))
   const upSM = useMediaQuery(theme.breakpoints.up('sm'))

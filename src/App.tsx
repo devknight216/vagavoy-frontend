@@ -12,6 +12,7 @@ import {
 import { AppLayout } from '../src/components'
 import { useTheme } from './contexts'
 import { ScrollToTop } from './hooks'
+import { ProvideAuth } from './hooks/useAuth'
 import { Home, UserProfile } from './pages'
 import { store } from './store/store'
 
@@ -19,22 +20,24 @@ function App() {
   const { theme } = useTheme()
 
   return (
-    <Provider store={store}>
-      <ThemeProvider theme={theme}>
-        <div className="App">
-          <Router>
-            <ScrollToTop>
-              <Routes>
-                <Route path="/" element={<AppLayout />}>
-                  <Route path="/" element={<Home />} />
-                  <Route path="/user-profile" element={<UserProfile />} />
-                </Route>
-              </Routes>
-            </ScrollToTop>
-          </Router>
-        </div>
-      </ThemeProvider>
-    </Provider>
+    <ProvideAuth>
+      <Provider store={store}>
+        <ThemeProvider theme={theme}>
+          <div className="App">
+            <Router>
+              <ScrollToTop>
+                <Routes>
+                  <Route path="/" element={<AppLayout />}>
+                    <Route path="/" element={<Home />} />
+                    <Route path="/user-profile" element={<UserProfile />} />
+                  </Route>
+                </Routes>
+              </ScrollToTop>
+            </Router>
+          </div>
+        </ThemeProvider>
+      </Provider>
+    </ProvideAuth>
   )
 }
 

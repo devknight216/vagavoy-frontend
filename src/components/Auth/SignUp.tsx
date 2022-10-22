@@ -9,7 +9,9 @@ import {
   styled,
   useTheme
 } from '@mui/material'
-import React from 'react'
+import axios, { AxiosError } from 'axios'
+import React, { useState } from 'react'
+import { useToast } from 'src/hooks'
 
 import Button from '../Button'
 import TextField from '../TextField'
@@ -35,6 +37,37 @@ const StyledPaper = styled(Paper)`
 
 const SignUpModal: React.FC<SignUpModalProps> = ({ open, onClose }) => {
   const theme = useTheme()
+  const [name, setName] = useState('')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+
+  const { showToast } = useToast()
+
+  const handleSignup = () => {
+    console.log('asdfasdf')
+    axios
+      .post(`${process.env.REACT_APP_API_URL}/auth/register`, {
+        name,
+        email,
+        password
+      })
+      .then(() => {
+        showToast({
+          type: 'success',
+          message: 'Sign Up Success. Please Sign in.'
+        })
+        onClose()
+      })
+      .catch((err: AxiosError) => {
+        console.log(err)
+        showToast({
+          type: 'error',
+          message: err.response?.data
+        })
+        onClose()
+      })
+  }
+
   return (
     <Dialog open={open} onClose={() => onClose()} PaperComponent={StyledPaper}>
       <img
@@ -55,15 +88,31 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ open, onClose }) => {
           </span>
           <div className="items-start w-full mb-4">
             <div className="text-[14px] text-green-500 mb-1.5">Full Name</div>
-            <TextField textFieldHeight={44} fullWidth />
+            <TextField
+              value={name}
+              textFieldHeight={44}
+              fullWidth
+              onChange={(e) => setName(e.target.value)}
+            />
           </div>
           <div className="items-start w-full mb-4">
             <div className="text-[14px] text-green-500 mb-1.5">Email</div>
-            <TextField textFieldHeight={44} fullWidth />
+            <TextField
+              value={email}
+              textFieldHeight={44}
+              fullWidth
+              onChange={(e) => setEmail(e.target.value)}
+            />
           </div>
           <div className="items-start w-full mb-4">
             <div className="text-[14px] text-green-500 pb-1.5">Pasword</div>
-            <TextField textFieldHeight={44} type="password" fullWidth />
+            <TextField
+              value={password}
+              textFieldHeight={44}
+              type="password"
+              fullWidth
+              onChange={(e) => setPassword(e.target.value)}
+            />
           </div>
           <div className="items-start mb-4">
             <FormControlLabel
@@ -80,7 +129,12 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ open, onClose }) => {
               label="I accept the User Agreement"
             />
           </div>
-          <Button fullWidth variant="contained" buttonLabel="Sign In" />
+          <Button
+            fullWidth
+            variant="contained"
+            buttonLabel="Sign Up"
+            onClick={handleSignup}
+          />
         </div>
       </div>
     </Dialog>
