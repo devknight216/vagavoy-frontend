@@ -67,10 +67,10 @@ class JwtService extends EventEmitter {
 
   setSession = (token: string | null) => {
     if (token && this.isAuthTokenValid(token)) {
-      localStorage.setItem('techraise_access_token', token)
+      localStorage.setItem('vagavoy_access_token', token)
       axiosInstance.defaults.headers.common.Authorization = `Bearer ${token}`
     } else {
-      localStorage.removeItem('techraise_access_token')
+      localStorage.removeItem('vagavoy_access_token')
       localStorage.removeItem('persist:filterOption')
       delete axiosInstance.defaults.headers.common.Authorization
     }
@@ -101,7 +101,7 @@ class JwtService extends EventEmitter {
   }
 
   getAccessToken = () => {
-    return window.localStorage.getItem('techraise_access_token')
+    return window.localStorage.getItem('vagavoy_access_token')
   }
 }
 
