@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Dialog, Paper, styled } from '@mui/material'
-import { FC, memo, useState } from 'react'
+import { FC, memo, useEffect, useState } from 'react'
 import ReactFlagsSelect from 'react-flags-select'
 import { useSelector } from 'react-redux'
 import Flag from 'react-world-flags'
@@ -10,19 +10,22 @@ import {
   Checkbox,
   CloseButton,
   TextField,
-  TripGalleryUploadForm,
-  TripRecommendationForm
+  TripGalleryUploadForm
 } from 'src/components'
 import {
   addTripLog,
   removeTrip,
-  selectTripLogEntity
+  selectTripLogEntity,
+  updateTripLog
 } from 'src/store/reducers/tripLogsSlice'
 import { useAppDispatch } from 'src/store/store'
 import { ITripImage, ITripRecommendation } from 'src/types'
 
+import TripRecommendationForm from '../../UserProfilePage/TripRecommendationForm/TripRecommendationForm'
+
 export interface ITripLogEditModalProps {
   tripLogId?: number
+  tripCountryCode?: string
   open: boolean
   mode?: 'add' | 'edit'
   onClose: () => void
@@ -54,7 +57,13 @@ const CountrySelector = styled(ReactFlagsSelect)(({ theme }) => ({
 }))
 
 export const TripLogEditModal: FC<ITripLogEditModalProps> = memo(
-  ({ open, mode, tripLogId, onClose }: ITripLogEditModalProps) => {
+  ({
+    open,
+    mode,
+    tripLogId,
+    tripCountryCode,
+    onClose
+  }: ITripLogEditModalProps) => {
     const regionNames = new Intl.DisplayNames(['en'], { type: 'region' })
     const dispatch = useAppDispatch()
     const tripLog = useSelector(selectTripLogEntity(tripLogId || -1))
@@ -73,26 +82,53 @@ export const TripLogEditModal: FC<ITripLogEditModalProps> = memo(
     const [tripGallery, setTripGallery] = useState<ITripImage[]>(
       tripLog?.tripGallery || []
     )
-    const [tripRecommendations, setTripRtripRecommendations] = useState<
+    const [tripRecommendations, setTripRecommendations] = useState<
       ITripRecommendation[]
     >(tripLog?.tripRecommendations || [{ title: '', description: '' }])
 
     const [selectedCountry, setSelectedCountry] = useState(
-      tripLog?.tripCountryCode
+      tripLog?.tripCountryCode || tripCountryCode
     )
 
+    useEffect(() => {
+      if (tripLog) {
+        setTripStartDate(tripLog.tripStartDate)
+        setTripEndDate(tripLog.tripEndDate)
+        setTripLocation(tripLog.tripLocation)
+        setTripDescription(tripLog.tripDescription)
+        setTripGallery(tripLog.tripGallery || [])
+        setTripRecommendations(tripLog.tripRecommendations || [])
+      }
+    }, [tripLog])
+
     const handleSaveButtonClick = async () => {
-      dispatch(
-        addTripLog({
-          tripCountryCode: selectedCountry || '',
-          tripLocation,
-          tripStartDate,
-          tripEndDate,
-          tripDescription,
-          tripGallery,
-          tripRecommendations
-        })
-      )
+      if (mode === 'add') {
+        dispatch(
+          addTripLog({
+            tripCountryCode: selectedCountry || '',
+            tripLocation,
+            tripStartDate,
+            tripEndDate,
+            tripDescription,
+            tripGallery,
+            tripRecommendations
+          })
+        )
+      } else if (mode === 'edit') {
+        console.log(tripDescription, tripLogId)
+        dispatch(
+          updateTripLog({
+            tripLogId: tripLogId || -1,
+            tripCountryCode: selectedCountry || '',
+            tripLocation,
+            tripStartDate,
+            tripEndDate,
+            tripDescription,
+            tripGallery,
+            tripRecommendations
+          })
+        )
+      }
       onClose()
     }
 
@@ -108,7 +144,7 @@ export const TripLogEditModal: FC<ITripLogEditModalProps> = memo(
     const handleChangeTripRecommendations = (
       recommendation: ITripRecommendation[]
     ) => {
-      setTripRtripRecommendations(recommendation)
+      setTripRecommendations(recommendation)
     }
 
     return (
@@ -194,6 +230,7 @@ export const TripLogEditModal: FC<ITripLogEditModalProps> = memo(
                   />
                 </div>
                 <TextField
+                  value={tripDescription}
                   label="Trip Description"
                   multiline={true}
                   placeholder="Trip Description"

@@ -22,8 +22,19 @@ export const addTripLog = createAsyncThunk(
   }
 )
 
+export const updateTripLog = createAsyncThunk(
+  'account/updateTripLog',
+  async (tripLog: ITripLog): Promise<ITripLog> => {
+    console.log(tripLog)
+    return { ...tripLog }
+  }
+)
+
 const tripLogsAdapter = createEntityAdapter<ITripLog>({
-  selectId: (tripLog) => tripLog.tripLogId,
+  selectId: (tripLog) => {
+    console.log(tripLog.tripLogId)
+    return tripLog.tripLogId
+  },
   sortComparer: (a, b) =>
     b?.tripStartDate?.getTime() - a?.tripStartDate?.getTime()
 })
@@ -44,6 +55,14 @@ const tripLogsSlice = createSlice({
       state.loading = false
       const newState = tripLogsAdapter.addOne(state, action)
       return newState
+    },
+    [updateTripLog.pending.toString()]: (state) => {
+      state.loading = true
+    },
+    [updateTripLog.fulfilled.toString()]: (state, action) => {
+      state.loading = false
+      state.entities[action.payload.tripLogId] = action.payload
+      return state
     }
   }
 })

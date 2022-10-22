@@ -5,7 +5,9 @@ import { ITripLog } from 'src/types'
 
 import TripLogEditModal from './TripLogEditModal'
 
-export interface ITripLogElementProps extends ITripLog {}
+export interface ITripLogElementProps extends ITripLog {
+  isFirstTripLog: boolean
+}
 
 const getPeriod = (startDate: Date | null, endDate: Date | null) => {
   const months = [
@@ -23,7 +25,7 @@ const getPeriod = (startDate: Date | null, endDate: Date | null) => {
     'Dec'
   ]
   if (startDate && endDate) {
-    let period = months[startDate.getMonth() - 1] + ' ' + startDate.getDay()
+    let period = months[startDate.getMonth()] + ' ' + startDate.getDate()
 
     if (startDate.getFullYear() === endDate.getFullYear()) period += '-'
     else period += ', ' + startDate.getFullYear() + '-'
@@ -33,7 +35,7 @@ const getPeriod = (startDate: Date | null, endDate: Date | null) => {
       startDate.getMonth() === endDate.getMonth()
     )
       period += ''
-    else period += months[endDate.getMonth() - 1] + ' '
+    else period += months[endDate.getMonth()] + ' '
 
     period += endDate.getDate() + ', ' + endDate.getFullYear()
 
@@ -49,7 +51,8 @@ export const TripLogElement: FC<ITripLogElementProps> = memo(
     tripLocation,
     tripStartDate,
     tripEndDate,
-    tripDescription
+    tripDescription,
+    isFirstTripLog
   }: ITripLogElementProps) => {
     const regionNames = new Intl.DisplayNames(['en'], { type: 'region' })
     const [mode, setMode] = useState<'add' | 'edit'>('add')
@@ -68,12 +71,16 @@ export const TripLogElement: FC<ITripLogElementProps> = memo(
             </Typography>
           </div>
           <div className="flex flex-row gap-x-4">
-            <PlusButton
-              onClick={() => {
-                setMode('add')
-                setOpenEditModal(true)
-              }}
-            />
+            {isFirstTripLog ? (
+              <PlusButton
+                onClick={() => {
+                  setMode('add')
+                  setOpenEditModal(true)
+                }}
+              />
+            ) : (
+              <></>
+            )}
             <EditButton
               onClick={() => {
                 setMode('edit')
@@ -100,7 +107,8 @@ export const TripLogElement: FC<ITripLogElementProps> = memo(
         <TripLogEditModal
           open={openEditModal}
           mode={mode}
-          tripLogId={tripLogId}
+          tripLogId={mode === 'edit' ? tripLogId : -1}
+          tripCountryCode={tripCountryCode}
           onClose={() => setOpenEditModal(false)}
         />
       </div>

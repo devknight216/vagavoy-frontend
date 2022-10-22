@@ -20,6 +20,7 @@ export const TravelLog: FC<ITravelLogProps> = memo(
     const [tripLogsByCountry, setTripLogsByCountry] = useState({})
 
     useEffect(() => {
+      console.log('tripLogUpdatedc', tripLogs)
       const newObj: { [key: string]: ITripLog[] } = {}
       if (tripLogs.length > 0) {
         tripLogs.forEach((tripLog) => {
