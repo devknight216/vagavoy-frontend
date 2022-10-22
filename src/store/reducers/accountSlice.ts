@@ -1,12 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { IMainInfo, IProfile } from 'src/types'
 
-const initialState: IProfile = {
-  mainInfo: {
-    firstName: 'Charlie',
-    lastName: 'Hummel'
-  }
-}
+const initialState: IProfile = {}
 
 export const setMainInfo = createAsyncThunk(
   'account/setMainInfo',
@@ -31,7 +26,9 @@ export const setBannerImage = createAsyncThunk(
 const accountSlice = createSlice({
   name: 'account',
   initialState,
-  reducers: {},
+  reducers: {
+    updateProfile: (state, action) => action.payload
+  },
   extraReducers: {
     [setMainInfo.fulfilled.toString()]: (state, action) => {
       state.mainInfo = action.payload
@@ -47,5 +44,7 @@ const accountSlice = createSlice({
     }
   }
 })
+
+export const { updateProfile } = accountSlice.actions
 
 export default accountSlice.reducer

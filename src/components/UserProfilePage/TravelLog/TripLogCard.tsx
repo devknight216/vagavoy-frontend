@@ -7,8 +7,7 @@ import { TripLogElement } from './TripLogElement'
 
 export interface ITripLogCardProps {
   tripLogCardCountryCode: string
-  tripLogs?: ITripLog[],
-  
+  tripLogs?: ITripLog[]
 }
 
 export const TripLogCard: FC<ITripLogCardProps> = memo(
@@ -26,7 +25,11 @@ export const TripLogCard: FC<ITripLogCardProps> = memo(
           {tripLogs
             .slice(0, showAllLogs ? undefined : 1)
             .map((tripLog, index) => (
-              <TripLogElement key={index} {...tripLog} isFirstTripLog={index === 0} />
+              <TripLogElement
+                key={index}
+                {...tripLog}
+                isFirstTripLog={index === 0}
+              />
             ))}
         </div>
         {!showAllLogs && tripLogs.length > 1 && (

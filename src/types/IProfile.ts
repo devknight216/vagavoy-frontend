@@ -6,7 +6,7 @@ export interface IMainInfo {
   nextSpotOnBucketList?: string
 }
 export interface IProfile {
-  id?: number
+  id?: string
   mainInfo?: IMainInfo
   profileImage?: string
   bannerImage?: string

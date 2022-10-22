@@ -10,7 +10,7 @@ import {
 import MainContainer from 'src/components/MainContainer'
 
 const userInfo1 = {
-  id: 1,
+  id: '1',
   mainInfo: {
     firstName: 'Charlie',
     lastName: 'Hummel',
@@ -21,7 +21,7 @@ const userInfo1 = {
 }
 
 const userInfo2 = {
-  id: 2,
+  id: '2',
   mainInfo: {
     firstName: 'Chloe',
     lastName: 'Amande',
@@ -32,7 +32,7 @@ const userInfo2 = {
 }
 
 const userInfo3 = {
-  id: 3,
+  id: '3',
   mainInfo: {
     firstName: 'Kate',
     lastName: 'Ericson',
@@ -43,7 +43,7 @@ const userInfo3 = {
 }
 
 const userInfo4 = {
-  id: 4,
+  id: '4',
   mainInfo: {
     firstName: 'Charlie',
     lastName: 'Hummel',

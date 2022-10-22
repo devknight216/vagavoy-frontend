@@ -6,6 +6,7 @@ import {
   useTheme
 } from '@mui/material'
 import { FC, memo, useState } from 'react'
+import { useAuth } from 'src/hooks'
 
 // import { useNavigate } from 'react-rUper-dom'
 import {
@@ -68,7 +69,7 @@ export const Header: FC<IHeaderProps> = memo(({ onLogin, onSignup }) => {
   const theme = useTheme()
   const [openSidebar, setOpenSidebar] = useState(false)
 
-  const loggedIn = false
+  const { isAuthorized } = useAuth()
 
   const upLG = useMediaQuery(theme.breakpoints.up('xl'))
   const upSM = useMediaQuery(theme.breakpoints.up('sm'))
@@ -76,7 +77,7 @@ export const Header: FC<IHeaderProps> = memo(({ onLogin, onSignup }) => {
 
   return (
     <TopNavigationContainer>
-      <LeftContainer loggedIn={loggedIn}>
+      <LeftContainer loggedIn={isAuthorized}>
         <Logo logoFull={upSM} sx={{ marginTop: upSM ? '-6px' : '4px' }} />
         <TextField
           textFieldHeight={40}
@@ -86,8 +87,10 @@ export const Header: FC<IHeaderProps> = memo(({ onLogin, onSignup }) => {
         />
       </LeftContainer>
       <RightContainer
-        sx={{ columnGap: loggedIn ? theme.spacing(5.25) : theme.spacing(11) }}>
-        {loggedIn ? (
+        sx={{
+          columnGap: isAuthorized ? theme.spacing(5.25) : theme.spacing(11)
+        }}>
+        {isAuthorized ? (
           <>
             {upLG && (
               <NavigationOption
@@ -158,7 +161,7 @@ export const Header: FC<IHeaderProps> = memo(({ onLogin, onSignup }) => {
         }}
         onClose={() => setOpenSidebar(false)}>
         <SideNavigation
-          loggedIn={loggedIn}
+          loggedIn={isAuthorized}
           onCloseSideNavigation={() => setOpenSidebar(false)}
           onLogin={onLogin}
           onSignup={onSignup}

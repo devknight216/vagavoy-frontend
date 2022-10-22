@@ -44,7 +44,6 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ open, onClose }) => {
   const { showToast } = useToast()
 
   const handleSignup = () => {
-    console.log('asdfasdf')
     axios
       .post(`${process.env.REACT_APP_API_URL}/auth/register`, {
         name,
@@ -64,7 +63,6 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ open, onClose }) => {
           type: 'error',
           message: err.response?.data
         })
-        onClose()
       })
   }
 
