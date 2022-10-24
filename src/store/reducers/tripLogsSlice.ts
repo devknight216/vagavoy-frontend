@@ -122,7 +122,7 @@ const tripLogsSlice = createSlice({
     },
     [updateTripLog.fulfilled.toString()]: (state, action) => {
       state.loading = false
-      tripLogsAdapter.updateOne(state, action.payload)
+      state.entities[action.payload.tripLogId] = action.payload
       return state
     }
   }
