@@ -27,7 +27,7 @@ export const TripLogCard: FC<ITripLogCardProps> = memo(
             .map((tripLog, index) => (
               <TripLogElement
                 key={index}
-                {...tripLog}
+                tripLog={tripLog}
                 isFirstTripLog={index === 0}
               />
             ))}

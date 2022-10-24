@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Dialog, Paper, styled } from '@mui/material'
+import { AxiosError } from 'axios'
 import { FC, memo, useEffect, useState } from 'react'
 import ReactFlagsSelect from 'react-flags-select'
-import { useSelector } from 'react-redux'
 import Flag from 'react-world-flags'
 import {
   Button,
@@ -12,20 +12,16 @@ import {
   TextField,
   TripGalleryUploadForm
 } from 'src/components'
-import {
-  addTripLog,
-  removeTrip,
-  selectTripLogEntity,
-  updateTripLog
-} from 'src/store/reducers/tripLogsSlice'
+import { axiosInstance } from 'src/services/jwtService'
+import { addTripLog, updateTripLog } from 'src/store/reducers/tripLogsSlice'
 import { useAppDispatch } from 'src/store/store'
-import { ITripImage, ITripRecommendation } from 'src/types'
+import { ITripImage, ITripLog, ITripRecommendation } from 'src/types'
 
 import TripRecommendationForm from '../../UserProfilePage/TripRecommendationForm/TripRecommendationForm'
 
 export interface ITripLogEditModalProps {
-  tripLogId?: number
-  tripCountryCode?: string
+  userId: string
+  tripLog?: ITripLog
   open: boolean
   mode?: 'add' | 'edit'
   onClose: () => void
@@ -57,74 +53,60 @@ const CountrySelector = styled(ReactFlagsSelect)(({ theme }) => ({
 }))
 
 export const TripLogEditModal: FC<ITripLogEditModalProps> = memo(
-  ({
-    open,
-    mode,
-    tripLogId,
-    tripCountryCode,
-    onClose
-  }: ITripLogEditModalProps) => {
-    const regionNames = new Intl.DisplayNames(['en'], { type: 'region' })
+  ({ open, mode, userId, tripLog, onClose }: ITripLogEditModalProps) => {
     const dispatch = useAppDispatch()
-    const tripLog = useSelector(selectTripLogEntity(tripLogId || -1))
-    const [tripStartDate, setTripStartDate] = useState<Date>(
-      tripLog?.tripStartDate || new Date()
-    )
-    const [tripEndDate, setTripEndDate] = useState<Date>(
-      tripLog?.tripEndDate || new Date()
-    )
-    const [tripLocation, setTripLocation] = useState(
-      tripLog?.tripLocation || ''
-    )
-    const [tripDescription, setTripDescription] = useState(
-      tripLog?.tripDescription || ''
-    )
-    const [tripGallery, setTripGallery] = useState<ITripImage[]>(
-      tripLog?.tripGallery || []
-    )
+    const regionNames = new Intl.DisplayNames(['en'], { type: 'region' })
+    const [tripStartDate, setTripStartDate] = useState<Date>(new Date())
+    const [tripEndDate, setTripEndDate] = useState<Date>(new Date())
+    const [tripLocation, setTripLocation] = useState('')
+    const [tripDescription, setTripDescription] = useState('')
+    const [tripGallery, setTripGallery] = useState<ITripImage[]>([])
     const [tripRecommendations, setTripRecommendations] = useState<
       ITripRecommendation[]
-    >(tripLog?.tripRecommendations || [{ title: '', description: '' }])
+    >([])
 
-    const [selectedCountry, setSelectedCountry] = useState(
-      tripLog?.tripCountryCode || tripCountryCode
-    )
+    const [selectedCountry, setSelectedCountry] = useState('')
 
     useEffect(() => {
-      if (tripLog) {
-        setTripStartDate(tripLog.tripStartDate)
-        setTripEndDate(tripLog.tripEndDate)
-        setTripLocation(tripLog.tripLocation)
-        setTripDescription(tripLog.tripDescription)
-        setTripGallery(tripLog.tripGallery || [])
-        setTripRecommendations(tripLog.tripRecommendations || [])
-      }
+      setTripStartDate(tripLog?.tripStartDate || new Date())
+      setTripEndDate(tripLog?.tripEndDate || new Date())
+      setTripLocation(tripLog?.tripLocation || '')
+      setTripDescription(tripLog?.tripDescription || '')
+      setTripGallery(tripLog?.tripGallery || [])
+      setTripRecommendations(tripLog?.tripRecommendations || [])
+      setSelectedCountry(tripLog?.tripCountryCode || '')
     }, [tripLog])
 
     const handleSaveButtonClick = async () => {
       if (mode === 'add') {
         dispatch(
           addTripLog({
-            tripCountryCode: selectedCountry || '',
-            tripLocation,
-            tripStartDate,
-            tripEndDate,
-            tripDescription,
-            tripGallery,
-            tripRecommendations
+            userId,
+            tripLog: {
+              tripStartDate,
+              tripEndDate,
+              tripDescription,
+              tripGallery,
+              tripRecommendations,
+              tripLocation,
+              tripCountryCode: selectedCountry
+            }
           })
         )
       } else if (mode === 'edit') {
         dispatch(
           updateTripLog({
-            tripLogId: tripLogId || -1,
-            tripCountryCode: selectedCountry || '',
-            tripLocation,
-            tripStartDate,
-            tripEndDate,
-            tripDescription,
-            tripGallery,
-            tripRecommendations
+            userId,
+            tripLog: {
+              tripLogId: tripLog?.tripLogId,
+              tripStartDate,
+              tripEndDate,
+              tripDescription,
+              tripGallery,
+              tripRecommendations,
+              tripLocation,
+              tripCountryCode: selectedCountry
+            }
           })
         )
       }
@@ -132,7 +114,12 @@ export const TripLogEditModal: FC<ITripLogEditModalProps> = memo(
     }
 
     const handleDeleteButtonClick = async () => {
-      dispatch(removeTrip(tripLogId || -1))
+      axiosInstance
+        .delete(`${process.env.REACT_APP_API_URL}/travel/${tripLog?.tripLogId}`)
+        .then((res) => {})
+        .catch((err: AxiosError) => {
+          console.log(err.message)
+        })
       onClose()
     }
 

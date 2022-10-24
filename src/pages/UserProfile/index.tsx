@@ -29,7 +29,7 @@ export const UserProfile = memo(() => {
         </div>
         <div className="flex flex-col">
           <About id={id || ''} />
-          <TravelLog id={id || ''} />
+          <TravelLog userId={id || ''} />
         </div>
       </MainContainer>
       <div className="bg-white">

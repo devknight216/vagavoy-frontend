@@ -15,8 +15,7 @@ export const setMainInfo = createAsyncThunk(
         lastTrip: mainInfo.lastTripLocation,
         nextSpot: mainInfo.nextSpotOnBucketList
       })
-      .then((res) => {
-        console.log(res.data)
+      .then(() => {
         return mainInfo
       })
       .catch((err: AxiosError) => {

@@ -7,7 +7,7 @@ import { setProfileImage } from 'src/store/reducers/accountSlice'
 import { useAppDispatch } from 'src/store/store'
 
 interface IAvatarProps {
-  id?: string,
+  id?: string
   size?: number
   borderWidth?: number
   src?: string

@@ -5,11 +5,12 @@ import { Button, Icon } from 'src/components'
 import TripLogEditModal from './TripLogEditModal'
 
 export interface ITripLogPlaceholderProps {
+  userId: string
   currentUser?: boolean
 }
 
 export const TripLogPlaceholder: FC<ITripLogPlaceholderProps> = memo(
-  ({ currentUser = true }: ITripLogPlaceholderProps) => {
+  ({ userId, currentUser = true }: ITripLogPlaceholderProps) => {
     const [openEditModal, setOpenEditModal] = useState(false)
 
     return (
@@ -34,6 +35,7 @@ export const TripLogPlaceholder: FC<ITripLogPlaceholderProps> = memo(
             <TripLogEditModal
               open={openEditModal}
               mode="add"
+              userId={userId}
               onClose={() => setOpenEditModal(false)}
             />
           </>

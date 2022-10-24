@@ -2,15 +2,15 @@ import { ITripImage } from './ITripImage'
 import { ITripRecommendation } from './ITripRecommendation'
 
 export interface ITripLogBase {
-  tripCountryCode: string
-  tripLocation: string
+  tripCountryCode?: string
+  tripLocation?: string
   tripStartDate: Date
   tripEndDate: Date
-  tripDescription: string
+  tripDescription?: string
   tripGallery?: ITripImage[]
   tripRecommendations?: ITripRecommendation[]
 }
 
 export interface ITripLog extends ITripLogBase {
-  tripLogId: number
+  tripLogId?: string
 }

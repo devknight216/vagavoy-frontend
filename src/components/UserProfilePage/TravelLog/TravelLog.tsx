@@ -3,7 +3,11 @@ import { FC, memo, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { Button } from 'src/components'
 import { useAuth } from 'src/hooks'
-import { tripLogsSelectors } from 'src/store/reducers/tripLogsSlice'
+import {
+  fetchTripLogs,
+  tripLogsSelectors
+} from 'src/store/reducers/tripLogsSlice'
+import { useAppDispatch } from 'src/store/store'
 import { ITripLog } from 'src/types'
 
 import TripLogCard from './TripLogCard'
@@ -11,24 +15,36 @@ import TripLogEditModal from './TripLogEditModal'
 import TripLogPlaceholder from './TripLogPlaceholder'
 
 export interface ITravelLogProps {
-  id: string
+  userId: string
 }
 
 export const TravelLog: FC<ITravelLogProps> = memo(
-  ({ id }: ITravelLogProps) => {
+  ({ userId }: ITravelLogProps) => {
     const tripLogs = useSelector(tripLogsSelectors.selectAll)
+    const dispatch = useAppDispatch()
     const [openEditModal, setOpenEditModal] = useState(false)
     const [tripLogsByCountry, setTripLogsByCountry] = useState({})
     const { user } = useAuth()
-    const currentUser = id === user.id
+    const currentUser = userId === user.id
+
+    useEffect(() => {
+      dispatch(
+        fetchTripLogs({
+          userId
+        })
+      )
+    }, [userId])
 
     useEffect(() => {
       const newObj: { [key: string]: ITripLog[] } = {}
-      if (tripLogs.length > 0) {
+      if (tripLogs && tripLogs.length > 0) {
         tripLogs.forEach((tripLog) => {
-          if (newObj[tripLog.tripCountryCode]?.length)
-            newObj[tripLog.tripCountryCode].push(tripLog)
-          else Object.assign(newObj, { [tripLog.tripCountryCode]: [tripLog] })
+          if (newObj[tripLog.tripCountryCode || '']?.length)
+            newObj[tripLog.tripCountryCode || ''].push(tripLog)
+          else
+            Object.assign(newObj, {
+              [tripLog.tripCountryCode || '']: [tripLog]
+            })
         })
 
         setTripLogsByCountry(newObj)
@@ -62,7 +78,7 @@ export const TravelLog: FC<ITravelLogProps> = memo(
               <></>
             )}
           </div>
-          {tripLogs.length ? (
+          {tripLogs && tripLogs.length ? (
             Object.keys(tripLogsByCountry).map((tripLogCountryCode, index) => (
               <TripLogCard
                 key={index}
@@ -75,11 +91,12 @@ export const TravelLog: FC<ITravelLogProps> = memo(
               />
             ))
           ) : (
-            <TripLogPlaceholder currentUser={currentUser} />
+            <TripLogPlaceholder currentUser={currentUser} userId={userId} />
           )}
         </div>
         <TripLogEditModal
           open={openEditModal}
+          userId={userId}
           mode="add"
           onClose={() => setOpenEditModal(false)}
         />

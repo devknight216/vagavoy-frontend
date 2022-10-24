@@ -1,37 +1,92 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   createAsyncThunk,
   createEntityAdapter,
   createSelector,
   createSlice
 } from '@reduxjs/toolkit'
-import { ITripLog, ITripLogBase } from 'src/types'
+import { AxiosError } from 'axios'
+import { axiosInstance } from 'src/services/jwtService'
+import { ITripLog } from 'src/types'
 
 import { RootState } from '../store'
 
 export const fetchTripLogs = createAsyncThunk(
   'account/fetchGallery',
-  async () => {
-    return []
+  async ({ userId }: { userId: string }) => {
+    return await axiosInstance
+      .get(`${process.env.REACT_APP_API_URL}/user/travels/${userId}`)
+      .then((res) => {
+        const resValue = res.data
+        const newTripLogs: ITripLog[] = []
+        resValue.forEach((value: any) => {
+          newTripLogs.push({
+            tripLogId: value._id,
+            tripCountryCode: value.tripCountryCode,
+            tripStartDate: new Date(value.tripStartDate),
+            tripEndDate: new Date(value.tripEndDate),
+            tripGallery: value.tripGallery,
+            tripRecommendations: value.tripRecommendations,
+            tripLocation: value.tripLocation,
+            tripDescription: value.tripDescription
+          })
+        })
+        return newTripLogs
+      })
+      .catch((err: AxiosError) => {
+        console.log(err.message)
+      })
   }
 )
 
 export const addTripLog = createAsyncThunk(
   'account/addTripLog',
-  async (tripLog: ITripLogBase): Promise<ITripLog> => {
-    return { ...tripLog, tripLogId: Math.round(Math.random() * 10000) }
+  async ({ userId, tripLog }: { userId: string; tripLog?: ITripLog }) => {
+    return await axiosInstance
+      .post(`${process.env.REACT_APP_API_URL}/travel/`, {
+        userId,
+        tripLog
+      })
+      .then((res) => {
+        console.log(res.data)
+        return {
+          ...res.data,
+          tripLogId: res.data._id,
+          tripStartDate: new Date(res.data.tripStartDate),
+          tripEndDate: new Date(res.data.tripEndDate)
+        }
+      })
+      .catch((err: AxiosError) => {
+        console.log(err.message)
+      })
   }
 )
 
 export const updateTripLog = createAsyncThunk(
   'account/updateTripLog',
-  async (tripLog: ITripLog): Promise<ITripLog> => {
-    return { ...tripLog }
+  async ({ userId, tripLog }: { userId: string; tripLog?: ITripLog }) => {
+    return await axiosInstance
+      .put(`${process.env.REACT_APP_API_URL}/travel/${tripLog?.tripLogId}`, {
+        userId,
+        tripLog
+      })
+      .then((res) => {
+        return {
+          ...res.data,
+          tripLogId: res.data._id,
+          tripStartDate: new Date(res.data.tripStartDate),
+          tripEndDate: new Date(res.data.tripEndDate)
+        }
+      })
+      .catch((err: AxiosError) => {
+        console.log(err.message)
+      })
   }
 )
 
 const tripLogsAdapter = createEntityAdapter<ITripLog>({
   selectId: (tripLog) => {
-    return tripLog.tripLogId
+    return tripLog.tripLogId || ''
   },
   sortComparer: (a, b) =>
     b?.tripStartDate?.getTime() - a?.tripStartDate?.getTime()
@@ -46,20 +101,28 @@ const tripLogsSlice = createSlice({
     removeTrip: tripLogsAdapter.removeOne
   },
   extraReducers: {
+    [fetchTripLogs.pending.toString()]: (state) => {
+      state.loading = true
+    },
+    [fetchTripLogs.fulfilled.toString()]: (state, action) => {
+      state.loading = false
+      tripLogsAdapter.setAll(state, action.payload)
+      return state
+    },
     [addTripLog.pending.toString()]: (state) => {
       state.loading = true
     },
     [addTripLog.fulfilled.toString()]: (state, action) => {
       state.loading = false
-      const newState = tripLogsAdapter.addOne(state, action)
-      return newState
+      tripLogsAdapter.addOne(state, action.payload)
+      return state
     },
     [updateTripLog.pending.toString()]: (state) => {
       state.loading = true
     },
     [updateTripLog.fulfilled.toString()]: (state, action) => {
       state.loading = false
-      state.entities[action.payload.tripLogId] = action.payload
+      tripLogsAdapter.updateOne(state, action.payload)
       return state
     }
   }
