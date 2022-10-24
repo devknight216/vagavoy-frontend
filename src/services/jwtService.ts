@@ -68,7 +68,7 @@ class JwtService extends EventEmitter {
   setSession = (token: string | null) => {
     if (token && this.isAuthTokenValid(token)) {
       localStorage.setItem('vagavoy_access_token', token)
-      axiosInstance.defaults.headers.common.Authorization = `Bearer ${token}`
+      axiosInstance.defaults.headers.common.Authorization = `${token}`
     } else {
       localStorage.removeItem('vagavoy_access_token')
       localStorage.removeItem('persist:filterOption')

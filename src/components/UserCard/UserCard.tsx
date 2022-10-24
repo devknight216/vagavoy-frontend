@@ -40,9 +40,7 @@ export const UserCard: FC<IUserCardProps> = memo(
               lineHeight: '24px',
               color: theme.palette.green.dark
             }}>
-            {userProfile.mainInfo?.firstName +
-              ' ' +
-              userProfile.mainInfo?.lastName}
+            {userProfile.mainInfo?.name}
           </Typography>
           <Typography
             sx={{

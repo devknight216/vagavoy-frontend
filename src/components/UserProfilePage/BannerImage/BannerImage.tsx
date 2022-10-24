@@ -3,13 +3,11 @@ import { styled, Typography, useTheme } from '@mui/material'
 import { FC, memo } from 'react'
 import { useSelector } from 'react-redux'
 import EditButton from 'src/components/EditButton'
+import { useAuth } from 'src/hooks'
 import { setBannerImage } from 'src/store/reducers/accountSlice'
 import { RootState, useAppDispatch } from 'src/store/store'
 export interface IBannerImageProps {
-  /**
-   * Current User
-   */
-  currentUser?: boolean
+  id: string
 }
 
 const Input = styled('input')(() => ({
@@ -25,8 +23,10 @@ const readFile = (file: Blob) => {
 }
 
 export const BannerImage: FC<IBannerImageProps> = memo(
-  ({ currentUser = true }: IBannerImageProps) => {
+  ({ id }: IBannerImageProps) => {
     const theme = useTheme()
+    const { user } = useAuth()
+    const currentUser = id === user.id
     const dispatch = useAppDispatch()
     const bannerImage = useSelector(
       (state: RootState) => state.account.bannerImage

@@ -12,8 +12,7 @@ import MainContainer from 'src/components/MainContainer'
 const userInfo1 = {
   id: '1',
   mainInfo: {
-    firstName: 'Charlie',
-    lastName: 'Hummel',
+    name: 'Charlie Hummel',
     lastTripLocation: 'Utila, Honduras'
   },
   profileImage: 'https://mui.com/static/images/avatar/2.jpg',
@@ -23,8 +22,7 @@ const userInfo1 = {
 const userInfo2 = {
   id: '2',
   mainInfo: {
-    firstName: 'Chloe',
-    lastName: 'Amande',
+    name: 'Chloe Amande',
     lastTripLocation: 'Egypt'
   },
   profileImage: 'https://mui.com/static/images/avatar/5.jpg',
@@ -34,8 +32,7 @@ const userInfo2 = {
 const userInfo3 = {
   id: '3',
   mainInfo: {
-    firstName: 'Kate',
-    lastName: 'Ericson',
+    name: 'Kate Ericson',
     lastTripLocation: 'Colombia'
   },
   profileImage: 'https://mui.com/static/images/avatar/1.jpg',
@@ -45,8 +42,7 @@ const userInfo3 = {
 const userInfo4 = {
   id: '4',
   mainInfo: {
-    firstName: 'Charlie',
-    lastName: 'Hummel',
+    name: 'Charlie Hummel',
     lastTripLocation: 'Mali'
   },
   profileImage: 'https://mui.com/static/images/avatar/4.jpg',

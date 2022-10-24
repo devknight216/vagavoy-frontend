@@ -1,12 +1,11 @@
 import { Dialog, Paper, styled } from '@mui/material'
-import { FC, memo, useState } from 'react'
-import { useSelector } from 'react-redux'
+import { FC, memo, useEffect, useState } from 'react'
 import { Button, CloseButton, TextField } from 'src/components'
-import { setAbout } from 'src/store/reducers/accountSlice'
-import { RootState, useAppDispatch } from 'src/store/store'
 
 export interface IAboutEditModalProps {
   open: boolean
+  bio: string
+  handleSaveAbout: (about: string) => void
   onClose: () => void
 }
 
@@ -18,15 +17,16 @@ const StyledPaper = styled(Paper)`
 `
 
 export const AboutEditModal: FC<IAboutEditModalProps> = memo(
-  ({ open, onClose }: IAboutEditModalProps) => {
+  ({ open, bio, handleSaveAbout, onClose }: IAboutEditModalProps) => {
     const CHARACTER_LIMIT = 2600
-    const dispatch = useAppDispatch()
-    const [bio, setBio] = useState(
-      useSelector((state: RootState) => state.account.about)
-    )
+    const [about, setAbout] = useState('')
+
+    useEffect(() => {
+      setAbout(bio)
+    }, [bio])
 
     const handleSaveButtonClick = async () => {
-      await dispatch(setAbout(bio))
+      handleSaveAbout(about)
       onClose()
     }
 
@@ -47,11 +47,11 @@ export const AboutEditModal: FC<IAboutEditModalProps> = memo(
         </div>
         <div className="flex flex-col gap-y-8 p-8 items-end">
           <TextField
-            value={bio}
+            value={about}
             multiline={true}
             textFieldBorderRadius={16}
             placeholder="Write a litte bit about yourself here (e.g., your favorite kinds of travel, who you travel with, what you do when you're not travelling, etc."
-            onChange={(e) => setBio(e.target.value)}
+            onChange={(e) => setAbout(e.target.value)}
             rows={12}
             helperText={`${bio?.length}/${CHARACTER_LIMIT}`}
             inputProps={{ maxLength: CHARACTER_LIMIT }}

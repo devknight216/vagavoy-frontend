@@ -1,6 +1,5 @@
 export interface IMainInfo {
-  firstName?: string
-  lastName?: string
+  name?: string
   location?: string
   lastTripLocation?: string
   nextSpotOnBucketList?: string

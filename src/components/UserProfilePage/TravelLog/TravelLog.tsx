@@ -2,6 +2,7 @@ import { Typography } from '@mui/material'
 import { FC, memo, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { Button } from 'src/components'
+import { useAuth } from 'src/hooks'
 import { tripLogsSelectors } from 'src/store/reducers/tripLogsSlice'
 import { ITripLog } from 'src/types'
 
@@ -10,17 +11,18 @@ import TripLogEditModal from './TripLogEditModal'
 import TripLogPlaceholder from './TripLogPlaceholder'
 
 export interface ITravelLogProps {
-  currentUser?: boolean
+  id: string
 }
 
 export const TravelLog: FC<ITravelLogProps> = memo(
-  ({ currentUser = true }: ITravelLogProps) => {
+  ({ id }: ITravelLogProps) => {
     const tripLogs = useSelector(tripLogsSelectors.selectAll)
     const [openEditModal, setOpenEditModal] = useState(false)
     const [tripLogsByCountry, setTripLogsByCountry] = useState({})
+    const { user } = useAuth()
+    const currentUser = id === user.id
 
     useEffect(() => {
-      console.log('tripLogUpdatedc', tripLogs)
       const newObj: { [key: string]: ITripLog[] } = {}
       if (tripLogs.length > 0) {
         tripLogs.forEach((tripLog) => {
@@ -73,7 +75,7 @@ export const TravelLog: FC<ITravelLogProps> = memo(
               />
             ))
           ) : (
-            <TripLogPlaceholder />
+            <TripLogPlaceholder currentUser={currentUser} />
           )}
         </div>
         <TripLogEditModal

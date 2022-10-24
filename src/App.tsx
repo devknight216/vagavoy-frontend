@@ -29,7 +29,7 @@ function App() {
                 <Routes>
                   <Route path="/" element={<AppLayout />}>
                     <Route path="/" element={<Home />} />
-                    <Route path="/user-profile" element={<UserProfile />} />
+                    <Route path="/user-profile/:id" element={<UserProfile />} />
                   </Route>
                 </Routes>
               </ScrollToTop>

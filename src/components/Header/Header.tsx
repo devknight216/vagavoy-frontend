@@ -69,7 +69,7 @@ export const Header: FC<IHeaderProps> = memo(({ onLogin, onSignup }) => {
   const theme = useTheme()
   const [openSidebar, setOpenSidebar] = useState(false)
 
-  const { isAuthorized } = useAuth()
+  const { user, isAuthorized } = useAuth()
 
   const upLG = useMediaQuery(theme.breakpoints.up('xl'))
   const upSM = useMediaQuery(theme.breakpoints.up('sm'))
@@ -118,7 +118,7 @@ export const Header: FC<IHeaderProps> = memo(({ onLogin, onSignup }) => {
                 />
                 <NavigationOption
                   navigationOptionLabel="Profile"
-                  navigationOptionLink="user-profile"
+                  navigationOptionLink={'user-profile/' + user.id}
                   navigationOptionAvatarSrc="https://mui.com/static/images/avatar/1.jpg"
                 />
               </>

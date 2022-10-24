@@ -25,14 +25,12 @@ export const addTripLog = createAsyncThunk(
 export const updateTripLog = createAsyncThunk(
   'account/updateTripLog',
   async (tripLog: ITripLog): Promise<ITripLog> => {
-    console.log(tripLog)
     return { ...tripLog }
   }
 )
 
 const tripLogsAdapter = createEntityAdapter<ITripLog>({
   selectId: (tripLog) => {
-    console.log(tripLog.tripLogId)
     return tripLog.tripLogId
   },
   sortComparer: (a, b) =>

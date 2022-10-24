@@ -1,11 +1,28 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import { AxiosError } from 'axios'
+import { axiosInstance } from 'src/services/jwtService'
 import { IMainInfo, IProfile } from 'src/types'
 
 const initialState: IProfile = {}
 
 export const setMainInfo = createAsyncThunk(
   'account/setMainInfo',
-  async (mainInfo: IMainInfo) => mainInfo
+  async ({ userId, mainInfo }: { userId: string; mainInfo: IMainInfo }) => {
+    return await axiosInstance
+      .put(`${process.env.REACT_APP_API_URL}/user/${userId}`, {
+        name: mainInfo.name,
+        currentlyIn: mainInfo.location,
+        lastTrip: mainInfo.lastTripLocation,
+        nextSpot: mainInfo.nextSpotOnBucketList
+      })
+      .then((res) => {
+        console.log(res.data)
+        return mainInfo
+      })
+      .catch((err: AxiosError) => {
+        console.log(err.message)
+      })
+  }
 )
 
 export const setAbout = createAsyncThunk(

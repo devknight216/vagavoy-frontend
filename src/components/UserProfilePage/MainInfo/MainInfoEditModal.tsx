@@ -1,12 +1,13 @@
 import { Dialog, Paper, styled } from '@mui/material'
-import { FC, memo, useState } from 'react'
-import { useSelector } from 'react-redux'
+import { FC, memo, useEffect, useState } from 'react'
 import { Button, CloseButton, TextField } from 'src/components'
-import { setMainInfo } from 'src/store/reducers/accountSlice'
-import { RootState, useAppDispatch } from 'src/store/store'
+import { IMainInfo } from 'src/types'
 
 export interface IMainInfoEditModalProps {
   open: boolean
+  userId: string
+  mainInfo: IMainInfo
+  handleSaveMainInfo: (mainInfo: IMainInfo) => void
   onClose: () => void
 }
 
@@ -18,30 +19,33 @@ const StyledPaper = styled(Paper)`
 `
 
 export const MainInfoEditModal: FC<IMainInfoEditModalProps> = memo(
-  ({ open, onClose }: IMainInfoEditModalProps) => {
-    const dispatch = useAppDispatch()
-    const mainInfo = useSelector((state: RootState) => state.account.mainInfo)
-    const [fullName, setFullName] = useState(
-      mainInfo?.firstName + ' ' + mainInfo?.lastName
-    )
-    const [location, setLocation] = useState(mainInfo?.location || '')
-    const [lastTripLocation, setLastTripLocation] = useState(
-      mainInfo?.lastTripLocation || ''
-    )
-    const [nextSpotOnBucketList, setNextSpotOnBucketList] = useState(
-      mainInfo?.nextSpotOnBucketList || ''
-    )
+  ({
+    open,
+    mainInfo,
+    onClose,
+    handleSaveMainInfo
+  }: IMainInfoEditModalProps) => {
+    const [name, setName] = useState('')
+    const [location, setLocation] = useState('')
+    const [lastTripLocation, setLastTripLocation] = useState('')
+    const [nextSpotOnBucketList, setNextSpotOnBucketList] = useState('')
+
+    useEffect(() => {
+      if (mainInfo) {
+        setName(mainInfo?.name || '')
+        setLocation(mainInfo?.location || '')
+        setLastTripLocation(mainInfo?.lastTripLocation || '')
+        setNextSpotOnBucketList(mainInfo?.nextSpotOnBucketList || '')
+      }
+    }, [mainInfo])
 
     const handleSaveButtonClick = async () => {
-      await dispatch(
-        setMainInfo({
-          firstName: fullName.split(' ')[0],
-          lastName: fullName.split(' ')[1],
-          location,
-          lastTripLocation,
-          nextSpotOnBucketList
-        })
-      )
+      handleSaveMainInfo({
+        name,
+        location,
+        lastTripLocation,
+        nextSpotOnBucketList
+      })
       onClose()
     }
 
@@ -62,10 +66,10 @@ export const MainInfoEditModal: FC<IMainInfoEditModalProps> = memo(
         </div>
         <div className="flex flex-col gap-y-4 p-8 items-end">
           <TextField
-            value={fullName}
+            value={name}
             label="Full Name"
             placeholder="Enter your full name"
-            onChange={(e) => setFullName(e.target.value)}
+            onChange={(e) => setName(e.target.value)}
           />
           <TextField
             value={location}

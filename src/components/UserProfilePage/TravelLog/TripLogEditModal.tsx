@@ -115,7 +115,6 @@ export const TripLogEditModal: FC<ITripLogEditModalProps> = memo(
           })
         )
       } else if (mode === 'edit') {
-        console.log(tripDescription, tripLogId)
         dispatch(
           updateTripLog({
             tripLogId: tripLogId || -1,

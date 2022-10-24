@@ -2,15 +2,16 @@ import { Typography } from '@mui/material'
 import { styled, useTheme } from '@mui/material/styles'
 import { FC, memo } from 'react'
 import { EditButton, Icon } from 'src/components'
+import { useAuth } from 'src/hooks'
 import { setProfileImage } from 'src/store/reducers/accountSlice'
 import { useAppDispatch } from 'src/store/store'
 
 interface IAvatarProps {
+  id?: string,
   size?: number
   borderWidth?: number
   src?: string
   className?: string
-  currentUser?: boolean
 }
 
 const CustomAvatar = styled('img')<IAvatarProps>(({ size, borderWidth }) => ({
@@ -34,9 +35,11 @@ const readFile = (file: Blob) => {
 }
 
 export const Avatar: FC<IAvatarProps> = memo(
-  ({ src = '', size, borderWidth, currentUser = false, className }) => {
+  ({ src = '', size, borderWidth, id, className }) => {
     const theme = useTheme()
     const dispatch = useAppDispatch()
+    const { user } = useAuth()
+    const currentUser = id === user.id
 
     const onFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
       if (e.target.files && e.target.files.length > 0) {
