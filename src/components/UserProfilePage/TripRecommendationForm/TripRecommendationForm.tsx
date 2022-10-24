@@ -16,7 +16,7 @@ const recommendationTitles = [
   'Eating & Drinking',
   'Getting There & Getting Around',
   'Activities',
-  'Other Tips '
+  'Other Tips'
 ]
 
 export const TripRecommendationForm: FC<ITripRecommendationFormProps> = ({

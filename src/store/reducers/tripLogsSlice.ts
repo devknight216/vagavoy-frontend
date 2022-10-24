@@ -48,7 +48,6 @@ export const addTripLog = createAsyncThunk(
         tripLog
       })
       .then((res) => {
-        console.log(res.data)
         return {
           ...res.data,
           tripLogId: res.data._id,
@@ -114,7 +113,9 @@ const tripLogsSlice = createSlice({
     },
     [addTripLog.fulfilled.toString()]: (state, action) => {
       state.loading = false
-      tripLogsAdapter.addOne(state, action.payload)
+      if (action.payload) {
+        tripLogsAdapter.addOne(state, action.payload)
+      }
       return state
     },
     [updateTripLog.pending.toString()]: (state) => {
@@ -122,7 +123,9 @@ const tripLogsSlice = createSlice({
     },
     [updateTripLog.fulfilled.toString()]: (state, action) => {
       state.loading = false
-      state.entities[action.payload.tripLogId] = action.payload
+      if (action.payload) {
+        state.entities[action.payload.tripLogId] = action.payload
+      }
       return state
     }
   }

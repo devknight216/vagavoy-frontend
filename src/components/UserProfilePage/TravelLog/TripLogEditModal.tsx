@@ -68,14 +68,35 @@ export const TripLogEditModal: FC<ITripLogEditModalProps> = memo(
     const [selectedCountry, setSelectedCountry] = useState('')
 
     useEffect(() => {
-      setTripStartDate(tripLog?.tripStartDate || new Date())
-      setTripEndDate(tripLog?.tripEndDate || new Date())
-      setTripLocation(tripLog?.tripLocation || '')
-      setTripDescription(tripLog?.tripDescription || '')
-      setTripGallery(tripLog?.tripGallery || [])
-      setTripRecommendations(tripLog?.tripRecommendations || [])
-      setSelectedCountry(tripLog?.tripCountryCode || '')
-    }, [tripLog])
+      if (mode === 'add') {
+        setTripStartDate(new Date())
+        setTripEndDate(new Date())
+        setTripLocation('')
+        setTripDescription('')
+        setTripGallery([])
+        setTripRecommendations([])
+        setSelectedCountry(tripLog?.tripCountryCode || '')
+      } else if (mode === 'edit') {
+        setTripStartDate(tripLog?.tripStartDate || new Date())
+        setTripEndDate(tripLog?.tripEndDate || new Date())
+        setTripLocation(tripLog?.tripLocation || '')
+        setTripDescription(tripLog?.tripDescription || '')
+        setTripGallery(tripLog?.tripGallery || [])
+        setTripRecommendations(tripLog?.tripRecommendations || [])
+        setSelectedCountry(tripLog?.tripCountryCode || '')
+      }
+    }, [tripLog, mode])
+
+    useEffect(() => {
+      if (mode === 'add') {
+        setTripStartDate(new Date())
+        setTripEndDate(new Date())
+        setTripLocation('')
+        setTripDescription('')
+        setTripGallery([])
+        setTripRecommendations([])
+      }
+    }, [mode])
 
     const handleSaveButtonClick = async () => {
       if (mode === 'add') {
