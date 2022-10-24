@@ -21,7 +21,6 @@ export const MainInfo: FC<IMainInfoProps> = memo(({ id }: IMainInfoProps) => {
     axiosInstance
       .get(`${process.env.REACT_APP_API_URL}/user/${id}`)
       .then((res) => {
-        console.log(res.data.name)
         setUserMainInfo({
           name: res.data.mainInfo.name,
           location: res.data.mainInfo.location,
@@ -37,10 +36,12 @@ export const MainInfo: FC<IMainInfoProps> = memo(({ id }: IMainInfoProps) => {
   const handleSaveMainInfo = (mainInfo: IMainInfo) => {
     axiosInstance
       .put(`${process.env.REACT_APP_API_URL}/user/${id}`, {
-        name: mainInfo.name,
-        location: mainInfo.location,
-        lastTripLocation: mainInfo.lastTripLocation,
-        nextSpotOnBucketList: mainInfo.nextSpotOnBucketList
+        mainInfo: {
+          name: mainInfo.name,
+          location: mainInfo.location,
+          lastTripLocation: mainInfo.lastTripLocation,
+          nextSpotOnBucketList: mainInfo.nextSpotOnBucketList
+        }
       })
       .then(() => {
         setUserMainInfo(mainInfo)

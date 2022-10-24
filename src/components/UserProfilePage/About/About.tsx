@@ -21,7 +21,6 @@ export const About: FC<IAboutProps> = memo(({ id }: IAboutProps) => {
     axiosInstance
       .get(`${process.env.REACT_APP_API_URL}/user/${id}`)
       .then((res) => {
-        console.log(res)
         setBio(res.data.about)
       })
       .catch((err: AxiosError) => {
