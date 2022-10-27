@@ -24,11 +24,6 @@ export const setMainInfo = createAsyncThunk(
   }
 )
 
-export const setAbout = createAsyncThunk(
-  'account/setAbout',
-  async (about: string | undefined) => about
-)
-
 export const setProfileImage = createAsyncThunk(
   'account/setProfileImage',
   async (profileImage: string) => profileImage
@@ -48,9 +43,6 @@ const accountSlice = createSlice({
   extraReducers: {
     [setMainInfo.fulfilled.toString()]: (state, action) => {
       state.mainInfo = action.payload
-    },
-    [setAbout.fulfilled.toString()]: (state, action) => {
-      state.about = action.payload
     },
     [setProfileImage.fulfilled.toString()]: (state, action) => {
       state.profileImage = action.payload

@@ -13,7 +13,7 @@ import { AppLayout } from '../src/components'
 import { useTheme } from './contexts'
 import { ScrollToTop } from './hooks'
 import { ProvideAuth } from './hooks/useAuth'
-import { Home, UserProfile } from './pages'
+import { Home, TripGallery, UserProfile } from './pages'
 import { store } from './store/store'
 
 function App() {
@@ -30,6 +30,14 @@ function App() {
                   <Route path="/" element={<AppLayout />}>
                     <Route path="/" element={<Home />} />
                     <Route path="/user-profile/:id" element={<UserProfile />} />
+                    <Route
+                      path="/trip-gallery/:id/:tripLogId"
+                      element={<TripGallery />}
+                    />
+                    <Route
+                      path="/trip-recommendations/:tripLogId"
+                      element={<UserProfile />}
+                    />
                   </Route>
                 </Routes>
               </ScrollToTop>

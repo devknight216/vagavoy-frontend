@@ -21,6 +21,7 @@ export const SideNavigationHeader: FC<ISideNavigationHeaderProps> = memo(
           iconName="Close"
           iconColor={theme.palette.green.dark}
           onClick={onCloseSideNavigation}
+          className="cursor-pointer"
         />
       </div>
     )

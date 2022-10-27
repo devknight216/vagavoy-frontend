@@ -82,6 +82,7 @@ export const TravelLog: FC<ITravelLogProps> = memo(
             Object.keys(tripLogsByCountry).map((tripLogCountryCode, index) => (
               <TripLogCard
                 key={index}
+                userId={userId}
                 tripLogCardCountryCode={tripLogCountryCode}
                 tripLogs={
                   tripLogsByCountry[

@@ -6,12 +6,13 @@ import { ITripLog } from 'src/types'
 import { TripLogElement } from './TripLogElement'
 
 export interface ITripLogCardProps {
+  userId: string
   tripLogCardCountryCode: string
   tripLogs?: ITripLog[]
 }
 
 export const TripLogCard: FC<ITripLogCardProps> = memo(
-  ({ tripLogCardCountryCode, tripLogs = [] }: ITripLogCardProps) => {
+  ({ userId, tripLogCardCountryCode, tripLogs = [] }: ITripLogCardProps) => {
     const [showAllLogs, setShowAllLogs] = useState(false)
     const regionNames = new Intl.DisplayNames(['en'], { type: 'region' })
 
@@ -27,6 +28,7 @@ export const TripLogCard: FC<ITripLogCardProps> = memo(
             .map((tripLog, index) => (
               <TripLogElement
                 key={index}
+                userId={userId}
                 tripLog={tripLog}
                 isFirstTripLog={index === 0}
               />

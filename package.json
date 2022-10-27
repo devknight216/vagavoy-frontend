@@ -38,6 +38,7 @@
     "react-redux": "^8.0.4",
     "react-router-dom": "^6.4.1",
     "react-scripts": "5.0.1",
+    "react-simple-image-viewer": "^1.2.2",
     "react-text-truncate": "^0.19.0",
     "react-world-flags": "^1.5.1",
     "redux": "^4.2.0",

@@ -7,6 +7,7 @@ import { ITripLog } from 'src/types'
 import TripLogEditModal from './TripLogEditModal'
 
 export interface ITripLogElementProps {
+  userId: string
   tripLog: ITripLog
   isFirstTripLog: boolean
 }
@@ -47,7 +48,7 @@ const getPeriod = (startDate: Date | undefined, endDate: Date | undefined) => {
 }
 
 export const TripLogElement: FC<ITripLogElementProps> = memo(
-  ({ tripLog, isFirstTripLog }: ITripLogElementProps) => {
+  ({ userId, tripLog, isFirstTripLog }: ITripLogElementProps) => {
     const { user } = useAuth()
     const regionNames = new Intl.DisplayNames(['en'], { type: 'region' })
     const [mode, setMode] = useState<'add' | 'edit'>('add')
@@ -90,16 +91,8 @@ export const TripLogElement: FC<ITripLogElementProps> = memo(
           {tripLog.tripDescription || ''}
         </Typography>
         <div className="mt-4 flex flex-col gap-x-4 md:flex-row gap-y-2">
-          <TripButton
-            tripButtonType="Gallery"
-            tripButtonTitle="Trip Gallery"
-            tripButtonDescription="Pictures and videos from my trip"
-          />
-          <TripButton
-            tripButtonType="Recommendation"
-            tripButtonTitle="Trip Recommendations"
-            tripButtonDescription="Some of the more nitty-gnitty .."
-          />
+          <TripButton tripButtonType="Gallery" tripLogId={tripLog.tripLogId || ''} userId={userId} />
+          <TripButton tripButtonType="Recommendation" tripLogId={tripLog.tripLogId || ''} userId={userId} />
         </div>
         <TripLogEditModal
           open={openEditModal}

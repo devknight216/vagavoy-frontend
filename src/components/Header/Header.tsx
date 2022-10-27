@@ -148,6 +148,7 @@ export const Header: FC<IHeaderProps> = memo(({ onLogin, onSignup }) => {
             iconName="Hamburger"
             iconColor={theme.palette.green.dark}
             onClick={() => setOpenSidebar(true)}
+            className="cursor-pointer"
           />
         )}
       </RightContainer>

@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ReactComponent as Airplane } from './airplane.svg'
+import { ReactComponent as ArrowLeft } from './arrowLeft.svg'
 import { ReactComponent as ButtonPicture } from './buttonPicture.svg'
 import { ReactComponent as Calendar } from './calendar.svg'
 import { ReactComponent as Close } from './close.svg'
@@ -8,6 +9,7 @@ import { ReactComponent as Document } from './document.svg'
 import { ReactComponent as Hamburger } from './hamburger.svg'
 import { ReactComponent as Home } from './home.svg'
 import { ReactComponent as Join } from './join.svg'
+import { ReactComponent as List } from './list.svg'
 import { ReactComponent as Location } from './location.svg'
 import { ReactComponent as Map } from './map.svg'
 import { ReactComponent as Message } from './message.svg'
@@ -17,6 +19,7 @@ import { ReactComponent as Picture } from './picture.svg'
 import { ReactComponent as Plus } from './plus.svg'
 import { ReactComponent as Search } from './search.svg'
 import { ReactComponent as Share } from './share.svg'
+import { ReactComponent as Tile } from './tile.svg'
 import { ReactComponent as Travel } from './travel.svg'
 import { ReactComponent as Upload } from './upload.svg'
 import { ReactComponent as User } from './user.svg'
@@ -28,6 +31,7 @@ interface IIcon {
 
 const RawIcons: IIcon = {
   Airplane,
+  ArrowLeft,
   ButtonPicture,
   Calendar,
   Close,
@@ -36,6 +40,7 @@ const RawIcons: IIcon = {
   Hamburger,
   Home,
   Join,
+  List,
   Location,
   Map,
   Message,
@@ -45,6 +50,7 @@ const RawIcons: IIcon = {
   Plus,
   Search,
   Share,
+  Tile,
   Travel,
   Upload,
   User,
