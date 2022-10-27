@@ -50,6 +50,7 @@ export const TripGallery = memo(() => {
           )
           setImageSource(newImageArray)
         }
+        console.log(regionNames.of(res.data.tripCountryCode))
       })
       .catch((err: AxiosError) => {
         console.log(err.message)
@@ -89,10 +90,13 @@ export const TripGallery = memo(() => {
               onClick={() => navigate(`/profile/${id}`)}
             />
             <span className="text-[28px] font-semibold leading-6 text-green-700">
-              {`Trip Gallery / ${
-                tripLog?.tripLocation ||
-                '' + ' ' + regionNames.of(tripLog?.tripCountryCode || '')
-              }`}
+              {tripLog?.tripCountryCode
+                ? `Trip Gallery - ${
+                    tripLog?.tripLocation +
+                    ', ' +
+                    regionNames.of(tripLog?.tripCountryCode)
+                  }`
+                : ''}
             </span>
           </div>
           <div className="flex flex-row gap-x-4 justify-center">
