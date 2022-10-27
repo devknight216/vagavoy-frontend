@@ -26,11 +26,11 @@ export const TripButton: FC<ITripButtonProps> = memo(
     const navigate = useNavigate()
 
     const handleGalleryButtonCLick = () => {
-      navigate(`/trip-gallery/${userId}/${tripLogId}`)
+      navigate(`/gallery/${userId}/${tripLogId}`)
     }
 
     const handleRecommendationButtonCLick = () => {
-      navigate(`/trip-recommendations/${userId}/${tripLogId}`)
+      navigate(`/recommendations/${userId}/${tripLogId}`)
     }
 
     return (

@@ -83,7 +83,11 @@ export const TripGallery = memo(() => {
         {/* Header */}
         <div className="flex flex-col gap-y-4 sm:flex-row justify-between w-full">
           <div className="flex items-center justify-center w-fit">
-            <Icon iconName="ArrowLeft" className="mr-4 cursor-pointer" onClick={() => navigate(`/user-profile/${id}`)} />
+            <Icon
+              iconName="ArrowLeft"
+              className="mr-4 cursor-pointer"
+              onClick={() => navigate(`/profile/${id}`)}
+            />
             <span className="text-[28px] font-semibold leading-6 text-green-700">
               {`Trip Gallery / ${
                 tripLog?.tripLocation ||
@@ -148,15 +152,13 @@ export const TripGallery = memo(() => {
           <div className="grid md:grid-cols-4 grid-cols-3 gap-[6px]">
             {tripLog?.tripGallery && tripLog?.tripGallery?.length > 0 ? (
               tripLog?.tripGallery.map((tripImage, index) => (
-                <ImageListItem>
-                  <img
-                    key={tripImage.tripImageId || index}
-                    src={tripImage.src}
-                    alt={tripImage.backgroundInfo}
-                    loading="lazy"
-                    onClick={() => openImageViewer(index)}
-                  />
-                </ImageListItem>
+                <img
+                  key={tripImage.tripImageId || index}
+                  src={tripImage.src}
+                  alt={tripImage.backgroundInfo}
+                  loading="lazy"
+                  onClick={() => openImageViewer(index)}
+                />
               ))
             ) : (
               <></>
@@ -178,13 +180,14 @@ export const TripGallery = memo(() => {
           <div className="flex flex-col gap-y-6">
             {tripLog?.tripGallery && tripLog.tripGallery.length > 0 ? (
               tripLog.tripGallery.map((tripImage, index) => (
-                <div className="flex flex-col gap-y-6 pb-6 border-b border-b-green-100">
+                <div
+                  key={tripImage.tripImageId || index}
+                  className="flex flex-col gap-y-6 pb-6 border-b border-b-green-100">
                   <img
-                    key={tripImage.tripImageId || index}
                     src={tripImage.src}
                     alt={tripImage.backgroundInfo}
                     loading="lazy"
-                    className='max-w-[800px] h-auto'
+                    className="max-w-[800px] h-auto"
                   />
                   <span className="font-normal text-base leading-6 text-green-700 w-fit">
                     {tripImage.backgroundInfo}

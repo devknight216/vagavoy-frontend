@@ -29,13 +29,13 @@ function App() {
                 <Routes>
                   <Route path="/" element={<AppLayout />}>
                     <Route path="/" element={<Home />} />
-                    <Route path="/user-profile/:id" element={<UserProfile />} />
+                    <Route path="/profile/:id" element={<UserProfile />} />
                     <Route
-                      path="/trip-gallery/:id/:tripLogId"
+                      path="/gallery/:id/:tripLogId"
                       element={<TripGallery />}
                     />
                     <Route
-                      path="/trip-recommendations/:tripLogId"
+                      path="/recommendations/:tripLogId"
                       element={<UserProfile />}
                     />
                   </Route>
