@@ -11,6 +11,14 @@ interface ImagesType {
   [key: string]: string
 }
 
+const recommendationTypes = [
+  'Accommodation',
+  'Eating & Drinking',
+  'Getting There & Getting Around',
+  'Activities',
+  'Other Tips'
+]
+
 const images: ImagesType = {
   Accommodation: '/images/accommodation.png',
   'Eating & Drinking': '/images/eating.png',
@@ -108,24 +116,30 @@ export const TripRecommendations = memo(() => {
         <div className="flex flex-col gap-y-6">
           {tripLog?.tripRecommendations &&
           tripLog.tripRecommendations.length > 0 ? (
-            tripLog.tripRecommendations.map((tripRecommendation, index) => (
-              <div
-                key={tripRecommendation.tripRecommendationId || index}
-                className="max-w-962 w-full flex fle-row gap-x-8 justify-center">
-                <img
-                  src={images[tripRecommendation.title || 'Accommodation']}
-                  className="w-[44px] h-[44px]"
-                />
-                <div className="flex flex-col gap-y-4 border-b pb-6 border-b-green-100 w-full text-left">
-                  <span className="font-bold text-lg leading-6 text-green-700">
-                    {tripRecommendation.title}
-                  </span>
-                  <span className="font-normal text-base leading-6 text-green-700">
-                    {tripRecommendation.description}
-                  </span>
+            tripLog.tripRecommendations
+              .sort(
+                (a, b) =>
+                  recommendationTypes.indexOf(a.title || '') -
+                  recommendationTypes.indexOf(b.title || '')
+              )
+              .map((tripRecommendation, index) => (
+                <div
+                  key={tripRecommendation.tripRecommendationId || index}
+                  className="max-w-962 w-full flex fle-row gap-x-8 justify-center">
+                  <img
+                    src={images[tripRecommendation.title || 'Accommodation']}
+                    className="w-[44px] h-[44px]"
+                  />
+                  <div className="flex flex-col gap-y-4 border-b pb-6 border-b-green-100 w-full text-left">
+                    <span className="font-bold text-lg leading-6 text-green-700">
+                      {tripRecommendation.title}
+                    </span>
+                    <span className="font-normal text-base leading-6 text-green-700">
+                      {tripRecommendation.description}
+                    </span>
+                  </div>
                 </div>
-              </div>
-            ))
+              ))
           ) : (
             <></>
           )}
