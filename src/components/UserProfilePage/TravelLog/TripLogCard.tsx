@@ -1,6 +1,7 @@
 import Typography from '@mui/material/Typography'
 import { FC, memo, useState } from 'react'
 import Flag from 'react-world-flags'
+import { useAuth } from 'src/hooks'
 import { ITripLog } from 'src/types'
 
 import { TripLogElement } from './TripLogElement'
@@ -15,6 +16,8 @@ export const TripLogCard: FC<ITripLogCardProps> = memo(
   ({ userId, tripLogCardCountryCode, tripLogs = [] }: ITripLogCardProps) => {
     const [showAllLogs, setShowAllLogs] = useState(false)
     const regionNames = new Intl.DisplayNames(['en'], { type: 'region' })
+    const { user } = useAuth()
+    console.log(user)
 
     return (
       <div className="flex flex-col border-b border-b-green-100 sm:pt-8 pt-4 sm:pl-8 pl-5 showBottomBorder last:border-none relative">
@@ -39,9 +42,9 @@ export const TripLogCard: FC<ITripLogCardProps> = memo(
             className="cursor-pointer sm:pl-[46px] pl-9 mb-5"
             onClick={() => setShowAllLogs(true)}>
             <Typography className="text-lg font-bold leading-6 text-green-700">
-              {`See all Charlie's Stops In ${regionNames.of(
-                tripLogCardCountryCode
-              )}...`}
+              {`See all ${
+                user.userProfile.mainInfo.name.split(' ')[0]
+              }'s Stops In ${regionNames.of(tripLogCardCountryCode)}...`}
             </Typography>
           </div>
         )}
