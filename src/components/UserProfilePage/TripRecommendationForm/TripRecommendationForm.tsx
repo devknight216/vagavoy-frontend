@@ -8,8 +8,8 @@ export interface ITripRecommendationFormProps {
   tripRecommendations: ITripRecommendation[]
   handleChangeTripRecommendations: (
     tripRecommendations: ITripRecommendation[]
-  ) => void,
-  className?: string,
+  ) => void
+  className?: string
 }
 
 const recommendationTitles = [

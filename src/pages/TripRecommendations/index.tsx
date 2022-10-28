@@ -41,7 +41,6 @@ export const TripRecommendations = memo(() => {
 
   useEffect(() => {
     if (tripLogId && openEditModal === false) {
-      console.log("here")
       axiosInstance
         .get(`${process.env.REACT_APP_API_URL}/travel/${tripLogId}`)
         .then((res) => {
