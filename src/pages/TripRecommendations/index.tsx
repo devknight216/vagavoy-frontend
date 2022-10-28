@@ -8,7 +8,7 @@ import { axiosInstance } from 'src/services/jwtService'
 import { IProfile, ITripLog } from 'src/types'
 
 interface ImagesType {
-  [key: string]: string;
+  [key: string]: string
 }
 
 const images: ImagesType = {
