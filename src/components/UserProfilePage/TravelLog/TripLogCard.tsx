@@ -17,7 +17,6 @@ export const TripLogCard: FC<ITripLogCardProps> = memo(
     const [showAllLogs, setShowAllLogs] = useState(false)
     const regionNames = new Intl.DisplayNames(['en'], { type: 'region' })
     const { user } = useAuth()
-    console.log(user)
 
     return (
       <div className="flex flex-col border-b border-b-green-100 sm:pt-8 pt-4 sm:pl-8 pl-5 showBottomBorder last:border-none relative">
