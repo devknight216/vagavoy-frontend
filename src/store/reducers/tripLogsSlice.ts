@@ -87,8 +87,12 @@ const tripLogsAdapter = createEntityAdapter<ITripLog>({
   selectId: (tripLog) => {
     return tripLog.tripLogId || ''
   },
-  sortComparer: (a, b) =>
-    b?.tripStartDate?.getTime() - a?.tripStartDate?.getTime()
+  sortComparer: (a, b) => {
+    if (b.tripStartDate && a.tripStartDate)
+      return b?.tripStartDate?.getTime() - a?.tripStartDate?.getTime()
+
+    return 0
+  }
 })
 
 const tripLogsSlice = createSlice({

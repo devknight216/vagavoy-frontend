@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Dialog, Paper, styled } from '@mui/material'
 import { AxiosError } from 'axios'
 import { FC, memo, useEffect, useState } from 'react'
@@ -137,7 +136,7 @@ export const TripLogEditModal: FC<ITripLogEditModalProps> = memo(
     const handleDeleteButtonClick = async () => {
       axiosInstance
         .delete(`${process.env.REACT_APP_API_URL}/travel/${tripLog?.tripLogId}`)
-        .then((res) => {})
+        .then(() => {})
         .catch((err: AxiosError) => {
           console.log(err.message)
         })

@@ -3,6 +3,7 @@ import { memo, useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { Avatar, Button, EditButton, Icon, PlusButton } from 'src/components'
 import MainContainer from 'src/components/MainContainer'
+import RecommendationEditModal from 'src/components/RecommendationEditModal'
 import { useAuth } from 'src/hooks'
 import { axiosInstance } from 'src/services/jwtService'
 import { IProfile, ITripLog } from 'src/types'
@@ -36,17 +37,21 @@ export const TripRecommendations = memo(() => {
   const currentUser = id === user.id
   const [userInfo, setUserInfo] = useState<IProfile>()
   const navigate = useNavigate()
+  const [openEditModal, setOpenEditModal] = useState(false)
 
   useEffect(() => {
-    axiosInstance
-      .get(`${process.env.REACT_APP_API_URL}/travel/${tripLogId}`)
-      .then((res) => {
-        setTripLog(res.data)
-      })
-      .catch((err: AxiosError) => {
-        console.log(err.message)
-      })
-  }, [tripLogId])
+    if (tripLogId && openEditModal === false) {
+      console.log("here")
+      axiosInstance
+        .get(`${process.env.REACT_APP_API_URL}/travel/${tripLogId}`)
+        .then((res) => {
+          setTripLog(res.data)
+        })
+        .catch((err: AxiosError) => {
+          console.log(err.message)
+        })
+    }
+  }, [tripLogId, openEditModal])
 
   useEffect(() => {
     axiosInstance
@@ -94,13 +99,20 @@ export const TripRecommendations = memo(() => {
           <div className="flex flex-row w-full gap-x-[18px] justify-center items-center relative">
             {currentUser ? (
               <div className="hidden sm:flex flex-row gap-x-4 absolute right-[44px]">
-                <PlusButton />
-                <EditButton />
+                <PlusButton onClick={() => setOpenEditModal(true)} />
+                <EditButton onClick={() => setOpenEditModal(true)} />
               </div>
             ) : (
               <></>
             )}
-            {currentUser ? <PlusButton className="block sm:hidden" /> : <></>}
+            {currentUser ? (
+              <PlusButton
+                className="block sm:hidden"
+                onClick={() => setOpenEditModal(true)}
+              />
+            ) : (
+              <></>
+            )}
             <Button
               buttonLabel="Share Recommendations"
               variant="outlined"
@@ -108,7 +120,14 @@ export const TripRecommendations = memo(() => {
               buttonRightIconName="Share"
               sx={{ width: 162 }}
             />
-            {currentUser ? <EditButton className="block sm:hidden" /> : <></>}
+            {currentUser ? (
+              <EditButton
+                className="block sm:hidden"
+                onClick={() => setOpenEditModal(true)}
+              />
+            ) : (
+              <></>
+            )}
           </div>
         </div>
 
@@ -144,6 +163,13 @@ export const TripRecommendations = memo(() => {
             <></>
           )}
         </div>
+        <RecommendationEditModal
+          open={openEditModal}
+          onClose={() => setOpenEditModal(false)}
+          recommendations={tripLog?.tripRecommendations}
+          userId={id || ''}
+          tripLogId={tripLogId || ''}
+        />
       </div>
     </MainContainer>
   )

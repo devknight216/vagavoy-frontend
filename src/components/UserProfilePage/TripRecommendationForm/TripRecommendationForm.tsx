@@ -8,7 +8,8 @@ export interface ITripRecommendationFormProps {
   tripRecommendations: ITripRecommendation[]
   handleChangeTripRecommendations: (
     tripRecommendations: ITripRecommendation[]
-  ) => void
+  ) => void,
+  className?: string,
 }
 
 const recommendationTitles = [
@@ -21,7 +22,8 @@ const recommendationTitles = [
 
 export const TripRecommendationForm: FC<ITripRecommendationFormProps> = ({
   tripRecommendations,
-  handleChangeTripRecommendations
+  handleChangeTripRecommendations,
+  className
 }) => {
   const handleChangeDescription = (index: number, description: string) => {
     handleChangeTripRecommendations(
@@ -47,7 +49,7 @@ export const TripRecommendationForm: FC<ITripRecommendationFormProps> = ({
   }
 
   return (
-    <div>
+    <div className={className}>
       <div className="flex flex-col gap-y-4 sm:mt-10 mt-8 text-lg leading-6 font-bold">
         <span>Trip Recommendations</span>
         {tripRecommendations.length ? (

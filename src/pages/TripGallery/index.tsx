@@ -35,7 +35,6 @@ export const TripGallery = memo(() => {
           )
           setImageSource(newImageArray)
         }
-        console.log(regionNames.of(res.data.tripCountryCode))
       })
       .catch((err: AxiosError) => {
         console.log(err.message)
