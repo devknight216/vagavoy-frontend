@@ -107,7 +107,7 @@ export const TripLogEditModal: FC<ITripLogEditModalProps> = memo(
               tripStartDate,
               tripEndDate,
               tripDescription,
-              tripGallery,
+              // tripGallery,
               tripRecommendations,
               tripLocation,
               tripCountryCode: selectedCountry
@@ -123,7 +123,7 @@ export const TripLogEditModal: FC<ITripLogEditModalProps> = memo(
               tripStartDate,
               tripEndDate,
               tripDescription,
-              tripGallery,
+              // tripGallery,
               tripRecommendations,
               tripLocation,
               tripCountryCode: selectedCountry

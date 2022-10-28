@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { ReactComponent as Accommodation } from './accommodation.svg'
 import { ReactComponent as Airplane } from './airplane.svg'
 import { ReactComponent as ArrowLeft } from './arrowLeft.svg'
 import { ReactComponent as ButtonPicture } from './buttonPicture.svg'
@@ -30,6 +31,7 @@ interface IIcon {
 }
 
 const RawIcons: IIcon = {
+  Accommodation,
   Airplane,
   ArrowLeft,
   ButtonPicture,

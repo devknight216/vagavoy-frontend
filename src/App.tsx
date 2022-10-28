@@ -14,6 +14,7 @@ import { useTheme } from './contexts'
 import { ScrollToTop } from './hooks'
 import { ProvideAuth } from './hooks/useAuth'
 import { Home, TripGallery, UserProfile } from './pages'
+import TripRecommendations from './pages/TripRecommendations'
 import { store } from './store/store'
 
 function App() {
@@ -35,8 +36,8 @@ function App() {
                       element={<TripGallery />}
                     />
                     <Route
-                      path="/recommendations/:tripLogId"
-                      element={<UserProfile />}
+                      path="/recommendations/:id/:tripLogId"
+                      element={<TripRecommendations />}
                     />
                   </Route>
                 </Routes>

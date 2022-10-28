@@ -118,7 +118,7 @@ export const Header: FC<IHeaderProps> = memo(({ onLogin, onSignup }) => {
                 />
                 <NavigationOption
                   navigationOptionLabel="Profile"
-                  navigationOptionLink={'user-profile/' + user.id}
+                  navigationOptionLink={'profile/' + user.id}
                   navigationOptionAvatarSrc="https://mui.com/static/images/avatar/1.jpg"
                 />
               </>

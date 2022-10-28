@@ -1,24 +1,9 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import {
-  ImageList,
-  ImageListItem,
-  Typography,
-  useMediaQuery,
-  useTheme
-} from '@mui/material'
+import { useTheme } from '@mui/material'
 import { AxiosError } from 'axios'
 import { memo, useCallback, useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import ImageViewer from 'react-simple-image-viewer'
-import {
-  Avatar,
-  Button,
-  EditButton,
-  Icon,
-  Logo,
-  MainInfo,
-  PlusButton
-} from 'src/components'
+import { Avatar, Button, EditButton, Icon, PlusButton } from 'src/components'
 import MainContainer from 'src/components/MainContainer'
 import { useAuth } from 'src/hooks'
 import { axiosInstance } from 'src/services/jwtService'
@@ -135,11 +120,15 @@ export const TripGallery = memo(() => {
             {userInfo?.mainInfo?.name}
           </span>
           <div className="flex flex-row w-full gap-x-[18px] justify-center items-center relative">
-            <div className="hidden sm:flex flex-row gap-x-4 absolute right-[44px]">
-              <PlusButton />
-              <EditButton />
-            </div>
-            <PlusButton className="block sm:hidden" />
+            {currentUser ? (
+              <div className="hidden sm:flex flex-row gap-x-4 absolute right-[44px]">
+                <PlusButton />
+                <EditButton />
+              </div>
+            ) : (
+              <></>
+            )}
+            {currentUser ? <PlusButton className="block sm:hidden" /> : <></>}
             <Button
               buttonLabel="Share Profile"
               variant="outlined"
@@ -147,7 +136,7 @@ export const TripGallery = memo(() => {
               buttonRightIconName="Share"
               sx={{ width: 162 }}
             />
-            <EditButton className="block sm:hidden" />
+            {currentUser ? <EditButton className="block sm:hidden" /> : <></>}
           </div>
         </div>
 
