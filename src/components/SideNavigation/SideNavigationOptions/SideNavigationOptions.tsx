@@ -1,3 +1,4 @@
+import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined'
 import { Typography, useTheme } from '@mui/material'
 import { FC, memo } from 'react'
 import { useNavigate } from 'react-router-dom'
@@ -45,13 +46,14 @@ export const SideNavigationOptions: FC<ISideNavigationOptionsProps> = memo(
               navigate(`/profile/${user.id}`)
               onCloseSideNavigation()
             }}>
-            <Avatar
-              size={60}
-              src="https://mui.com/static/images/avatar/1.jpg"
-            />
+            {user.profileImage ? (
+              <Avatar size={60} src={user.profileImage} />
+            ) : (
+              <AccountCircleOutlinedIcon className="text-green-700 w-[60px] h-[60px]" />
+            )}
             <div className="flex flex-col gap-y-1">
               <Typography className="text-lg leading-6 font-bold text-green-700">
-                {user.name}
+                {user.userProfile.mainInfo.name}
               </Typography>
               <Typography className="text-xs leading-[15px] text-green-700">
                 500+ connections

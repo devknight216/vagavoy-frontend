@@ -66,12 +66,6 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ open, onClose }) => {
           .signin(email, password)
           .then((res: any) => {
             dispatch(updateProfile(res.userProfile))
-            auth.setUser({
-              id: res.id,
-              email: res.email,
-              name: res.userProfile.mainInfo.name,
-              verified: res.verified
-            })
             navigate(`/profile/${res.id}`)
             onClose()
           })

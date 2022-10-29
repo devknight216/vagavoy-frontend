@@ -39,7 +39,7 @@ export const Avatar: FC<IAvatarProps> = memo(
     const theme = useTheme()
     const dispatch = useAppDispatch()
     const { user } = useAuth()
-    const currentUser = id === user.id
+    const currentUser = user.id && id === user.id
 
     const onFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
       if (e.target.files && e.target.files.length > 0) {

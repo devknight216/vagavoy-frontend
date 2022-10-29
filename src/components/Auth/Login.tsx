@@ -4,6 +4,7 @@ import { Dialog, DialogProps, IconButton, Paper, styled } from '@mui/material'
 import { AxiosError } from 'axios'
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import { useAuth, useToast } from 'src/hooks'
 import { updateProfile } from 'src/store/reducers/accountSlice'
 
@@ -35,18 +36,14 @@ const LoginModal: React.FC<LoginModalProps> = ({ open, onClose }) => {
   const [password, setPassword] = useState('')
   const auth = useAuth()
   const { showToast } = useToast()
+  const navigate = useNavigate()
 
   const handleSignIn = () => {
     auth
       .signin(email, password)
       .then((res: any) => {
         dispatch(updateProfile(res.userProfile))
-        auth.setUser({
-          id: res.id,
-          email: res.email,
-          name: res.userProfile.mainInfo.name,
-          verified: res.verified
-        })
+        navigate(`/profile/${res.id}`)
         onClose()
       })
       .catch((err: AxiosError) => {

@@ -1,6 +1,6 @@
 import { Typography, useTheme } from '@mui/material'
 import { FC, memo } from 'react'
-import { useNavigate } from 'react-router-dom'
+// import { useNavigate } from 'react-router-dom'
 import { IProfile } from 'src/types/IProfile'
 
 import { Avatar } from '../index'
@@ -19,12 +19,10 @@ export interface IUserCardProps {
 export const UserCard: FC<IUserCardProps> = memo(
   ({ userProfile }: IUserCardProps) => {
     const theme = useTheme()
-    const navigate = useNavigate()
+    // const navigate = useNavigate()
 
     return (
-      <div
-        className="rounded-2xl relative flex items-center flex-col shadow-3xl bg-white pb-[51px] cursor-pointer"
-        onClick={() => navigate('/user-profile')}>
+      <div className="rounded-2xl relative flex items-center flex-col shadow-3xl bg-white pb-[51px] cursor-pointer">
         <img
           src={userProfile.bannerImage}
           className="w-full sm:h-[145px] h-[96px] rounded-2xl rounded-br-none rounded-bl-sm border-[1px] border-green-100"

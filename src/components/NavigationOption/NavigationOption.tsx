@@ -1,3 +1,4 @@
+import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined'
 import { Typography, useTheme } from '@mui/material'
 import { FC, memo, useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
@@ -63,12 +64,20 @@ export const NavigationOption: FC<INavigationOptionProps> = memo(
           if (onCloseSideNavigation) onCloseSideNavigation()
         }}
         {...props}>
-        {navigationOptionAvatarSrc ? (
+        {navigationOptionLabel === 'Profile' ? (
           <div
             className={`flex flex-col gap-y-[2px] justify-center items-center ${
               isActive ? 'mt-[2px]' : ''
             }`}>
-            <Avatar size={24} src={navigationOptionAvatarSrc} />
+            {navigationOptionAvatarSrc ? (
+              <Avatar size={24} src={navigationOptionAvatarSrc} />
+            ) : (
+              <AccountCircleOutlinedIcon
+                fontSize="medium"
+                className="text-green-700"
+              />
+            )}
+
             <Typography className="text-xs leading-[18px] text-green-700">
               {navigationOptionLabel}
             </Typography>
