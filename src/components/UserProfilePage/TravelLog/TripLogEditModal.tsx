@@ -135,7 +135,9 @@ export const TripLogEditModal: FC<ITripLogEditModalProps> = memo(
 
     const handleDeleteButtonClick = async () => {
       axiosInstance
-        .delete(`${process.env.REACT_APP_API_URL}/travel/${tripLog?.tripLogId}`)
+        .delete(
+          `${process.env.REACT_APP_API_URL}/travel/${userId}/${tripLog?.tripLogId}`
+        )
         .then(() => {})
         .catch((err: AxiosError) => {
           console.log(err.message)

@@ -55,19 +55,23 @@ export const TravelLog: FC<ITravelLogProps> = memo(
 
     return (
       <div className="flex flex-col mt-4 sm:mt-8 gap-y-4">
-        <Button
-          variant="contained"
-          buttonLabel="Add New Travel"
-          className="sm:hidden block"
-          fullWidth
-          onClick={() => setOpenEditModal(true)}
-        />
+        {currentUser && tripLogs.length > 0 ? (
+          <Button
+            variant="contained"
+            buttonLabel="Add New Travel"
+            className="sm:hidden block"
+            fullWidth
+            onClick={() => setOpenEditModal(true)}
+          />
+        ) : (
+          <></>
+        )}
         <div className="flex flex-col sm:mb-16 mb-12 text-left py-4 sm:py-8 px-4 sm:px-8 rounded-[16px] border-[1px]">
           <div className="flex justify-between items-center">
             <Typography className="sm:text-[28px] text-[18px] leading-6 text-black font-bold font-700 sm:font-600 ml-1">
               Travel Log
             </Typography>
-            {currentUser ? (
+            {currentUser && tripLogs.length > 0 ? (
               <Button
                 variant="contained"
                 buttonLabel="Add New Travel"
