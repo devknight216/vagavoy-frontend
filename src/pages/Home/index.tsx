@@ -8,6 +8,7 @@ import {
   UserCard
 } from 'src/components'
 import MainContainer from 'src/components/MainContainer'
+import { useAuth } from 'src/hooks'
 
 const userInfo1 = {
   id: '1',
@@ -51,6 +52,7 @@ const userInfo4 = {
 
 export const Home = memo(() => {
   const theme = useTheme()
+  const { isAuthorized } = useAuth()
 
   return (
     <div className="w-full flex flex-col">
@@ -142,12 +144,16 @@ export const Home = memo(() => {
             <Typography variant="h3" sx={{ color: 'white' }}>
               Discover, Explore, Record.
             </Typography>
-            <Button
-              sx={{ width: 132 }}
-              variant="contained"
-              buttonLabel="Join Now"
-              buttonFontBold={true}
-            />
+            {isAuthorized ? (
+              <></>
+            ) : (
+              <Button
+                sx={{ width: 132 }}
+                variant="contained"
+                buttonLabel="Join Now"
+                buttonFontBold={true}
+              />
+            )}
           </div>
         </div>
         <div className="flex flex-col justify-center items-center w-full h-[106px] mt-2 relative">
