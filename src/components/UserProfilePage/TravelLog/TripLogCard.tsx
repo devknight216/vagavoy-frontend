@@ -42,7 +42,7 @@ export const TripLogCard: FC<ITripLogCardProps> = memo(
             onClick={() => setShowAllLogs(true)}>
             <Typography className="text-lg font-bold leading-6 text-green-700">
               {`See all ${
-                user.userProfile.mainInfo.name.split(' ')[0]
+                user.userProfile?.mainInfo.name.split(' ')[0]
               }'s Stops In ${regionNames.of(tripLogCardCountryCode)}...`}
             </Typography>
           </div>
