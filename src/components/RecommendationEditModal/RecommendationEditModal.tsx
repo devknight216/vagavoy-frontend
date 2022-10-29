@@ -1,22 +1,10 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Dialog, Paper, styled } from '@mui/material'
-import { AxiosError } from 'axios'
 import { FC, memo, useEffect, useState } from 'react'
-import ReactFlagsSelect from 'react-flags-select'
-import Flag from 'react-world-flags'
-import {
-  Button,
-  Calendar,
-  Checkbox,
-  CloseButton,
-  TextField,
-  TripGalleryUploadForm
-} from 'src/components'
+import { Button, CloseButton } from 'src/components'
 import TripRecommendationForm from 'src/components/UserProfilePage/TripRecommendationForm'
-import { axiosInstance } from 'src/services/jwtService'
 import { updateTripLog } from 'src/store/reducers/tripLogsSlice'
 import { useAppDispatch } from 'src/store/store'
-import { ITripLog, ITripRecommendation } from 'src/types'
+import { ITripRecommendation } from 'src/types'
 
 export interface IRecommendationEditModalProps {
   open: boolean
@@ -32,24 +20,6 @@ const StyledPaper = styled(Paper)`
   max-width: 980px !important;
   width: 100%;
 `
-
-const CountrySelector = styled(ReactFlagsSelect)(({ theme }) => ({
-  paddingBottom: 0,
-  minWidth: 'calc(100% - 96px)',
-  [theme.breakpoints.up('sm')]: {
-    minWidth: 320
-  },
-  '& [data-testid="rfs-selected-flag"]': {
-    display: 'none'
-  },
-  '& [data-testid="rfs-btn"]': {
-    color: theme.palette.green.dark,
-    fontSize: '14px !important',
-    fontWeight: '400',
-    fontStyle: 'normal',
-    lineHeight: '21px'
-  }
-}))
 
 export const RecommendationEditModal: FC<IRecommendationEditModalProps> = memo(
   ({

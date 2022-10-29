@@ -44,6 +44,8 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ open, onClose }) => {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [agree, setAgree] = useState(false)
+  const [showError, setShowError] = useState(false)
   const dispatch = useDispatch()
 
   const { showToast } = useToast()
@@ -51,40 +53,44 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ open, onClose }) => {
   const navigate = useNavigate()
 
   const handleSignup = () => {
-    axios
-      .post(`${process.env.REACT_APP_API_URL}/auth/register`, {
-        name,
-        email,
-        password
-      })
-      .then(() => {
-        showToast({
-          type: 'success',
-          message: 'Sign Up Success.'
+    if (agree) {
+      axios
+        .post(`${process.env.REACT_APP_API_URL}/auth/register`, {
+          name,
+          email,
+          password
         })
-        auth
-          .signin(email, password)
-          .then((res: any) => {
-            dispatch(updateProfile(res.userProfile))
-            navigate(`/profile/${res.id}`)
-            onClose()
+        .then(() => {
+          showToast({
+            type: 'success',
+            message: 'Sign Up Success.'
           })
-          .catch((err: AxiosError) => {
-            console.log(err)
-            showToast({
-              type: 'error',
-              message: err
+          auth
+            .signin(email, password)
+            .then((res: any) => {
+              dispatch(updateProfile(res.userProfile))
+              navigate(`/profile/${res.id}`)
+              onClose()
             })
-          })
-        onClose()
-      })
-      .catch((err: AxiosError) => {
-        console.log(err)
-        showToast({
-          type: 'error',
-          message: err.response?.data
+            .catch((err: AxiosError) => {
+              console.log(err)
+              showToast({
+                type: 'error',
+                message: err
+              })
+            })
+          onClose()
         })
-      })
+        .catch((err: AxiosError) => {
+          console.log(err)
+          showToast({
+            type: 'error',
+            message: err.response?.data
+          })
+        })
+    } else {
+      setShowError(true)
+    }
   }
 
   return (
@@ -143,10 +149,29 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ open, onClose }) => {
                       color: theme.palette.green.dark
                     }
                   }}
+                  value={agree}
+                  onChange={() => {
+                    if (!agree) setShowError(false)
+                    setAgree(!agree)
+                  }}
                 />
               }
+              sx={{
+                '& .MuiTypography-root': {
+                  color: theme.palette.green.dark,
+                  lineHeight: '24px'
+                }
+              }}
               label="I accept the User Agreement"
             />
+            <br />
+            {showError ? (
+              <span className="text-red-500 text-sm">
+                * Must accept user agreement
+              </span>
+            ) : (
+              <></>
+            )}
           </div>
           <Button
             fullWidth
