@@ -1,3 +1,4 @@
+import { Logout } from '@mui/icons-material'
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined'
 import { Typography, useTheme } from '@mui/material'
 import { FC, memo } from 'react'
@@ -20,6 +21,7 @@ export const SideNavigationOptions: FC<ISideNavigationOptionsProps> = memo(
   }: ISideNavigationOptionsProps) => {
     const theme = useTheme()
     const { user, isAuthorized } = useAuth()
+    const auth = useAuth()
     const navigate = useNavigate()
 
     return (
@@ -130,6 +132,16 @@ export const SideNavigationOptions: FC<ISideNavigationOptionsProps> = memo(
               navigationOptionIconName="Message"
               onCloseSideNavigation={onCloseSideNavigation}
             />
+            <div
+              className="flex flex-row gap-x-[11px] cursor-pointer"
+              onClick={() => {
+                auth.signout()
+                onCloseSideNavigation()
+                navigate('/')
+              }}>
+              <Logout className="text-green-700" fontSize="medium" />
+              <span className="text-lg leading-6 text-green-700">Logout</span>
+            </div>
           </div>
         )}
       </div>
