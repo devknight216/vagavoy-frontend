@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Close } from '@mui/icons-material'
 import {
   Checkbox,
@@ -11,7 +12,10 @@ import {
 } from '@mui/material'
 import axios, { AxiosError } from 'axios'
 import React, { useState } from 'react'
-import { useToast } from 'src/hooks'
+import { useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
+import { useAuth, useToast } from 'src/hooks'
+import { updateProfile } from 'src/store/reducers/accountSlice'
 
 import Button from '../Button'
 import TextField from '../TextField'
@@ -40,8 +44,11 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ open, onClose }) => {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const dispatch = useDispatch()
 
   const { showToast } = useToast()
+  const auth = useAuth()
+  const navigate = useNavigate()
 
   const handleSignup = () => {
     axios
@@ -53,8 +60,28 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ open, onClose }) => {
       .then(() => {
         showToast({
           type: 'success',
-          message: 'Sign Up Success. Please Sign in.'
+          message: 'Sign Up Success.'
         })
+        auth
+          .signin(email, password)
+          .then((res: any) => {
+            dispatch(updateProfile(res.userProfile))
+            auth.setUser({
+              id: res.id,
+              email: res.email,
+              name: res.userProfile.mainInfo.name,
+              verified: res.verified
+            })
+            navigate(`/profile/${res.id}`)
+            onClose()
+          })
+          .catch((err: AxiosError) => {
+            console.log(err)
+            showToast({
+              type: 'error',
+              message: err
+            })
+          })
         onClose()
       })
       .catch((err: AxiosError) => {

@@ -44,6 +44,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ open, onClose }) => {
         auth.setUser({
           id: res.id,
           email: res.email,
+          name: res.userProfile.mainInfo.name,
           verified: res.verified
         })
         onClose()

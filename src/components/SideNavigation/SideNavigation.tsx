@@ -5,13 +5,6 @@ import SideNavigationHeader from './SideNavigationHeader'
 import SideNavigationOptions from './SideNavigationOptions'
 
 export interface ISideNavigationProps {
-  /**
-   * Login Status
-   */
-  loggedIn: boolean
-  /**
-   * Function fired when the close Icon clicked
-   */
   onCloseSideNavigation: () => void
   onLogin: () => void
   onSignup: () => void
@@ -23,7 +16,6 @@ const SideNavigationContainer = styled(Box)(() => ({
 
 export const SideNavigation: FC<ISideNavigationProps> = memo(
   ({
-    loggedIn = false,
     onCloseSideNavigation,
     onLogin,
     onSignup
@@ -32,9 +24,9 @@ export const SideNavigation: FC<ISideNavigationProps> = memo(
       <SideNavigationContainer>
         <SideNavigationHeader onCloseSideNavigation={onCloseSideNavigation} />
         <SideNavigationOptions
-          loggedIn={loggedIn}
           onLogin={onLogin}
           onSignup={onSignup}
+          onCloseSideNavigation={onCloseSideNavigation}
         />
       </SideNavigationContainer>
     )

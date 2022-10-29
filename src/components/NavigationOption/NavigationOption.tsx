@@ -1,6 +1,6 @@
 import { Typography, useTheme } from '@mui/material'
-import { FC, memo } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { FC, memo, useEffect, useState } from 'react'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 import { Avatar, Icon } from '../index'
 
@@ -25,6 +25,7 @@ export interface INavigationOptionProps {
    * Navigation Option Link
    */
   navigationOptionLink: string
+  onCloseSideNavigation?: () => void
 }
 
 export const NavigationOption: FC<INavigationOptionProps> = memo(
@@ -34,18 +35,39 @@ export const NavigationOption: FC<INavigationOptionProps> = memo(
     navigationOptionAvatarSrc = '',
     navigationOptionLabel,
     navigationOptionLink,
+    onCloseSideNavigation,
     ...props
   }: INavigationOptionProps) => {
     const theme = useTheme()
     const navigate = useNavigate()
+    const location = useLocation()
+    const [isActive, setIsActive] = useState(false)
+
+    useEffect(() => {
+      if (
+        location.pathname.split('/')[1] ===
+          navigationOptionLabel.toLowerCase() ||
+        (location.pathname === '/' && navigationOptionLabel === 'Home')
+      )
+        setIsActive(true)
+      else setIsActive(false)
+    }, [location])
 
     return (
       <div
-        className="cursor-pointer"
-        onClick={() => navigate(navigationOptionLink)}
+        className={`cursor-pointer h-full flex justify-center items-center ${
+          isActive ? 'border-b-2 border-b-green-700' : ''
+        }`}
+        onClick={() => {
+          navigate(navigationOptionLink)
+          if (onCloseSideNavigation) onCloseSideNavigation()
+        }}
         {...props}>
         {navigationOptionAvatarSrc ? (
-          <div className="flex flex-col gap-y-[2px] justify-center items-center">
+          <div
+            className={`flex flex-col gap-y-[2px] justify-center items-center ${
+              isActive ? 'mt-[2px]' : ''
+            }`}>
             <Avatar size={24} src={navigationOptionAvatarSrc} />
             <Typography className="text-xs leading-[18px] text-green-700">
               {navigationOptionLabel}
@@ -54,7 +76,10 @@ export const NavigationOption: FC<INavigationOptionProps> = memo(
         ) : (
           <>
             {navigationOptionDirection === 'column' ? (
-              <div className="flex flex-col gap-y-0.5 justify-center items-center">
+              <div
+                className={`flex flex-col gap-y-0.5 justify-center items-center ${
+                  isActive ? 'mt-[2px]' : ''
+                }`}>
                 <Icon
                   iconName={navigationOptionIconName}
                   iconColor={theme.palette.green.dark}

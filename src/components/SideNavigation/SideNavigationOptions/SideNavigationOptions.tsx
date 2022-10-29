@@ -1,24 +1,29 @@
 import { Typography, useTheme } from '@mui/material'
 import { FC, memo } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { useAuth } from 'src/hooks'
 
 import { Avatar, Divider, Icon, NavigationOption } from '../../index'
 
 export interface ISideNavigationOptionsProps {
-  /**
-   * Login Status
-   */
-  loggedIn: boolean
+  onCloseSideNavigation: () => void
   onLogin: () => void
   onSignup: () => void
 }
 
 export const SideNavigationOptions: FC<ISideNavigationOptionsProps> = memo(
-  ({ loggedIn, onLogin, onSignup }: ISideNavigationOptionsProps) => {
+  ({
+    onCloseSideNavigation,
+    onLogin,
+    onSignup
+  }: ISideNavigationOptionsProps) => {
     const theme = useTheme()
+    const { user, isAuthorized } = useAuth()
+    const navigate = useNavigate()
 
     return (
       <div className="flex flex-col border-green-10 shadow-3xl px-4">
-        {!loggedIn && (
+        {!isAuthorized && (
           <div className="pl-2.5">
             <Typography
               sx={{
@@ -33,15 +38,20 @@ export const SideNavigationOptions: FC<ISideNavigationOptionsProps> = memo(
             </Typography>
           </div>
         )}
-        {loggedIn && (
-          <div className="flex flex-row gap-x-3 items-center mt-[26px] ml-[18px] mb-[26px]">
+        {isAuthorized && (
+          <div
+            className="flex flex-row gap-x-3 items-center mt-[26px] ml-[18px] mb-[26px] cursor-pointer"
+            onClick={() => {
+              navigate(`/profile/${user.id}`)
+              onCloseSideNavigation()
+            }}>
             <Avatar
               size={60}
               src="https://mui.com/static/images/avatar/1.jpg"
             />
             <div className="flex flex-col gap-y-1">
               <Typography className="text-lg leading-6 font-bold text-green-700">
-                Charlie Hummel
+                {user.name}
               </Typography>
               <Typography className="text-xs leading-[15px] text-green-700">
                 500+ connections
@@ -50,11 +60,14 @@ export const SideNavigationOptions: FC<ISideNavigationOptionsProps> = memo(
           </div>
         )}
         <Divider />
-        {!loggedIn ? (
+        {!isAuthorized ? (
           <div className="flex flex-col mt-[19px] pl-2.5 gap-7">
             <div
               className="flex items-center gap-x-3.5 cursor-pointer"
-              onClick={() => onLogin()}>
+              onClick={() => {
+                onLogin()
+                onCloseSideNavigation()
+              }}>
               <Icon
                 iconName="Users"
                 iconSize={30}
@@ -72,7 +85,10 @@ export const SideNavigationOptions: FC<ISideNavigationOptionsProps> = memo(
             </div>
             <div
               className="flex items-center gap-x-3.5 cursor-pointer"
-              onClick={() => onSignup()}>
+              onClick={() => {
+                onSignup()
+                onCloseSideNavigation()
+              }}>
               <Icon
                 iconName="Join"
                 iconSize={30}
@@ -90,24 +106,27 @@ export const SideNavigationOptions: FC<ISideNavigationOptionsProps> = memo(
             </div>
           </div>
         ) : (
-          <div className="flex flex-col mt-[25px] gap-y-6">
+          <div className="flex flex-col mt-[25px] gap-y-6 items-start">
             <NavigationOption
               navigationOptionDirection="row"
               navigationOptionLabel="Connections"
               navigationOptionLink="connections"
               navigationOptionIconName="Users"
+              onCloseSideNavigation={onCloseSideNavigation}
             />
             <NavigationOption
               navigationOptionDirection="row"
               navigationOptionLabel="News"
               navigationOptionLink="news"
               navigationOptionIconName="Join"
+              onCloseSideNavigation={onCloseSideNavigation}
             />
             <NavigationOption
               navigationOptionDirection="row"
               navigationOptionLabel="Messages"
               navigationOptionLink="messages"
               navigationOptionIconName="Message"
+              onCloseSideNavigation={onCloseSideNavigation}
             />
           </div>
         )}

@@ -24,7 +24,7 @@ const TopNavigationContainer = styled(MuiBox)(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'space-between',
-  padding: theme.spacing(4, 6),
+  padding: theme.spacing(0, 6),
   [theme.breakpoints.down('xl')]: {
     columnGap: theme.spacing(7.5)
   },
@@ -57,7 +57,8 @@ const LeftContainer = styled(MuiBox, {
 const RightContainer = styled(MuiBox)(() => ({
   display: 'flex',
   flexDirection: 'row',
-  alignItems: 'center'
+  alignItems: 'center',
+  height: '100%'
 }))
 
 export interface IHeaderProps {
@@ -162,7 +163,6 @@ export const Header: FC<IHeaderProps> = memo(({ onLogin, onSignup }) => {
         }}
         onClose={() => setOpenSidebar(false)}>
         <SideNavigation
-          loggedIn={isAuthorized}
           onCloseSideNavigation={() => setOpenSidebar(false)}
           onLogin={onLogin}
           onSignup={onSignup}
