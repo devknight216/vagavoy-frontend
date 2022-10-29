@@ -55,16 +55,7 @@ export const MainInfo: FC<IMainInfoProps> = memo(({ id }: IMainInfoProps) => {
     <div className="relative">
       <div className="flex flex-row justify-between items-end text-green-700">
         <span className="text-lg sm:text-[24px] font-bold">
-          {userMainInfo &&
-          userMainInfo?.name &&
-          userMainInfo?.name.split(' ')[0]
-            ? userMainInfo?.name.split(' ')[0]
-            : ''}
-          {userMainInfo &&
-          userMainInfo?.name &&
-          userMainInfo?.name.split(' ')[1]
-            ? userMainInfo?.name.split(' ')[1]
-            : ''}
+          {userMainInfo.name}
         </span>
         <span className="text-sm sm:text-[22px] font-normal sm:font-bold">
           500+ Connections
