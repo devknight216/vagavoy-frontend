@@ -1,15 +1,23 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { Logout } from '@mui/icons-material'
+import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined'
 import {
   Box as MuiBox,
+  Divider,
   Drawer as MuiDrawer,
+  ListItemIcon,
+  Menu,
+  MenuItem,
   styled,
   useMediaQuery,
   useTheme
 } from '@mui/material'
 import { FC, memo, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useAuth } from 'src/hooks'
 
-// import { useNavigate } from 'react-rUper-dom'
 import {
+  Avatar,
   Button,
   Icon,
   Logo,
@@ -71,10 +79,24 @@ export const Header: FC<IHeaderProps> = memo(({ onLogin, onSignup }) => {
   const [openSidebar, setOpenSidebar] = useState(false)
 
   const { user, isAuthorized } = useAuth()
+  const navigate = useNavigate()
+
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
+  const open = Boolean(anchorEl)
 
   const upLG = useMediaQuery(theme.breakpoints.up('xl'))
   const upSM = useMediaQuery(theme.breakpoints.up('sm'))
   const downSM = useMediaQuery(theme.breakpoints.down('sm'))
+
+  const auth = useAuth()
+
+  const handleAvatarClick = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget)
+  }
+
+  const handleClose = () => {
+    setAnchorEl(null)
+  }
 
   return (
     <TopNavigationContainer>
@@ -117,13 +139,72 @@ export const Header: FC<IHeaderProps> = memo(({ onLogin, onSignup }) => {
                   navigationOptionLink="messages"
                   navigationOptionIconName="Message"
                 />
-                <NavigationOption
-                  navigationOptionLabel="Profile"
-                  navigationOptionLink={'profile/' + user.id}
-                  navigationOptionAvatarSrc={user.profileImage}
-                />
+                <div
+                  className="cursor-pointer"
+                  onClick={handleAvatarClick}
+                  aria-controls={open ? 'account-menu' : undefined}
+                  aria-haspopup="true"
+                  aria-expanded={open ? 'true' : undefined}>
+                  {user.profileImage ? (
+                    <Avatar
+                      size={40}
+                      src={'https://mui.com/static/images/avatar/5.jpg'}
+                    />
+                  ) : (
+                    <AccountCircleOutlinedIcon className="text-green-700 w-[40px] h-[40px]" />
+                  )}
+                </div>
               </>
             )}
+            <Menu
+              anchorEl={anchorEl}
+              id="account-menu"
+              open={open}
+              onClose={handleClose}
+              onClick={handleClose}
+              PaperProps={{
+                elevation: 0,
+                sx: {
+                  overflow: 'visible',
+                  filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
+                  mt: 1.5,
+                  '& .MuiAvatar-root': {
+                    width: 32,
+                    height: 32,
+                    ml: -0.5,
+                    mr: 1
+                  },
+                  '&:before': {
+                    content: '""',
+                    display: 'block',
+                    position: 'absolute',
+                    top: 0,
+                    right: 14,
+                    width: 10,
+                    height: 10,
+                    bgcolor: 'background.paper',
+                    transform: 'translateY(-50%) rotate(45deg)',
+                    zIndex: 0
+                  }
+                }
+              }}
+              transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+              anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}>
+              <MenuItem onClick={() => navigate(`/profile/${user.id}`)}>
+                <span className="text-green-700 font-semibold">Edit Profile</span>
+              </MenuItem>
+              <Divider />
+              <MenuItem
+                onClick={() => {
+                  auth.signout()
+                  navigate('/')
+                }}>
+                <ListItemIcon>
+                  <Logout fontSize="small" className="text-green-700" />
+                </ListItemIcon>
+                <span className="text-green-700 font-semibold">Logout</span>
+              </MenuItem>
+            </Menu>
           </>
         ) : (
           upSM && (
