@@ -12,7 +12,11 @@ import {
   TripGalleryUploadForm
 } from 'src/components'
 import { axiosInstance } from 'src/services/jwtService'
-import { addTripLog, updateTripLog } from 'src/store/reducers/tripLogsSlice'
+import {
+  addTripLog,
+  removeTrip,
+  updateTripLog
+} from 'src/store/reducers/tripLogsSlice'
 import { useAppDispatch } from 'src/store/store'
 import { ITripImage, ITripLog, ITripRecommendation } from 'src/types'
 
@@ -142,6 +146,8 @@ export const TripLogEditModal: FC<ITripLogEditModalProps> = memo(
         .catch((err: AxiosError) => {
           console.log(err.message)
         })
+
+      dispatch(removeTrip(tripLog?.tripLogId || ''))
       onClose()
     }
 
@@ -274,11 +280,15 @@ export const TripLogEditModal: FC<ITripLogEditModalProps> = memo(
 
               {/** Save Button */}
               <div className="flex justify-between items-center mt-8">
-                <span
-                  className="font-bold text-lg leading-6 text-green-500 cursor-pointer"
-                  onClick={handleDeleteButtonClick}>
-                  Delete Trip
-                </span>
+                {mode === 'edit' ? (
+                  <span
+                    className="font-bold text-lg leading-6 text-green-500 cursor-pointer"
+                    onClick={handleDeleteButtonClick}>
+                    Delete Trip
+                  </span>
+                ) : (
+                  <div></div>
+                )}
                 <Button
                   buttonLabel="Save"
                   variant="contained"
