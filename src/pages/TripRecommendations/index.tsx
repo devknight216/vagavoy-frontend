@@ -1,3 +1,4 @@
+import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined'
 import { AxiosError } from 'axios'
 import { memo, useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
@@ -93,12 +94,16 @@ export const TripRecommendations = memo(() => {
 
         {/* User Info */}
         <div className="flex flex-col items-center w-full">
-          <Avatar
-            // src={userInfo?.profileImage}
-            src={'https://mui.com/static/images/avatar/1.jpg'}
-            className="w-[124px] h-[124px]"
-            borderWidth={4}
-          />
+          {userInfo?.profileImage ? (
+            <Avatar
+              // src={userInfo?.profileImage}
+              src={'https://mui.com/static/images/avatar/1.jpg'}
+              className="w-[124px] h-[124px]"
+              borderWidth={4}
+            />
+          ) : (
+            <AccountCircleOutlinedIcon className="text-green-700 w-[124px] h-[124px]" />
+          )}
           <span className="font-semibold text-[28px] leading-6 text-green-700 mt-2 mb-4">
             {userInfo?.mainInfo?.name}
           </span>

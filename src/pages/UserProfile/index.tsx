@@ -5,11 +5,13 @@ import { useParams } from 'react-router-dom'
 import { Avatar, Button, Logo, MainInfo } from 'src/components'
 import MainContainer from 'src/components/MainContainer'
 import { About, BannerImage, TravelLog } from 'src/components/UserProfilePage'
+import { useAuth } from 'src/hooks'
 import { RootState } from 'src/store/store'
 
 export const UserProfile = memo(() => {
   const { id } = useParams()
   const theme = useTheme()
+  const { isAuthorized } = useAuth()
 
   const profileImage = useSelector(
     (state: RootState) => state.account.profileImage
@@ -42,12 +44,16 @@ export const UserProfile = memo(() => {
             <Typography variant="h3" sx={{ color: 'white' }}>
               Discover, Explore, Record.
             </Typography>
-            <Button
-              sx={{ width: 132 }}
-              variant="contained"
-              buttonLabel="Join Now"
-              buttonFontBold={true}
-            />
+            {!isAuthorized ? (
+              <Button
+                sx={{ width: 132 }}
+                variant="contained"
+                buttonLabel="Join Now"
+                buttonFontBold={true}
+              />
+            ) : (
+              <></>
+            )}
           </div>
         </div>
         <div className="flex flex-col justify-center items-center w-full h-[106px] mt-2 relative">
