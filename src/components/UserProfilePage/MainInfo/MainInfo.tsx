@@ -32,7 +32,7 @@ export const MainInfo: FC<IMainInfoProps> = memo(({ id }: IMainInfoProps) => {
       .catch((err: AxiosError) => {
         showToast({
           type: 'error',
-          message: err.response?.data
+          message: err.message
         })
       })
   }, [id])
@@ -53,7 +53,7 @@ export const MainInfo: FC<IMainInfoProps> = memo(({ id }: IMainInfoProps) => {
       .catch((err: AxiosError) => {
         showToast({
           type: 'error',
-          message: err.response?.data
+          message: err.message
         })
       })
   }

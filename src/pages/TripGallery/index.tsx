@@ -40,7 +40,7 @@ export const TripGallery = memo(() => {
       .catch((err: AxiosError) => {
         showToast({
           type: 'error',
-          message: err.response?.data
+          message: err.message
         })
       })
   }, [tripLogId])
@@ -54,7 +54,7 @@ export const TripGallery = memo(() => {
       .catch((err: AxiosError) => {
         showToast({
           type: 'error',
-          message: err.response?.data
+          message: err.message
         })
       })
   }, [id])

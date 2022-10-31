@@ -50,7 +50,7 @@ export const TripRecommendations = memo(() => {
         .catch((err: AxiosError) => {
           showToast({
             type: 'error',
-            message: err.response?.data
+            message: err.message
           })
         })
     }
@@ -65,7 +65,7 @@ export const TripRecommendations = memo(() => {
       .catch((err: AxiosError) => {
         showToast({
           type: 'error',
-          message: err.response?.data
+          message: err.message
         })
       })
   }, [id])
