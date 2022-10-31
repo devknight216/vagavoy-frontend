@@ -2,6 +2,7 @@ import CloudDownloadOutlinedIcon from '@mui/icons-material/CloudDownloadOutlined
 import { styled, useTheme } from '@mui/material'
 import { FC } from 'react'
 import Button from 'src/components/Button'
+import { useToast } from 'src/hooks'
 import { ITripImage } from 'src/types'
 
 import TripImageCard from './TripImageCard'
@@ -28,6 +29,7 @@ export const TripGalleryUploadForm: FC<ITripGalleryUploadFormProps> = ({
   handleChangeTripGallery
 }) => {
   const theme = useTheme()
+  const { showToast } = useToast()
 
   const onFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
@@ -43,7 +45,10 @@ export const TripGalleryUploadForm: FC<ITripGalleryUploadFormProps> = ({
           })
         })
       ).catch((err) => {
-        console.log(err.message)
+        showToast({
+          type: 'error',
+          message: err.response?.data
+        })
       })
 
       handleChangeTripGallery(newTripGallery)

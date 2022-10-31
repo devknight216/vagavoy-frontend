@@ -3,7 +3,7 @@ import { AxiosError } from 'axios'
 import { FC, memo, useEffect, useState } from 'react'
 import TextTruncate from 'react-text-truncate'
 import { Button, EditButton, Icon } from 'src/components'
-import { useAuth } from 'src/hooks'
+import { useAuth, useToast } from 'src/hooks'
 import { axiosInstance } from 'src/services/jwtService'
 
 import AboutEditModal from './AboutEditModal'
@@ -16,6 +16,7 @@ export const About: FC<IAboutProps> = memo(({ id }: IAboutProps) => {
   const [line, setLine] = useState(3)
   const [openEditModal, setOpenEditModal] = useState(false)
   const [bio, setBio] = useState('')
+  const { showToast } = useToast()
 
   useEffect(() => {
     axiosInstance
@@ -24,7 +25,10 @@ export const About: FC<IAboutProps> = memo(({ id }: IAboutProps) => {
         setBio(res.data.about)
       })
       .catch((err: AxiosError) => {
-        console.log(err.message)
+        showToast({
+          type: 'error',
+          message: err.response?.data
+        })
       })
   }, [id])
 
@@ -37,7 +41,10 @@ export const About: FC<IAboutProps> = memo(({ id }: IAboutProps) => {
         setBio(bio)
       })
       .catch((err: AxiosError) => {
-        console.log(err.message)
+        showToast({
+          type: 'error',
+          message: err.response?.data
+        })
       })
   }
 

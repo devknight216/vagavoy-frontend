@@ -5,7 +5,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import ImageViewer from 'react-simple-image-viewer'
 import { Avatar, Button, EditButton, Icon, PlusButton } from 'src/components'
 import MainContainer from 'src/components/MainContainer'
-import { useAuth } from 'src/hooks'
+import { useAuth, useToast } from 'src/hooks'
 import { axiosInstance } from 'src/services/jwtService'
 import { IProfile, ITripImage, ITripLog } from 'src/types'
 
@@ -23,6 +23,7 @@ export const TripGallery = memo(() => {
   const [currentImage, setCurrentImage] = useState(0)
   const [isViewerOpen, setIsViewerOpen] = useState(false)
   const navigate = useNavigate()
+  const { showToast } = useToast()
 
   useEffect(() => {
     axiosInstance
@@ -37,7 +38,10 @@ export const TripGallery = memo(() => {
         }
       })
       .catch((err: AxiosError) => {
-        console.log(err.message)
+        showToast({
+          type: 'error',
+          message: err.response?.data
+        })
       })
   }, [tripLogId])
 
@@ -48,7 +52,10 @@ export const TripGallery = memo(() => {
         setUserInfo(res.data)
       })
       .catch((err: AxiosError) => {
-        console.log(err.message)
+        showToast({
+          type: 'error',
+          message: err.response?.data
+        })
       })
   }, [id])
 
@@ -76,7 +83,7 @@ export const TripGallery = memo(() => {
             <span className="text-[28px] font-semibold leading-6 text-green-700">
               {tripLog?.tripCountryCode
                 ? `Trip Gallery - ${
-                    tripLog?.tripLocation +
+                    tripLog?.tripLocation?.split(',')[0] +
                     ', ' +
                     regionNames.of(tripLog?.tripCountryCode)
                   }`

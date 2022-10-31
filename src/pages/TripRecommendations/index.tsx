@@ -4,7 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { Avatar, Button, EditButton, Icon, PlusButton } from 'src/components'
 import MainContainer from 'src/components/MainContainer'
 import RecommendationEditModal from 'src/components/RecommendationEditModal'
-import { useAuth } from 'src/hooks'
+import { useAuth, useToast } from 'src/hooks'
 import { axiosInstance } from 'src/services/jwtService'
 import { IProfile, ITripLog } from 'src/types'
 
@@ -38,6 +38,7 @@ export const TripRecommendations = memo(() => {
   const [userInfo, setUserInfo] = useState<IProfile>()
   const navigate = useNavigate()
   const [openEditModal, setOpenEditModal] = useState(false)
+  const { showToast } = useToast()
 
   useEffect(() => {
     if (tripLogId && openEditModal === false) {
@@ -47,7 +48,10 @@ export const TripRecommendations = memo(() => {
           setTripLog(res.data)
         })
         .catch((err: AxiosError) => {
-          console.log(err.message)
+          showToast({
+            type: 'error',
+            message: err.response?.data
+          })
         })
     }
   }, [tripLogId, openEditModal])
@@ -59,7 +63,10 @@ export const TripRecommendations = memo(() => {
         setUserInfo(res.data)
       })
       .catch((err: AxiosError) => {
-        console.log(err.message)
+        showToast({
+          type: 'error',
+          message: err.response?.data
+        })
       })
   }, [id])
 
@@ -76,7 +83,7 @@ export const TripRecommendations = memo(() => {
           <span className="sm:text-[28px] sm:font-semibold font-bold text-[22px] leading-6 text-green-700 w-fit">
             {tripLog?.tripCountryCode
               ? `Trip Recommendations - ${
-                  tripLog?.tripLocation +
+                  tripLog?.tripLocation?.split(',')[0] +
                   ', ' +
                   regionNames.of(tripLog?.tripCountryCode)
                 }`

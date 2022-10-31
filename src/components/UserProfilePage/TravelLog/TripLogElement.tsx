@@ -60,7 +60,7 @@ export const TripLogElement: FC<ITripLogElementProps> = memo(
         <div className="flex flex-row justify-between">
           <div className="flex flex-col sm:mt-0 -mt-[6px]">
             <Typography className="font-bold text-lg leading-6 text-green-700">
-              {tripLog.tripLocation +
+              {tripLog?.tripLocation?.split(',')[0] +
                 ', ' +
                 regionNames.of(tripLog.tripCountryCode || '')}
             </Typography>

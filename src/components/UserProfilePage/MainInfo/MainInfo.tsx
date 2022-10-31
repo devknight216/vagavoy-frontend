@@ -1,7 +1,7 @@
 import { AxiosError } from 'axios'
 import { FC, memo, useEffect, useState } from 'react'
 import { Button, EditButton, Icon } from 'src/components'
-import { useAuth } from 'src/hooks'
+import { useAuth, useToast } from 'src/hooks'
 import { axiosInstance } from 'src/services/jwtService'
 import { IMainInfo } from 'src/types'
 
@@ -16,6 +16,7 @@ export const MainInfo: FC<IMainInfoProps> = memo(({ id }: IMainInfoProps) => {
   const [userMainInfo, setUserMainInfo] = useState<IMainInfo>({})
   const { user } = useAuth()
   const currentUser = id === user.id
+  const { showToast } = useToast()
 
   useEffect(() => {
     axiosInstance
@@ -29,7 +30,10 @@ export const MainInfo: FC<IMainInfoProps> = memo(({ id }: IMainInfoProps) => {
         })
       })
       .catch((err: AxiosError) => {
-        console.log(err.message)
+        showToast({
+          type: 'error',
+          message: err.response?.data
+        })
       })
   }, [id])
 
@@ -47,7 +51,10 @@ export const MainInfo: FC<IMainInfoProps> = memo(({ id }: IMainInfoProps) => {
         setUserMainInfo(mainInfo)
       })
       .catch((err: AxiosError) => {
-        console.log(err.message)
+        showToast({
+          type: 'error',
+          message: err.response?.data
+        })
       })
   }
 

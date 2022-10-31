@@ -58,3 +58,7 @@
   font-weight: normal;
   font-style: normal;
 }
+
+.pac-container {
+  z-index: 9999;
+}

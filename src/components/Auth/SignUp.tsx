@@ -73,16 +73,14 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ open, onClose }) => {
               onClose()
             })
             .catch((err: AxiosError) => {
-              console.log(err)
               showToast({
                 type: 'error',
-                message: err
+                message: err.response?.data
               })
             })
           onClose()
         })
         .catch((err: AxiosError) => {
-          console.log(err)
           showToast({
             type: 'error',
             message: err.response?.data

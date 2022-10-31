@@ -1,7 +1,9 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 import { Dialog, Paper, styled } from '@mui/material'
 import { AxiosError } from 'axios'
 import { FC, memo, useEffect, useState } from 'react'
 import ReactFlagsSelect from 'react-flags-select'
+import Autocomplete from 'react-google-autocomplete'
 import Flag from 'react-world-flags'
 import {
   Button,
@@ -11,6 +13,7 @@ import {
   TextField,
   TripGalleryUploadForm
 } from 'src/components'
+import { useToast } from 'src/hooks'
 import { axiosInstance } from 'src/services/jwtService'
 import {
   addTripLog,
@@ -55,6 +58,26 @@ const CountrySelector = styled(ReactFlagsSelect)(({ theme }) => ({
   }
 }))
 
+const CustomAutocomplete = styled(Autocomplete)(({ theme }) => ({
+  width: '100%',
+  padding: theme.spacing(2.5, 4),
+  fontFamily: 'proxima_nova',
+  fontSize: '14px',
+  fontWeight: '400',
+  fontStyle: 'normal',
+  lineHeight: '21px',
+  color: '#003300',
+  border: `1px solid ${theme.palette.green.light1}`,
+  borderRadius: '4px',
+  '&:focus': {
+    border: `1px solid ${theme.palette.green.light1}`
+  },
+  '&::placeholder': {
+    color: theme.palette.green.middle
+  },
+  outline: 'none'
+}))
+
 export const TripLogEditModal: FC<ITripLogEditModalProps> = memo(
   ({ open, mode, userId, tripLog, onClose }: ITripLogEditModalProps) => {
     const dispatch = useAppDispatch()
@@ -67,6 +90,7 @@ export const TripLogEditModal: FC<ITripLogEditModalProps> = memo(
     const [tripRecommendations, setTripRecommendations] = useState<
       ITripRecommendation[]
     >([])
+    const { showToast } = useToast()
 
     const [selectedCountry, setSelectedCountry] = useState('')
 
@@ -144,7 +168,10 @@ export const TripLogEditModal: FC<ITripLogEditModalProps> = memo(
         )
         .then(() => {})
         .catch((err: AxiosError) => {
-          console.log(err.message)
+          showToast({
+            type: 'error',
+            message: err.response?.data
+          })
         })
 
       dispatch(removeTrip(tripLog?.tripLogId || ''))
@@ -177,7 +204,7 @@ export const TripLogEditModal: FC<ITripLogEditModalProps> = memo(
               <span className="sm:text-[28px] text-[22px] sm:font-semibold font-bold">
                 {mode === 'edit'
                   ? ` - ${
-                      tripLog?.tripLocation +
+                      tripLog?.tripLocation?.split(',')[0] +
                       ', ' +
                       regionNames.of(tripLog?.tripCountryCode || '')
                     }`
@@ -215,12 +242,20 @@ export const TripLogEditModal: FC<ITripLogEditModalProps> = memo(
 
               {/** Trip Information Input */}
               <div className="flex flex-col gap-y-4 sm:mb-2 mb-4">
-                <div className="flex flex-row justify-between gap-x-7">
-                  <TextField
-                    value={tripLocation}
-                    label="Trip Location"
-                    placeholder="Add Location"
-                    onChange={(e) => setTripLocation(e.target.value)}
+                <div className="flex flex-col gap-y-[7px]">
+                  <span className="text-green-500 leading-[21px] text-sm">
+                    Trip Location
+                  </span>
+                  <CustomAutocomplete
+                    apiKey={process.env.REACT_APP_GOOGLE_API_KEY}
+                    onPlaceSelected={(place) => {
+                      setTripLocation(place.formatted_address)
+                    }}
+                    options={{
+                      componentRestrictions: selectedCountry
+                        ? { country: selectedCountry }
+                        : undefined
+                    }}
                   />
                 </div>
                 <div className="flex flex-col sm:flex-row gap-x-7 gap-y-4">
