@@ -71,8 +71,8 @@ export const TripGallery = memo(() => {
   }
 
   return (
-    <MainContainer className="w-full">
-      <div className="flex flex-col gap-y-8 w-full h-screen mt-8 xl:px-6 items-center">
+    <MainContainer className="w-full min-h-[calc(100vh-80px)]">
+      <div className="flex flex-col gap-y-8 w-full mt-8 xl:px-6 items-center">
         {/* Header */}
         <div className="flex flex-col gap-y-4 sm:flex-row justify-between w-full">
           <div className="flex items-center justify-center w-fit">

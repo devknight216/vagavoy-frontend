@@ -72,8 +72,8 @@ export const TripRecommendations = memo(() => {
   }, [id])
 
   return (
-    <MainContainer className="w-full">
-      <div className="flex flex-col gap-y-8 w-full h-screen mt-8 xl:px-6">
+    <MainContainer className="w-full min-h-[calc(100vh-80px)]">
+      <div className="flex flex-col gap-y-8 w-full mt-8 xl:px-6">
         {/* Header */}
         <div className="flex items-center justify-center w-fit">
           <Icon

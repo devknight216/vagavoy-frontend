@@ -74,20 +74,18 @@ export interface IHeaderProps {
 }
 
 export const Header: FC<IHeaderProps> = memo(({ onLogin, onSignup }) => {
-  const theme = useTheme()
-  const [openSidebar, setOpenSidebar] = useState(false)
-
-  const { user, isAuthorized } = useAuth()
   const navigate = useNavigate()
-
+  const theme = useTheme()
+  const auth = useAuth()
+  const { user, isAuthorized } = useAuth()
+  const [openSidebar, setOpenSidebar] = useState(false)
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const open = Boolean(anchorEl)
+  const [searchTerm, setSearchTerm] = useState('')
 
   const upLG = useMediaQuery(theme.breakpoints.up('xl'))
   const upSM = useMediaQuery(theme.breakpoints.up('sm'))
   const downSM = useMediaQuery(theme.breakpoints.down('sm'))
-
-  const auth = useAuth()
 
   const handleAvatarClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget)
@@ -97,15 +95,24 @@ export const Header: FC<IHeaderProps> = memo(({ onLogin, onSignup }) => {
     setAnchorEl(null)
   }
 
+  const handleKeyPressed = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    if (e.keyCode === 13 && searchTerm) {
+      navigate(`searchResult?term=${searchTerm}`)
+    }
+  }
+
   return (
     <TopNavigationContainer>
       <LeftContainer loggedIn={isAuthorized}>
         <Logo logoFull={upSM} sx={{ marginTop: upSM ? '-6px' : '4px' }} />
         <TextField
+          value={searchTerm}
           textFieldHeight={40}
           textFieldLeftIconName="Search"
           placeholder="Search..."
           sx={{ width: upLG ? '370px' : '100%', maxWidth: 370 }}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          onKeyDown={handleKeyPressed}
         />
       </LeftContainer>
       <RightContainer
@@ -190,7 +197,9 @@ export const Header: FC<IHeaderProps> = memo(({ onLogin, onSignup }) => {
               transformOrigin={{ horizontal: 'right', vertical: 'top' }}
               anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}>
               <MenuItem onClick={() => navigate(`/profile/${user.id}`)}>
-                <span className="text-green-700 font-semibold">Edit Profile</span>
+                <span className="text-green-700 font-semibold">
+                  Edit Profile
+                </span>
               </MenuItem>
               <Divider />
               <MenuItem
