@@ -48,8 +48,8 @@ export const SideNavigationOptions: FC<ISideNavigationOptionsProps> = memo(
               navigate(`/profile/${user.id}`)
               onCloseSideNavigation()
             }}>
-            {user.profileImage ? (
-              <Avatar size={60} src={user.profileImage} />
+            {user.userProfile.profileImage ? (
+              <Avatar size={60} src={user.userProfile.profileImage} />
             ) : (
               <AccountCircleOutlinedIcon className="text-green-700 w-[60px] h-[60px]" />
             )}

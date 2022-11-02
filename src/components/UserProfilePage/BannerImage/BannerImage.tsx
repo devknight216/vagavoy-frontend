@@ -1,11 +1,14 @@
 import CloudDownloadOutlinedIcon from '@mui/icons-material/CloudDownloadOutlined'
 import { styled, Typography, useTheme } from '@mui/material'
-import { FC, memo } from 'react'
-import { useSelector } from 'react-redux'
+import { AxiosError } from 'axios'
+import { FC, memo, useEffect, useState } from 'react'
+import ReactS3Client from 'react-aws-s3-typescript'
 import EditButton from 'src/components/EditButton'
-import { useAuth } from 'src/hooks'
+import { s3Config } from 'src/config'
+import { useAuth, useToast } from 'src/hooks'
+import { axiosInstance } from 'src/services/jwtService'
 import { setBannerImage } from 'src/store/reducers/accountSlice'
-import { RootState, useAppDispatch } from 'src/store/store'
+import { useAppDispatch } from 'src/store/store'
 export interface IBannerImageProps {
   id: string
 }
@@ -14,44 +17,62 @@ const Input = styled('input')(() => ({
   display: 'none'
 }))
 
-const readFile = (file: Blob) => {
-  return new Promise((resolve) => {
-    const reader = new FileReader()
-    reader.addEventListener('load', () => resolve(reader.result), false)
-    reader.readAsDataURL(file)
-  })
-}
-
 export const BannerImage: FC<IBannerImageProps> = memo(
   ({ id }: IBannerImageProps) => {
     const theme = useTheme()
     const { user } = useAuth()
     const currentUser = id === user.id
     const dispatch = useAppDispatch()
-    const bannerImage = useSelector(
-      (state: RootState) => state.account.bannerImage
-    )
+    const [bannerImageSrc, setBannerImageSrc] = useState('')
+    const { showToast } = useToast()
+
+    useEffect(() => {
+      if (id) {
+        axiosInstance
+          .get(`${process.env.REACT_APP_API_URL}/user/${id}`)
+          .then((res) => {
+            setBannerImageSrc(res.data.bannerImage)
+          })
+          .catch((err: AxiosError) => {
+            showToast({
+              type: 'error',
+              message: err.message
+            })
+          })
+      }
+    }, [id])
 
     const onFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
       if (e.target.files && e.target.files.length > 0) {
         const file = e.target.files[0]
-        const imageDataUrl = (await readFile(file)) as string
+        const s3 = new ReactS3Client({
+          ...s3Config,
+          dirName: 'banner'
+        })
+        const filename = `user-${id}-banner`
 
-        await dispatch(setBannerImage(imageDataUrl))
+        try {
+          const res = await s3.uploadFile(file, filename)
+          dispatch(
+            setBannerImage({ userId: id || '', bannerImage: res.location })
+          )
+        } catch (exception) {
+          console.log(exception)
+        }
       }
     }
 
     return (
       <div className="bg-green-300 flex items-center justify-center w-full min-h-[100px] h-auto sm:h-[200px] xl:h-[300px] relative">
-        {bannerImage ? (
+        {bannerImageSrc ? (
           <img
-            src={bannerImage}
+            src={bannerImageSrc}
             className="w-full min-h-[100px] h-[100px] sm:h-[200px] xl:h-[300px] object-cover object-[100%_50%]"
           />
         ) : (
           <></>
         )}
-        <div className={bannerImage ? 'hidden' : 'block'}>
+        <div className={bannerImageSrc ? 'hidden' : 'block'}>
           {currentUser && (
             <label htmlFor="File-Upload-BannerImage">
               <Input
@@ -93,7 +114,7 @@ export const BannerImage: FC<IBannerImageProps> = memo(
             </label>
           )}
         </div>
-        {bannerImage && currentUser && (
+        {bannerImageSrc && currentUser && (
           <label
             htmlFor="File-Upload-BannerImage"
             className="w-fit absolute xl:bottom-[13px] xl:right-[calc((100%-1176px)/2)] sm:top-8 sm:right-8 top-5 right-5">

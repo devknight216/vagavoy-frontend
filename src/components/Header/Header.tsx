@@ -120,7 +120,7 @@ export const Header: FC<IHeaderProps> = memo(({ onLogin, onSignup }) => {
       <RightContainer>
         {isAuthorized ? (
           <>
-            <div className="flex flex-row gap-x-[21px]">
+            <div className="flex flex-row gap-x-[21px] h-full">
               <div className="hidden xl:block">
                 <NavigationOption
                   navigationOptionLabel="Home"

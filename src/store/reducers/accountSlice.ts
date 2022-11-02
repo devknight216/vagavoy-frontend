@@ -29,7 +29,18 @@ export const setProfileImage = createAsyncThunk(
 
 export const setBannerImage = createAsyncThunk(
   'account/setBannerImage',
-  async (bannerImage: string) => bannerImage
+  async ({ userId, bannerImage }: { userId: string; bannerImage: string }) => {
+    return await axiosInstance
+      .put(`${process.env.REACT_APP_API_URL}/user/${userId}`, {
+        bannerImage
+      })
+      .then(() => {
+        return bannerImage
+      })
+      .catch((err: AxiosError) => {
+        console.log(err.message)
+      })
+  }
 )
 
 const accountSlice = createSlice({
