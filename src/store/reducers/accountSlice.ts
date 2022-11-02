@@ -1,32 +1,30 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { AxiosError } from 'axios'
 import { axiosInstance } from 'src/services/jwtService'
-import { IMainInfo, IProfile } from 'src/types'
+import { IProfile } from 'src/types'
 
 const initialState: IProfile = {}
 
-export const setMainInfo = createAsyncThunk(
-  'account/setMainInfo',
-  async ({ userId, mainInfo }: { userId: string; mainInfo: IMainInfo }) => {
+export const setProfileImage = createAsyncThunk(
+  'account/setProfileImage',
+  async ({
+    userId,
+    profileImage
+  }: {
+    userId: string
+    profileImage: string
+  }) => {
     return await axiosInstance
       .put(`${process.env.REACT_APP_API_URL}/user/${userId}`, {
-        name: mainInfo.name,
-        currentlyIn: mainInfo.location,
-        lastTrip: mainInfo.lastTripLocation,
-        nextSpot: mainInfo.nextSpotOnBucketList
+        profileImage
       })
       .then(() => {
-        return mainInfo
+        return profileImage
       })
       .catch((err: AxiosError) => {
         console.log(err.message)
       })
   }
-)
-
-export const setProfileImage = createAsyncThunk(
-  'account/setProfileImage',
-  async (profileImage: string) => profileImage
 )
 
 export const setBannerImage = createAsyncThunk(
@@ -41,9 +39,6 @@ const accountSlice = createSlice({
     updateProfile: (state, action) => action.payload
   },
   extraReducers: {
-    [setMainInfo.fulfilled.toString()]: (state, action) => {
-      state.mainInfo = action.payload
-    },
     [setProfileImage.fulfilled.toString()]: (state, action) => {
       state.profileImage = action.payload
     },

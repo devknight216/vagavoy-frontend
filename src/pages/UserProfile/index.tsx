@@ -1,21 +1,15 @@
 import { Typography, useTheme } from '@mui/material'
 import { memo } from 'react'
-import { useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import { Avatar, Button, Logo, MainInfo } from 'src/components'
 import MainContainer from 'src/components/MainContainer'
 import { About, BannerImage, TravelLog } from 'src/components/UserProfilePage'
 import { useAuth } from 'src/hooks'
-import { RootState } from 'src/store/store'
 
 export const UserProfile = memo(() => {
   const { id } = useParams()
   const theme = useTheme()
   const { isAuthorized } = useAuth()
-
-  const profileImage = useSelector(
-    (state: RootState) => state.account.profileImage
-  )
 
   return (
     <div className="w-full">
@@ -23,7 +17,6 @@ export const UserProfile = memo(() => {
       <MainContainer className="">
         <Avatar
           id={id}
-          src={profileImage}
           className="w-[94px] h-[94px] sm:w-[132px] sm:h-[132px] xl:w-[260px] xl:h-[260px] border-[4px] xl:border-[8px] -mt-[46px] sm:-mt-[62px] xl:-mt-[180px]"
         />
         <div className="px-1 xl:px-3 pt-3 sm:pt-8">

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Logout } from '@mui/icons-material'
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined'
 import {
@@ -47,6 +48,7 @@ const LeftContainer = styled(MuiBox, {
   padding: theme.spacing(1, 0),
   display: 'flex',
   flexDirection: 'row',
+  flex: 1,
 
   alignItems: 'center',
   justifyContent: 'flex-start',
@@ -115,21 +117,18 @@ export const Header: FC<IHeaderProps> = memo(({ onLogin, onSignup }) => {
           onKeyDown={handleKeyPressed}
         />
       </LeftContainer>
-      <RightContainer
-        sx={{
-          columnGap: isAuthorized ? theme.spacing(5.25) : theme.spacing(11)
-        }}>
+      <RightContainer>
         {isAuthorized ? (
           <>
-            {upLG && (
-              <NavigationOption
-                navigationOptionLabel="Home"
-                navigationOptionLink="/"
-                navigationOptionIconName="Home"
-              />
-            )}
-            {upSM && (
-              <>
+            <div className="flex flex-row gap-x-[21px]">
+              <div className="hidden xl:block">
+                <NavigationOption
+                  navigationOptionLabel="Home"
+                  navigationOptionLink="/"
+                  navigationOptionIconName="Home"
+                />
+              </div>
+              <div className="hidden sm:flex flex-row gap-x-[21px]">
                 <NavigationOption
                   navigationOptionLabel="Connections"
                   navigationOptionLink="connections"
@@ -145,23 +144,20 @@ export const Header: FC<IHeaderProps> = memo(({ onLogin, onSignup }) => {
                   navigationOptionLink="messages"
                   navigationOptionIconName="Message"
                 />
-                <div
-                  className="cursor-pointer"
-                  onClick={handleAvatarClick}
-                  aria-controls={open ? 'account-menu' : undefined}
-                  aria-haspopup="true"
-                  aria-expanded={open ? 'true' : undefined}>
-                  {user.profileImage ? (
-                    <Avatar
-                      size={40}
-                      src={'https://mui.com/static/images/avatar/5.jpg'}
-                    />
-                  ) : (
-                    <AccountCircleOutlinedIcon className="text-green-700 w-[40px] h-[40px]" />
-                  )}
-                </div>
-              </>
-            )}
+              </div>
+            </div>
+            <div
+              className="cursor-pointer ml-[21px] sm:block hidden"
+              onClick={handleAvatarClick}
+              aria-controls={open ? 'account-menu' : undefined}
+              aria-haspopup="true"
+              aria-expanded={open ? 'true' : undefined}>
+              {user.userProfile.profileImage ? (
+                <Avatar size={40} src={user.userProfile.profileImage} />
+              ) : (
+                <AccountCircleOutlinedIcon className="text-green-700 w-[40px] h-[40px]" />
+              )}
+            </div>
             <Menu
               anchorEl={anchorEl}
               id="account-menu"

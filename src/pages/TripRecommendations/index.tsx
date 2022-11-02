@@ -96,8 +96,7 @@ export const TripRecommendations = memo(() => {
         <div className="flex flex-col items-center w-full">
           {userInfo?.profileImage ? (
             <Avatar
-              // src={userInfo?.profileImage}
-              src={'https://mui.com/static/images/avatar/1.jpg'}
+              src={userInfo?.profileImage}
               className="w-[124px] h-[124px]"
               borderWidth={4}
             />

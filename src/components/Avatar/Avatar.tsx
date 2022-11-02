@@ -1,8 +1,12 @@
 import { Typography } from '@mui/material'
 import { styled, useTheme } from '@mui/material/styles'
-import { FC, memo } from 'react'
+import { AxiosError } from 'axios'
+import { FC, memo, useEffect, useState } from 'react'
+import ReactS3Client from 'react-aws-s3-typescript'
 import { EditButton, Icon } from 'src/components'
-import { useAuth } from 'src/hooks'
+import { s3Config } from 'src/config/aws-config'
+import { useAuth, useToast } from 'src/hooks'
+import { axiosInstance } from 'src/services/jwtService'
 import { setProfileImage } from 'src/store/reducers/accountSlice'
 import { useAppDispatch } from 'src/store/store'
 
@@ -26,35 +30,56 @@ const Input = styled('input')(() => ({
   display: 'none'
 }))
 
-const readFile = (file: Blob) => {
-  return new Promise((resolve) => {
-    const reader = new FileReader()
-    reader.addEventListener('load', () => resolve(reader.result), false)
-    reader.readAsDataURL(file)
-  })
-}
-
 export const Avatar: FC<IAvatarProps> = memo(
   ({ src = '', size, borderWidth, id, className }) => {
     const theme = useTheme()
     const dispatch = useAppDispatch()
     const { user } = useAuth()
     const currentUser = user.id && id === user.id
+    const [avatarSrc, setAvatarSrc] = useState(src)
+    const { showToast } = useToast()
+
+    useEffect(() => {
+      if (id) {
+        axiosInstance
+          .get(`${process.env.REACT_APP_API_URL}/user/${id}`)
+          .then((res) => {
+            setAvatarSrc(res.data.profileImage)
+          })
+          .catch((err: AxiosError) => {
+            showToast({
+              type: 'error',
+              message: err.message
+            })
+          })
+      }
+    }, [id])
 
     const onFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
       if (e.target.files && e.target.files.length > 0) {
         const file = e.target.files[0]
-        const imageDataUrl = (await readFile(file)) as string
+        const s3 = new ReactS3Client({
+          ...s3Config,
+          dirName: 'avatar'
+        })
+        const filename = `user-${id}-avatar`
 
-        await dispatch(setProfileImage(imageDataUrl))
+        try {
+          const res = await s3.uploadFile(file, filename)
+          dispatch(
+            setProfileImage({ userId: id || '', profileImage: res.location })
+          )
+        } catch (exception) {
+          console.log(exception)
+        }
       }
     }
 
     return (
       <div className="w-fit relative">
-        {src && (
+        {avatarSrc && (
           <CustomAvatar
-            src={src}
+            src={avatarSrc}
             size={size}
             borderWidth={borderWidth}
             className={className}
@@ -62,7 +87,7 @@ export const Avatar: FC<IAvatarProps> = memo(
         )}
         <div
           className={
-            src
+            avatarSrc
               ? 'hidden'
               : 'block' +
                 ' rounded-full border-white flex items-center justify-center bg-green-100 ' +
@@ -95,7 +120,7 @@ export const Avatar: FC<IAvatarProps> = memo(
             />
           )}
         </div>
-        {src && currentUser && (
+        {avatarSrc && currentUser && (
           <label
             htmlFor="File-Upload-Avatar"
             className="w-fit absolute xl:bottom-3 xl:right-[38px] bottom-[0px] right-[0px]">
