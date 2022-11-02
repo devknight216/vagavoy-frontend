@@ -1,10 +1,6 @@
 import { memo, useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
-import {
-  Avatar,
-  Button,
-  Icon,
-} from 'src/components'
+import { Avatar, Button, Icon } from 'src/components'
 import MainContainer from 'src/components/MainContainer'
 import { IProfile } from 'src/types'
 
