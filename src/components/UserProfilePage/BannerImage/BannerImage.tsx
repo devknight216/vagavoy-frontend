@@ -2,13 +2,12 @@ import CloudDownloadOutlinedIcon from '@mui/icons-material/CloudDownloadOutlined
 import { styled, Typography, useTheme } from '@mui/material'
 import { AxiosError } from 'axios'
 import { FC, memo, useEffect, useState } from 'react'
-import ReactS3Client from 'react-aws-s3-typescript'
 import EditButton from 'src/components/EditButton'
-import { s3Config } from 'src/config'
 import { useAuth, useToast } from 'src/hooks'
 import { axiosInstance } from 'src/services/jwtService'
 import { setBannerImage } from 'src/store/reducers/accountSlice'
 import { useAppDispatch } from 'src/store/store'
+import { UploadFile } from 'src/utils/UploadFile'
 export interface IBannerImageProps {
   id: string
 }
@@ -45,17 +44,14 @@ export const BannerImage: FC<IBannerImageProps> = memo(
     const onFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
       if (e.target.files && e.target.files.length > 0) {
         const file = e.target.files[0]
-        const s3 = new ReactS3Client({
-          ...s3Config,
-          dirName: 'banner'
-        })
-        const filename = `user-${id}-banner`
 
         try {
-          const res = await s3.uploadFile(file, filename)
-          dispatch(
-            setBannerImage({ userId: id || '', bannerImage: res.location })
-          )
+          UploadFile(file, 'bannerImage').then(async (resp) => {
+            dispatch(
+              setBannerImage({ userId: id || '', bannerImage: resp || '' })
+            )
+            setBannerImageSrc(resp || '')
+          })
         } catch (exception) {
           console.log(exception)
         }

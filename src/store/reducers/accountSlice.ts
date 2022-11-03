@@ -51,10 +51,16 @@ const accountSlice = createSlice({
   },
   extraReducers: {
     [setProfileImage.fulfilled.toString()]: (state, action) => {
-      state.profileImage = action.payload
+      return {
+        ...state,
+        profileImage: action.payload
+      }
     },
     [setBannerImage.fulfilled.toString()]: (state, action) => {
-      state.bannerImage = action.payload
+      return {
+        ...state,
+        bannerImage: action.payload
+      }
     }
   }
 })

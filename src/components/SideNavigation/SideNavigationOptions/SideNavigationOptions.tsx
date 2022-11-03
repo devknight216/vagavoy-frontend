@@ -2,8 +2,10 @@ import { Logout } from '@mui/icons-material'
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined'
 import { Typography, useTheme } from '@mui/material'
 import { FC, memo } from 'react'
+import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from 'src/hooks'
+import { RootState } from 'src/store/store'
 
 import { Avatar, Divider, Icon, NavigationOption } from '../../index'
 
@@ -23,6 +25,7 @@ export const SideNavigationOptions: FC<ISideNavigationOptionsProps> = memo(
     const { user, isAuthorized } = useAuth()
     const auth = useAuth()
     const navigate = useNavigate()
+    const avatar = useSelector((state: RootState) => state.account.profileImage)
 
     return (
       <div className="flex flex-col border-green-10 shadow-3xl px-4">
@@ -48,8 +51,8 @@ export const SideNavigationOptions: FC<ISideNavigationOptionsProps> = memo(
               navigate(`/profile/${user.id}`)
               onCloseSideNavigation()
             }}>
-            {user.userProfile.profileImage ? (
-              <Avatar size={60} src={user.userProfile.profileImage} />
+            {avatar ? (
+              <Avatar size={60} src={avatar} />
             ) : (
               <AccountCircleOutlinedIcon className="text-green-700 w-[60px] h-[60px]" />
             )}

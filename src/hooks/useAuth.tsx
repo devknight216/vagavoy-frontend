@@ -1,5 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { createContext, useContext, useEffect, useState } from 'react'
+import { updateProfile } from 'src/store/reducers/accountSlice'
+import { useAppDispatch } from 'src/store/store'
 
 import jwtService from '../services/jwtService'
 
@@ -29,6 +31,7 @@ function useProvideAuth() {
   const [isAuthorized, setIsAuthorized] = useState(false)
   const [user, setUser] = useState({})
   const [checkingAuthorization, setCheckingAuthorization] = useState(true)
+  const dispatch = useAppDispatch()
 
   const signin = (email: string, password: string) => {
     return new Promise((resolve, reject) => {
@@ -55,7 +58,10 @@ function useProvideAuth() {
       setIsAuthorized(value)
       setCheckingAuthorization(false)
     })
-    jwtService.on('userInfo', (value) => setUser(value))
+    jwtService.on('userInfo', (value) => {
+      setUser(value)
+      dispatch(updateProfile(value.userProfile))
+    })
     jwtService.on('onAutoLogout', () => {
       setIsAuthorized(false)
     })

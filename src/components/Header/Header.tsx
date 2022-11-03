@@ -12,9 +12,11 @@ import {
   useMediaQuery,
   useTheme
 } from '@mui/material'
-import { FC, memo, useState } from 'react'
+import { FC, memo, useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from 'src/hooks'
+import { RootState } from 'src/store/store'
 
 import {
   Avatar,
@@ -84,6 +86,7 @@ export const Header: FC<IHeaderProps> = memo(({ onLogin, onSignup }) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const open = Boolean(anchorEl)
   const [searchTerm, setSearchTerm] = useState('')
+  const avatar = useSelector((state: RootState) => state.account.profileImage)
 
   const upLG = useMediaQuery(theme.breakpoints.up('xl'))
   const upSM = useMediaQuery(theme.breakpoints.up('sm'))
@@ -152,8 +155,8 @@ export const Header: FC<IHeaderProps> = memo(({ onLogin, onSignup }) => {
               aria-controls={open ? 'account-menu' : undefined}
               aria-haspopup="true"
               aria-expanded={open ? 'true' : undefined}>
-              {user.userProfile.profileImage ? (
-                <Avatar size={40} src={user.userProfile.profileImage} />
+              {avatar ? (
+                <Avatar size={40} src={avatar} />
               ) : (
                 <AccountCircleOutlinedIcon className="text-green-700 w-[40px] h-[40px]" />
               )}

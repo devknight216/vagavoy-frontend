@@ -2,13 +2,14 @@ import { Typography } from '@mui/material'
 import { styled, useTheme } from '@mui/material/styles'
 import { AxiosError } from 'axios'
 import { FC, memo, useEffect, useState } from 'react'
-import ReactS3Client from 'react-aws-s3-typescript'
+// import ReactS3Client from 'react-aws-s3-typescript'
 import { EditButton, Icon } from 'src/components'
-import { s3Config } from 'src/config/aws-config'
+// import { s3Config } from 'src/config/aws-config'
 import { useAuth, useToast } from 'src/hooks'
 import { axiosInstance } from 'src/services/jwtService'
 import { setProfileImage } from 'src/store/reducers/accountSlice'
 import { useAppDispatch } from 'src/store/store'
+import { UploadFile } from 'src/utils/UploadFile'
 
 interface IAvatarProps {
   id?: string
@@ -36,7 +37,7 @@ export const Avatar: FC<IAvatarProps> = memo(
     const dispatch = useAppDispatch()
     const { user } = useAuth()
     const currentUser = user.id && id === user.id
-    const [avatarSrc, setAvatarSrc] = useState(src)
+    const [avatar, setAvatar] = useState('')
     const { showToast } = useToast()
 
     useEffect(() => {
@@ -44,7 +45,7 @@ export const Avatar: FC<IAvatarProps> = memo(
         axiosInstance
           .get(`${process.env.REACT_APP_API_URL}/user/${id}`)
           .then((res) => {
-            setAvatarSrc(res.data.profileImage)
+            setAvatar(res.data.profileImage)
           })
           .catch((err: AxiosError) => {
             showToast({
@@ -55,20 +56,19 @@ export const Avatar: FC<IAvatarProps> = memo(
       }
     }, [id])
 
+    const avatarSrc = avatar || src
+
     const onFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
       if (e.target.files && e.target.files.length > 0) {
         const file = e.target.files[0]
-        const s3 = new ReactS3Client({
-          ...s3Config,
-          dirName: 'avatar'
-        })
-        const filename = `user-${id}-avatar`
 
         try {
-          const res = await s3.uploadFile(file, filename)
-          dispatch(
-            setProfileImage({ userId: id || '', profileImage: res.location })
-          )
+          UploadFile(file, 'avatar').then(async (resp) => {
+            dispatch(
+              setProfileImage({ userId: id || '', profileImage: resp || '' })
+            )
+            setAvatar(resp || '')
+          })
         } catch (exception) {
           console.log(exception)
         }

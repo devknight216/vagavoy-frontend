@@ -249,7 +249,7 @@ export const TripLogEditModal: FC<ITripLogEditModalProps> = memo(
                   <CustomAutocomplete
                     apiKey={process.env.REACT_APP_GOOGLE_API_KEY}
                     onPlaceSelected={(place) => {
-                      setTripLocation(place.formatted_address)
+                      setTripLocation(place?.formatted_address)
                     }}
                     options={{
                       componentRestrictions: selectedCountry

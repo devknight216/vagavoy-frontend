@@ -21,8 +21,8 @@ function App() {
   const { theme } = useTheme()
 
   return (
-    <ProvideAuth>
-      <Provider store={store}>
+    <Provider store={store}>
+      <ProvideAuth>
         <ThemeProvider theme={theme}>
           <div className="App">
             <Router>
@@ -46,8 +46,8 @@ function App() {
             </Router>
           </div>
         </ThemeProvider>
-      </Provider>
-    </ProvideAuth>
+      </ProvideAuth>
+    </Provider>
   )
 }
 
