@@ -1,12 +1,14 @@
 import { styled } from '@mui/material'
-import { FC, memo } from 'react'
+import { FC, memo, useEffect, useState } from 'react'
 import { Icon, TextField } from 'src/components'
 import { ITripImage } from 'src/types'
 
 export interface ITripImageCardProps {
+  tripImageId: number
   tripImage: ITripImage
-  handleChangeTripImage: (tripImage: ITripImage) => void
+  // handleChangeTripImage: (tripImage: ITripImage, tripImageFile: File) => void
   handleRemoveTripImage: () => void
+  handleEditGalleryFile: (file: File, tempURL: string) => void
   handleChangeDescription: (description: string) => void
 }
 
@@ -24,31 +26,35 @@ const readFile = (file: Blob) => {
 
 export const TripImageCard: FC<ITripImageCardProps> = memo(
   ({
+    tripImageId,
     tripImage,
-    handleChangeTripImage,
+    handleEditGalleryFile,
     handleRemoveTripImage,
     handleChangeDescription
   }: ITripImageCardProps) => {
+    const [image, setImage] = useState('')
+
+    useEffect(() => {
+      setImage(tripImage.src)
+    }, [tripImage])
+
     const onFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
       if (e.target.files && e.target.files.length > 0) {
         const file = e.target.files[0]
         const imageDataUrl = (await readFile(file)) as string
-        const newTripImage: ITripImage = {
-          ...tripImage,
-          src: imageDataUrl
-        }
-        handleChangeTripImage(newTripImage)
+        setImage(imageDataUrl)
+        handleEditGalleryFile(file, imageDataUrl)
       }
     }
 
     return (
       <div className="flex sm:flex-row flex-col gap-x-6 gap-y-[6px]">
         <div
-          style={{ backgroundImage: `url(${tripImage.src})` }}
+          style={{ backgroundImage: `url(${image})` }}
           className="sm:w-[150px] sm:h-[117px] w-[82px] h-[79px] rounded-lg flex items-center justify-center bg-cover bg-center relative">
-          <label htmlFor={`File-Upload-Trip-Image-Card-${tripImage.src}`}>
+          <label htmlFor={`File-Upload-Trip-Image-Card-${tripImageId}`}>
             <Input
-              id={`File-Upload-Trip-Image-Card-${tripImage.src}`}
+              id={`File-Upload-Trip-Image-Card-${tripImageId}`}
               type="file"
               accept="image/*"
               onChange={onFileChange}

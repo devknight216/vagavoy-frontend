@@ -1,14 +1,19 @@
 import CloudDownloadOutlinedIcon from '@mui/icons-material/CloudDownloadOutlined'
 import { styled, useTheme } from '@mui/material'
-import { FC } from 'react'
+import { FC, useEffect, useState } from 'react'
 import Button from 'src/components/Button'
 import { ITripImage } from 'src/types'
 
 import TripImageCard from './TripImageCard'
 
 export interface ITripGalleryUploadFormProps {
+  userId: string
+  tripLogId: string
   gallery: ITripImage[]
-  handleChangeTripGallery: (tripGallery: ITripImage[]) => void
+  handleAddGalleryFiles: (galleryFiles: File[]) => void
+  handleEditGalleryFile: (file: File, index: number) => void
+  handleRemoveGalleryFile: (fileIndex: number) => void
+  handleChangeDescription: (index: number, description: string) => void
 }
 
 const Input = styled('input')(() => ({
@@ -24,15 +29,28 @@ const readFile = (file: Blob) => {
 }
 
 export const TripGalleryUploadForm: FC<ITripGalleryUploadFormProps> = ({
+  userId,
+  tripLogId,
   gallery,
-  handleChangeTripGallery
+  handleAddGalleryFiles,
+  handleEditGalleryFile,
+  handleRemoveGalleryFile,
+  handleChangeDescription
 }) => {
   const theme = useTheme()
+  const [tripGallery, setTripGallery] = useState<ITripImage[]>(gallery)
+
+  useEffect(() => {
+    setTripGallery(gallery)
+  }, [gallery])
 
   const onFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
       const files = Array.from(e.target.files)
-      const newTripGallery = [...gallery]
+
+      handleAddGalleryFiles(files)
+
+      const newTripGallery = [...tripGallery]
 
       await Promise.all(
         files.map(async (file) => {
@@ -46,48 +64,72 @@ export const TripGalleryUploadForm: FC<ITripGalleryUploadFormProps> = ({
         console.log(err)
       })
 
-      handleChangeTripGallery(newTripGallery)
+      setTripGallery(newTripGallery)
     }
   }
 
-  const handleChangeTripImage = (index: number, tripImage: ITripImage) => {
-    handleChangeTripGallery(
-      gallery.map((ti, i) => (i === index ? tripImage : ti))
+  const handleRemoveTripImage = (fileIndex: number) => {
+    setTripGallery(tripGallery.filter((_, i) => i !== fileIndex))
+    handleRemoveGalleryFile(fileIndex)
+  }
+
+  const onChangeImageFile = (
+    tripImageFile: File,
+    tempURL: string,
+    index: number
+  ) => {
+    handleEditGalleryFile(tripImageFile, index)
+    setTripGallery(
+      tripGallery.map((ti, i) =>
+        i === index ? { ...ti, src: tempURL } : ti
+      )
     )
   }
 
-  const handleRemoveTripImage = (index: number) => {
-    handleChangeTripGallery(gallery.filter((_, i) => i !== index))
-  }
-
-  const handleChangeDescription = (index: number, description: string) => {
-    handleChangeTripGallery(
-      gallery.map((ti, i) =>
+  const onChangeDescription = (index: number, description: string) => {
+    setTripGallery(
+      tripGallery.map((ti, i) =>
         i === index ? { ...ti, backgroundInfo: description } : ti
       )
     )
+    handleChangeDescription(index, description)
   }
 
   return (
     <div className="flex flex-col">
       <span className="font-bold text-lg leading-6 mb-1">Trip Gallery</span>
-      <span className="text-xs leading-4 text-green-500 mb-3">
-        Upload a maximum of 5 photos now. After saving, you can upload an
-        unlimited number in your Trip Gallery link
-      </span>
+
       {gallery.length > 0 ? (
+        <></>
+      ) : (
+        <span className="text-xs leading-4 text-green-500 mb-3">
+          Upload a maximum of 5 photos now. After saving, you can upload an
+          unlimited number in your Trip Gallery link
+        </span>
+      )}
+
+      {gallery.length > 0 ? (
+        <a href={`/gallery/${userId}/${tripLogId}`}>
+          {' '}
+          <span className="text-base leading-6 text-green-500 cursor-pointer">
+            Go to your Trip Gallery page to edit photos and videos for this
+            trip.
+          </span>{' '}
+        </a>
+      ) : tripGallery.length > 0 ? (
         <div className="flex flex-col gap-y-5">
           <div className="flex flex-col gap-y-4">
-            {gallery?.map((tripImage, index) => (
+            {tripGallery?.map((tripImage, index) => (
               <TripImageCard
                 key={index}
                 tripImage={tripImage}
-                handleChangeTripImage={(tripImage) =>
-                  handleChangeTripImage(index, tripImage)
+                tripImageId={index}
+                handleEditGalleryFile={(tripImageFile, tempURL) =>
+                  onChangeImageFile(tripImageFile, tempURL, index)
                 }
                 handleRemoveTripImage={() => handleRemoveTripImage(index)}
                 handleChangeDescription={(description: string) =>
-                  handleChangeDescription(index, description)
+                  onChangeDescription(index, description)
                 }
               />
             ))}

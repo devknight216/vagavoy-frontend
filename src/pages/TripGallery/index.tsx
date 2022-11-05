@@ -157,7 +157,7 @@ export const TripGallery = memo(() => {
             {tripLog?.tripGallery && tripLog?.tripGallery?.length > 0 ? (
               tripLog?.tripGallery.map((tripImage, index) => (
                 <img
-                  key={tripImage.tripImageId || index}
+                  key={index}
                   src={tripImage.src}
                   alt={tripImage.backgroundInfo}
                   loading="lazy"
@@ -185,7 +185,7 @@ export const TripGallery = memo(() => {
             {tripLog?.tripGallery && tripLog.tripGallery.length > 0 ? (
               tripLog.tripGallery.map((tripImage, index) => (
                 <div
-                  key={tripImage.tripImageId || index}
+                  key={index}
                   className="flex flex-col gap-y-6 pb-6 border-b border-b-green-100">
                   <img
                     src={tripImage.src}

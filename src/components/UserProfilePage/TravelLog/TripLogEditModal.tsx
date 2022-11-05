@@ -22,6 +22,7 @@ import {
 } from 'src/store/reducers/tripLogsSlice'
 import { useAppDispatch } from 'src/store/store'
 import { ITripImage, ITripLog, ITripRecommendation } from 'src/types'
+import { UploadFile } from 'src/utils/UploadFile'
 
 import TripRecommendationForm from '../../UserProfilePage/TripRecommendationForm/TripRecommendationForm'
 
@@ -87,12 +88,13 @@ export const TripLogEditModal: FC<ITripLogEditModalProps> = memo(
     const [tripLocation, setTripLocation] = useState('')
     const [tripDescription, setTripDescription] = useState('')
     const [tripGallery, setTripGallery] = useState<ITripImage[]>([])
+    const [tripGalleryTemp, setTripGalleryTemp] = useState<ITripImage[]>([])
     const [tripRecommendations, setTripRecommendations] = useState<
       ITripRecommendation[]
     >([])
     const { showToast } = useToast()
-
     const [selectedCountry, setSelectedCountry] = useState('')
+    const [newGalleryFiles, setNewGalleryFiles] = useState<File[]>([])
 
     useEffect(() => {
       if (mode === 'add') {
@@ -101,6 +103,7 @@ export const TripLogEditModal: FC<ITripLogEditModalProps> = memo(
         setTripLocation('')
         setTripDescription('')
         setTripGallery([])
+        setTripGalleryTemp([])
         setTripRecommendations([])
         setSelectedCountry(tripLog?.tripCountryCode || '')
       } else if (mode === 'edit') {
@@ -109,56 +112,77 @@ export const TripLogEditModal: FC<ITripLogEditModalProps> = memo(
         setTripLocation(tripLog?.tripLocation || '')
         setTripDescription(tripLog?.tripDescription || '')
         setTripGallery(tripLog?.tripGallery || [])
+        setTripGalleryTemp(tripLog?.tripGallery || [])
         setTripRecommendations(tripLog?.tripRecommendations || [])
         setSelectedCountry(tripLog?.tripCountryCode || '')
       }
     }, [tripLog, mode])
 
-    useEffect(() => {
-      if (mode === 'add') {
-        setTripStartDate(new Date())
-        setTripEndDate(new Date())
-        setTripLocation('')
-        setTripDescription('')
-        setTripGallery([])
-        setTripRecommendations([])
-      }
-    }, [mode])
-
     const handleSaveButtonClick = async () => {
-      if (mode === 'add') {
-        dispatch(
-          addTripLog({
-            userId,
-            tripLog: {
-              tripStartDate,
-              tripEndDate,
-              tripDescription,
-              // tripGallery,
-              tripRecommendations,
-              tripLocation,
-              tripCountryCode: selectedCountry
-            }
+      if (!tripLocation || !tripDescription || !selectedCountry) {
+        showToast({
+          type: 'warning',
+          message: 'Please input all necessary fields...'
+        })
+      } else {
+        const newTripGallery: ITripImage[] = tripGalleryTemp
+
+        if (newGalleryFiles.length > 0) {
+          await Promise.all(
+            newGalleryFiles.map(async (file, index) => {
+              try {
+                await UploadFile(file, 'tripImage').then(async (resp) => {
+                  newTripGallery[index] = {
+                    src: resp || '',
+                    backgroundInfo: tripGalleryTemp[index]?.backgroundInfo || ''
+                  }
+                })
+              } catch (exception) {
+                console.log(exception)
+              }
+            })
+          ).catch((err) => {
+            console.log(err)
           })
-        )
-      } else if (mode === 'edit') {
-        dispatch(
-          updateTripLog({
-            userId,
-            tripLog: {
-              tripLogId: tripLog?.tripLogId,
-              tripStartDate,
-              tripEndDate,
-              tripDescription,
-              // tripGallery,
-              tripRecommendations,
-              tripLocation,
-              tripCountryCode: selectedCountry
-            }
-          })
-        )
+
+          setNewGalleryFiles([])
+          setTripGalleryTemp(newTripGallery)
+        }
+
+        if (mode === 'add') {
+          dispatch(
+            addTripLog({
+              userId,
+              tripLog: {
+                tripStartDate,
+                tripEndDate,
+                tripDescription,
+                tripGallery: newTripGallery,
+                tripRecommendations,
+                tripLocation,
+                tripCountryCode: selectedCountry
+              }
+            })
+          )
+        } else if (mode === 'edit') {
+          dispatch(
+            updateTripLog({
+              userId,
+              tripLog: {
+                tripLogId: tripLog?.tripLogId,
+                tripStartDate,
+                tripEndDate,
+                tripDescription,
+                tripGallery: newTripGallery,
+                tripRecommendations,
+                tripLocation,
+                tripCountryCode: selectedCountry
+              }
+            })
+          )
+        }
+        onClose()
       }
-      onClose()
     }
 
     const handleDeleteButtonClick = async () => {
@@ -178,14 +202,44 @@ export const TripLogEditModal: FC<ITripLogEditModalProps> = memo(
       onClose()
     }
 
-    const handleChangeTripGallery = (gallery: ITripImage[]) => {
-      setTripGallery(gallery)
-    }
+    // const handleChangeTripGallery = (gallery: ITripImage[]) => {
+    //   setTripGallery(gallery)
+    // }
 
     const handleChangeTripRecommendations = (
       recommendation: ITripRecommendation[]
     ) => {
       setTripRecommendations(recommendation)
+    }
+
+    const handleAddGalleryFiles = (files: File[]) => {
+      setNewGalleryFiles(newGalleryFiles.concat(files))
+      setTripGalleryTemp(
+        tripGalleryTemp.concat(
+          Array(files.length).fill({
+            src: '',
+            backgroundInfo: ''
+          })
+        )
+      )
+    }
+
+    const handleEditGalleryFile = (file: File, index: number) => {
+      setNewGalleryFiles(
+        newGalleryFiles.map((f, i) => (i === index ? file : f))
+      )
+    }
+
+    const handleRemoveGalleryFile = (fileIndex: number) => {
+      setTripGalleryTemp(tripGalleryTemp.filter((_, i) => i !== fileIndex))
+    }
+
+    const handleChangeDescription = (index: number, description: string) => {
+      setTripGalleryTemp(
+        tripGalleryTemp.map((ti, i) =>
+          i === index ? { ...ti, backgroundInfo: description } : ti
+        )
+      )
     }
 
     return (
@@ -234,7 +288,7 @@ export const TripLogEditModal: FC<ITripLogEditModalProps> = memo(
                   <CountrySelector
                     searchable
                     selected={selectedCountry || ''}
-                    placeholder="Select Trip Country"
+                    placeholder="Select Trip Country *"
                     onSelect={(code) => setSelectedCountry(code)}
                   />
                 </div>
@@ -244,7 +298,7 @@ export const TripLogEditModal: FC<ITripLogEditModalProps> = memo(
               <div className="flex flex-col gap-y-4 sm:mb-2 mb-4">
                 <div className="flex flex-col gap-y-[7px]">
                   <span className="text-green-500 leading-[21px] text-sm">
-                    Trip Location
+                    Trip Location *
                   </span>
                   <CustomAutocomplete
                     apiKey={process.env.REACT_APP_GOOGLE_API_KEY}
@@ -256,12 +310,13 @@ export const TripLogEditModal: FC<ITripLogEditModalProps> = memo(
                         ? { country: selectedCountry }
                         : undefined
                     }}
+                    defaultValue={tripLocation}
                   />
                 </div>
                 <div className="flex flex-col sm:flex-row gap-x-7 gap-y-4">
                   <Calendar
                     value={tripStartDate}
-                    label="Travel Start Date"
+                    label="Travel Start Date *"
                     calendarPlaceholder="Select Starting Date"
                     renderInput={() => <></>}
                     onChange={(newDate) =>
@@ -270,7 +325,7 @@ export const TripLogEditModal: FC<ITripLogEditModalProps> = memo(
                   />
                   <Calendar
                     value={tripEndDate}
-                    label="Travel End Date"
+                    label="Travel End Date *"
                     calendarPlaceholder="Select End Date"
                     renderInput={() => <></>}
                     onChange={(newDate) =>
@@ -280,7 +335,7 @@ export const TripLogEditModal: FC<ITripLogEditModalProps> = memo(
                 </div>
                 <TextField
                   value={tripDescription}
-                  label="Trip Description"
+                  label="Trip Description *"
                   multiline={true}
                   placeholder="Trip Description"
                   rows={5}
@@ -292,8 +347,15 @@ export const TripLogEditModal: FC<ITripLogEditModalProps> = memo(
 
               {/** Trip Gallery */}
               <TripGalleryUploadForm
+                userId={userId}
+                tripLogId={tripLog?.tripLogId || ''}
                 gallery={tripGallery}
-                handleChangeTripGallery={handleChangeTripGallery}
+                // handleChangeTripGallery={handleChangeTripGallery}
+                // handleChangeGalleryFiles={handleChangeGalleryFiles}
+                handleAddGalleryFiles={handleAddGalleryFiles}
+                handleEditGalleryFile={handleEditGalleryFile}
+                handleRemoveGalleryFile={handleRemoveGalleryFile}
+                handleChangeDescription={handleChangeDescription}
               />
 
               {/** Trip Recommendations */}

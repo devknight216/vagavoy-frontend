@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Logout } from '@mui/icons-material'
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined'
 import {
@@ -12,7 +11,7 @@ import {
   useMediaQuery,
   useTheme
 } from '@mui/material'
-import { FC, memo, useEffect, useState } from 'react'
+import { FC, memo, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from 'src/hooks'
