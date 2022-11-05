@@ -4,7 +4,14 @@ import { AxiosError } from 'axios'
 import { memo, useCallback, useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import ImageViewer from 'react-simple-image-viewer'
-import { Avatar, Button, EditButton, Icon, PlusButton } from 'src/components'
+import {
+  Avatar,
+  Button,
+  EditButton,
+  GalleryEditModal,
+  Icon,
+  PlusButton
+} from 'src/components'
 import MainContainer from 'src/components/MainContainer'
 import { useAuth, useToast } from 'src/hooks'
 import { axiosInstance } from 'src/services/jwtService'
@@ -23,6 +30,7 @@ export const TripGallery = memo(() => {
   const [imageSource, setImageSource] = useState([])
   const [currentImage, setCurrentImage] = useState(0)
   const [isViewerOpen, setIsViewerOpen] = useState(false)
+  const [openEditModal, setOpenEditModal] = useState(false)
   const navigate = useNavigate()
   const { showToast } = useToast()
 
@@ -68,6 +76,13 @@ export const TripGallery = memo(() => {
   const closeImageViewer = () => {
     setCurrentImage(0)
     setIsViewerOpen(false)
+  }
+
+  const handleChangeTripGallery = (tripGallery: ITripImage[]) => {
+    setTripLog({
+      ...tripLog,
+      tripGallery
+    })
   }
 
   return (
@@ -133,13 +148,20 @@ export const TripGallery = memo(() => {
           <div className="flex flex-row w-full gap-x-[18px] justify-center items-center relative">
             {currentUser ? (
               <div className="hidden sm:flex flex-row gap-x-4 absolute right-[44px]">
-                <PlusButton />
-                <EditButton />
+                <PlusButton onClick={() => setOpenEditModal(true)} />
+                <EditButton onClick={() => setOpenEditModal(true)} />
               </div>
             ) : (
               <></>
             )}
-            {currentUser ? <PlusButton className="block sm:hidden" /> : <></>}
+            {currentUser ? (
+              <PlusButton
+                className="block sm:hidden"
+                onClick={() => setOpenEditModal(true)}
+              />
+            ) : (
+              <></>
+            )}
             <Button
               buttonLabel="Share Profile"
               variant="outlined"
@@ -147,7 +169,14 @@ export const TripGallery = memo(() => {
               buttonRightIconName="Share"
               sx={{ width: 162 }}
             />
-            {currentUser ? <EditButton className="block sm:hidden" /> : <></>}
+            {currentUser ? (
+              <EditButton
+                className="block sm:hidden"
+                onClick={() => setOpenEditModal(true)}
+              />
+            ) : (
+              <></>
+            )}
           </div>
         </div>
 
@@ -203,6 +232,14 @@ export const TripGallery = memo(() => {
             )}
           </div>
         )}
+        <GalleryEditModal
+          open={openEditModal}
+          onClose={() => setOpenEditModal(false)}
+          gallery={tripLog?.tripGallery}
+          handleChangeTripGallery={handleChangeTripGallery}
+          userId={id || ''}
+          tripLogId={tripLogId || ''}
+        />
       </div>
     </MainContainer>
   )

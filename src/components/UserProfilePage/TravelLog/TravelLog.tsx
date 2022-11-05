@@ -20,7 +20,7 @@ export interface ITravelLogProps {
 
 export const TravelLog: FC<ITravelLogProps> = memo(
   ({ userId }: ITravelLogProps) => {
-    const tripLogs = useSelector(tripLogsSelectors.selectAll)
+    const tripLogs: ITripLog[] = useSelector(tripLogsSelectors.selectAll)
     const dispatch = useAppDispatch()
     const [openEditModal, setOpenEditModal] = useState(false)
     const [tripLogsByCountry, setTripLogsByCountry] = useState({})
@@ -38,7 +38,7 @@ export const TravelLog: FC<ITravelLogProps> = memo(
     useEffect(() => {
       const newObj: { [key: string]: ITripLog[] } = {}
       if (tripLogs && tripLogs.length > 0) {
-        tripLogs.forEach((tripLog) => {
+        tripLogs.forEach((tripLog: ITripLog) => {
           if (newObj[tripLog.tripCountryCode || '']?.length)
             newObj[tripLog.tripCountryCode || ''].push(tripLog)
           else

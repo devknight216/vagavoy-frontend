@@ -80,9 +80,7 @@ export const TripGalleryUploadForm: FC<ITripGalleryUploadFormProps> = ({
   ) => {
     handleEditGalleryFile(tripImageFile, index)
     setTripGallery(
-      tripGallery.map((ti, i) =>
-        i === index ? { ...ti, src: tempURL } : ti
-      )
+      tripGallery.map((ti, i) => (i === index ? { ...ti, src: tempURL } : ti))
     )
   }
 

@@ -202,10 +202,6 @@ export const TripLogEditModal: FC<ITripLogEditModalProps> = memo(
       onClose()
     }
 
-    // const handleChangeTripGallery = (gallery: ITripImage[]) => {
-    //   setTripGallery(gallery)
-    // }
-
     const handleChangeTripRecommendations = (
       recommendation: ITripRecommendation[]
     ) => {
