@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined'
 import { useTheme } from '@mui/material'
 import { AxiosError } from 'axios'
@@ -12,6 +13,7 @@ import {
   Icon,
   PlusButton
 } from 'src/components'
+import GalleryAddModal from 'src/components/GalleryAddModal'
 import MainContainer from 'src/components/MainContainer'
 import { useAuth, useToast } from 'src/hooks'
 import { axiosInstance } from 'src/services/jwtService'
@@ -31,6 +33,7 @@ export const TripGallery = memo(() => {
   const [currentImage, setCurrentImage] = useState(0)
   const [isViewerOpen, setIsViewerOpen] = useState(false)
   const [openEditModal, setOpenEditModal] = useState(false)
+  const [openAddModal, setOpenAddModal] = useState(false)
   const navigate = useNavigate()
   const { showToast } = useToast()
 
@@ -79,6 +82,13 @@ export const TripGallery = memo(() => {
   }
 
   const handleChangeTripGallery = (tripGallery: ITripImage[]) => {
+    setTripLog({
+      ...tripLog,
+      tripGallery
+    })
+  }
+
+  const handleAddTripGallery = (tripGallery: ITripImage[]) => {
     setTripLog({
       ...tripLog,
       tripGallery
@@ -148,7 +158,7 @@ export const TripGallery = memo(() => {
           <div className="flex flex-row w-full gap-x-[18px] justify-center items-center relative">
             {currentUser ? (
               <div className="hidden sm:flex flex-row gap-x-4 absolute right-[44px]">
-                <PlusButton onClick={() => setOpenEditModal(true)} />
+                <PlusButton onClick={() => setOpenAddModal(true)} />
                 <EditButton onClick={() => setOpenEditModal(true)} />
               </div>
             ) : (
@@ -157,7 +167,7 @@ export const TripGallery = memo(() => {
             {currentUser ? (
               <PlusButton
                 className="block sm:hidden"
-                onClick={() => setOpenEditModal(true)}
+                onClick={() => setOpenAddModal(true)}
               />
             ) : (
               <></>
@@ -239,6 +249,14 @@ export const TripGallery = memo(() => {
           handleChangeTripGallery={handleChangeTripGallery}
           userId={id || ''}
           tripLogId={tripLogId || ''}
+        />
+        <GalleryAddModal
+          userId={id || ''}
+          gallery={tripLog?.tripGallery}
+          tripLogId={tripLogId || ''}
+          open={openAddModal}
+          handleAddTripGallery={handleAddTripGallery}
+          onClose={() => setOpenAddModal(false)}
         />
       </div>
     </MainContainer>

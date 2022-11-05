@@ -2,16 +2,22 @@ import { memo, useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { Avatar, Button, Icon } from 'src/components'
 import MainContainer from 'src/components/MainContainer'
+import { axiosInstance } from 'src/services/jwtService'
 import { IProfile } from 'src/types'
 
 export const SearchResult = memo(() => {
   const [search] = useSearchParams()
-  const [results, SetResults] = useState<IProfile[]>([])
+  const [results, setResults] = useState<IProfile[]>([])
 
   useEffect(() => {
-    // const term = search.get('term')
-    // Fetch Profiles Here.
-    SetResults([])
+    const term = search.get('term')
+
+    axiosInstance
+      .post('/user/search', { searchKey: term })
+      .then((res) => {
+        setResults(res.data)
+      })
+      .catch((err) => console.log(err))
   }, [search])
 
   return (

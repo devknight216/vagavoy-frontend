@@ -133,8 +133,8 @@ export const TripLogEditModal: FC<ITripLogEditModalProps> = memo(
               try {
                 await UploadFile(file, 'tripImage').then(async (resp) => {
                   newTripGallery[index] = {
-                    src: resp || '',
-                    backgroundInfo: tripGalleryTemp[index]?.backgroundInfo || ''
+                    ...newTripGallery[index],
+                    src: resp || ''
                   }
                 })
               } catch (exception) {
@@ -227,6 +227,7 @@ export const TripLogEditModal: FC<ITripLogEditModalProps> = memo(
     }
 
     const handleRemoveGalleryFile = (fileIndex: number) => {
+      setNewGalleryFiles(newGalleryFiles.filter((_, i) => i !== fileIndex))
       setTripGalleryTemp(tripGalleryTemp.filter((_, i) => i !== fileIndex))
     }
 

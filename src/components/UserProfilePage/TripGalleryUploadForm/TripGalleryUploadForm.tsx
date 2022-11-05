@@ -56,6 +56,7 @@ export const TripGalleryUploadForm: FC<ITripGalleryUploadFormProps> = ({
         files.map(async (file) => {
           const imageDataUrl = (await readFile(file)) as string
           newTripGallery.push({
+            tripImageId: (Math.random() + 1).toString(36).slice(2),
             src: imageDataUrl,
             backgroundInfo: ''
           })

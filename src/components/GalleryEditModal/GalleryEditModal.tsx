@@ -56,7 +56,7 @@ export const GalleryEditModal: FC<IGalleryEditModalProps> = memo(
               await UploadFile(changedFile.file, 'tripImage').then(
                 async (resp) => {
                   newTripGallery.map((ti) =>
-                    ti._id === changedFile.id ? { ...ti, src: resp } : ti
+                    ti.tripImageId === changedFile.id ? { ...ti, src: resp } : ti
                   )
                 }
               )
@@ -87,23 +87,23 @@ export const GalleryEditModal: FC<IGalleryEditModalProps> = memo(
       onClose()
     }
 
-    const handleRemoveTripImage = (_id: string) => {
-      setTripGallery(tripGallery.filter((ti) => ti._id !== _id))
+    const handleRemoveTripImage = (id: string) => {
+      setTripGallery(tripGallery.filter((ti) => ti.tripImageId !== id))
     }
 
     const onChangeImageFile = (
       tripImageFile: File,
       tempURL: string,
-      _id: string
+      id: string
     ) => {
       const newFiles = [...changedFiles]
       newFiles.push({
-        id: _id,
+        id,
         file: tripImageFile
       })
       setChangedFiles(newFiles)
       setTripGallery(
-        tripGallery.map((ti) => (ti._id === _id ? { ...ti, src: tempURL } : ti))
+        tripGallery.map((ti) => (ti.tripImageId === id ? { ...ti, src: tempURL } : ti))
       )
     }
 
@@ -151,11 +151,11 @@ export const GalleryEditModal: FC<IGalleryEditModalProps> = memo(
                           onChangeImageFile(
                             tripImageFile,
                             tempURL,
-                            tripImage._id || ''
+                            tripImage.tripImageId || ''
                           )
                         }
                         handleRemoveTripImage={() =>
-                          handleRemoveTripImage(tripImage._id || '')
+                          handleRemoveTripImage(tripImage.tripImageId || '')
                         }
                         handleChangeDescription={(description: string) =>
                           onChangeDescription(index, description)
