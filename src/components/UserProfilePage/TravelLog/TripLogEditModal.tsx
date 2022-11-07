@@ -134,6 +134,7 @@ export const TripLogEditModal: FC<ITripLogEditModalProps> = memo(
                 await UploadFile(file, 'tripImage').then(async (resp) => {
                   newTripGallery[index] = {
                     ...newTripGallery[index],
+                    tripImageId: (Math.random() + 1).toString(36).slice(2),
                     src: resp || ''
                   }
                 })
@@ -307,7 +308,7 @@ export const TripLogEditModal: FC<ITripLogEditModalProps> = memo(
                         ? { country: selectedCountry }
                         : undefined
                     }}
-                    defaultValue={tripLocation}
+                    defaultValue={tripLocation || ''}
                   />
                 </div>
                 <div className="flex flex-col sm:flex-row gap-x-7 gap-y-4">

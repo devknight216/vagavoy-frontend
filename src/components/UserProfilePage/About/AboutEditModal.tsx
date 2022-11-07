@@ -42,7 +42,12 @@ export const AboutEditModal: FC<IAboutEditModalProps> = memo(
             Add About
           </span>
           <div className="flex flex-row-reverse">
-            <CloseButton onClose={onClose} />
+            <CloseButton
+              onClose={() => {
+                setAbout('')
+                onClose()
+              }}
+            />
           </div>
         </div>
         <div className="flex flex-col gap-y-8 p-8 items-end">
@@ -53,7 +58,7 @@ export const AboutEditModal: FC<IAboutEditModalProps> = memo(
             placeholder="Write a litte bit about yourself here (e.g., your favorite kinds of travel, who you travel with, what you do when you're not travelling, etc."
             onChange={(e) => setAbout(e.target.value)}
             rows={12}
-            helperText={`${bio?.length}/${CHARACTER_LIMIT}`}
+            helperText={`${about?.length}/${CHARACTER_LIMIT}`}
             inputProps={{ maxLength: CHARACTER_LIMIT }}
             sx={{
               '& .MuiOutlinedInput-root': {
