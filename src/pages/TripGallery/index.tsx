@@ -192,7 +192,7 @@ export const TripGallery = memo(() => {
 
         {/* Gallery */}
         {mode === 'tile' ? (
-          <div className="flex flex-wrap -m-1 md:-m-2">
+          <div className="flex flex-wrap -m-1 md:-m-2 w-full">
             {tripLog?.tripGallery && tripLog?.tripGallery?.length > 0 ? (
               tripLog?.tripGallery.map((tripImage, index) => (
                 <div key={index} className="flex flex-wrap md:w-1/4 w-1/3">
