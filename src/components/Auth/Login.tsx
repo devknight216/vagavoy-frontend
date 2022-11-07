@@ -49,7 +49,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ open, onClose }) => {
       .catch((err: AxiosError) => {
         showToast({
           type: 'error',
-          message: err.message
+          message: err
         })
       })
   }

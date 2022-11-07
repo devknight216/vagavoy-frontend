@@ -52,7 +52,31 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ open, onClose }) => {
   const auth = useAuth()
   const navigate = useNavigate()
 
+  const emailRegex =
+    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+
   const handleSignup = () => {
+    if (!email || !password || !name) {
+      showToast({
+        type: 'warning',
+        message: 'Please fill out all fields.'
+      })
+      return
+    }
+    if (!emailRegex.test(email)) {
+      showToast({
+        type: 'error',
+        message: 'Invalid Email Address.'
+      })
+      return
+    }
+    if (password.length < 6) {
+      showToast({
+        type: 'error',
+        message: 'Password must be longer than 6 letters.'
+      })
+      return
+    }
     if (agree) {
       axios
         .post(`${process.env.REACT_APP_API_URL}/auth/register`, {
@@ -83,7 +107,7 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ open, onClose }) => {
         .catch((err: AxiosError) => {
           showToast({
             type: 'error',
-            message: err.message
+            message: err.response?.data
           })
         })
     } else {
