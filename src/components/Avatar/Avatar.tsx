@@ -101,7 +101,7 @@ export const Avatar: FC<IAvatarProps> = memo(
                 accept="image/*"
                 onChange={onFileChange}
               />
-              <div className="flex-col items-center justify-center cursor-pointer">
+              <div className="flex flex-col items-center justify-center cursor-pointer">
                 <Icon
                   iconName="Picture"
                   iconSize={44}
@@ -113,11 +113,13 @@ export const Avatar: FC<IAvatarProps> = memo(
               </div>
             </label>
           ) : (
-            <Icon
-              iconName="Picture"
-              iconSize={44}
-              iconColor={theme.palette.green.middle}
-            />
+            <div className="flex items-center justify-center w-full h-full">
+              <Icon
+                iconName="Picture"
+                iconSize={44}
+                iconColor={theme.palette.green.middle}
+              />
+            </div>
           )}
         </div>
         {avatarSrc && currentUser && (

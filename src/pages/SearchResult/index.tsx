@@ -1,5 +1,5 @@
 import { memo, useEffect, useState } from 'react'
-import { useSearchParams } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import { Avatar, Button, Icon } from 'src/components'
 import MainContainer from 'src/components/MainContainer'
 import { axiosInstance } from 'src/services/jwtService'
@@ -8,6 +8,7 @@ import { IProfile } from 'src/types'
 export const SearchResult = memo(() => {
   const [search] = useSearchParams()
   const [results, setResults] = useState<IProfile[]>([])
+  const navigate = useNavigate()
 
   useEffect(() => {
     const term = search.get('term')
@@ -30,8 +31,9 @@ export const SearchResult = memo(() => {
           {results.length > 0 ? (
             results.map((profile, index) => (
               <div
-                key={profile.id || index}
-                className="flex sm:flex-row flex-col gap-x-6 relative w-full">
+                key={profile._id || index}
+                className="flex sm:flex-row flex-col gap-x-6 relative w-full cursor-pointer"
+                onClick={() => navigate(`/profile/${profile._id}`)}>
                 <Avatar
                   src={profile.profileImage}
                   className="sm:w-[92px] sm:h-[92px] w-[42px] h-[42px] sm:block hidden"
