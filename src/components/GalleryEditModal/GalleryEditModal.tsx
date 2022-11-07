@@ -56,7 +56,9 @@ export const GalleryEditModal: FC<IGalleryEditModalProps> = memo(
               await UploadFile(changedFile.file, 'tripImage').then(
                 async (resp) => {
                   newTripGallery.map((ti) =>
-                    ti.tripImageId === changedFile.id ? { ...ti, src: resp } : ti
+                    ti.tripImageId === changedFile.id
+                      ? { ...ti, src: resp }
+                      : ti
                   )
                 }
               )
@@ -103,7 +105,9 @@ export const GalleryEditModal: FC<IGalleryEditModalProps> = memo(
       })
       setChangedFiles(newFiles)
       setTripGallery(
-        tripGallery.map((ti) => (ti.tripImageId === id ? { ...ti, src: tempURL } : ti))
+        tripGallery.map((ti) =>
+          ti.tripImageId === id ? { ...ti, src: tempURL } : ti
+        )
       )
     }
 
