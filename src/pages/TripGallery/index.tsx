@@ -192,16 +192,20 @@ export const TripGallery = memo(() => {
 
         {/* Gallery */}
         {mode === 'tile' ? (
-          <div className="grid md:grid-cols-4 grid-cols-3 gap-[6px]">
+          <div className="flex flex-wrap -m-1 md:-m-2">
             {tripLog?.tripGallery && tripLog?.tripGallery?.length > 0 ? (
               tripLog?.tripGallery.map((tripImage, index) => (
-                <img
-                  key={index}
-                  src={tripImage.src}
-                  alt={tripImage.backgroundInfo}
-                  loading="lazy"
-                  onClick={() => openImageViewer(index)}
-                />
+                <div key={index} className="flex flex-wrap md:w-1/4 w-1/3">
+                  <div className="w-full p-1">
+                    <img
+                      src={tripImage.src}
+                      alt={tripImage.backgroundInfo}
+                      loading="lazy"
+                      onClick={() => openImageViewer(index)}
+                      className="block object-cover object-center w-full aspect-square rounded-lg"
+                    />
+                  </div>
+                </div>
               ))
             ) : (
               <></>
@@ -230,7 +234,7 @@ export const TripGallery = memo(() => {
                     src={tripImage.src}
                     alt={tripImage.backgroundInfo}
                     loading="lazy"
-                    className="max-w-[800px] h-auto"
+                    className="max-w-[800px] sm:max-h-[586px] max-h-[250px]"
                   />
                   <span className="font-normal text-base leading-6 text-green-700 w-fit">
                     {tripImage.backgroundInfo}

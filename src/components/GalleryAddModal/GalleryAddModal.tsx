@@ -96,7 +96,6 @@ export const GalleryAddModal: FC<IGalleryAddModalProps> = memo(
         })
       }
 
-      setNewFiles([])
       const updatedTripGallery = gallery?.concat(newTripGallery)
 
       dispatch(
@@ -110,6 +109,8 @@ export const GalleryAddModal: FC<IGalleryAddModalProps> = memo(
       )
 
       handleAddTripGallery(updatedTripGallery || [])
+      setTripGallery([])
+      setNewFiles([])
 
       onClose()
     }
