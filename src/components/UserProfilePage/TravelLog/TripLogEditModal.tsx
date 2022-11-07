@@ -124,66 +124,74 @@ export const TripLogEditModal: FC<ITripLogEditModalProps> = memo(
           type: 'warning',
           message: 'Please input all necessary fields...'
         })
-      } else {
-        const newTripGallery: ITripImage[] = tripGalleryTemp
-
-        if (newGalleryFiles.length > 0) {
-          await Promise.all(
-            newGalleryFiles.map(async (file, index) => {
-              try {
-                await UploadFile(file, 'tripImage').then(async (resp) => {
-                  newTripGallery[index] = {
-                    ...newTripGallery[index],
-                    tripImageId: (Math.random() + 1).toString(36).slice(2),
-                    src: resp || ''
-                  }
-                })
-              } catch (exception) {
-                console.log(exception)
-              }
-            })
-          ).catch((err) => {
-            console.log(err)
-          })
-
-          setNewGalleryFiles([])
-          setTripGalleryTemp(newTripGallery)
-        }
-
-        if (mode === 'add') {
-          dispatch(
-            addTripLog({
-              userId,
-              tripLog: {
-                tripStartDate,
-                tripEndDate,
-                tripDescription,
-                tripGallery: newTripGallery,
-                tripRecommendations,
-                tripLocation,
-                tripCountryCode: selectedCountry
-              }
-            })
-          )
-        } else if (mode === 'edit') {
-          dispatch(
-            updateTripLog({
-              userId,
-              tripLog: {
-                tripLogId: tripLog?.tripLogId,
-                tripStartDate,
-                tripEndDate,
-                tripDescription,
-                tripGallery: newTripGallery,
-                tripRecommendations,
-                tripLocation,
-                tripCountryCode: selectedCountry
-              }
-            })
-          )
-        }
-        onClose()
+        return
       }
+
+      if (tripStartDate > tripEndDate) {
+        showToast({
+          type: 'warning',
+          message: 'Trip End Date cannot be earlier than Trip Start Date...'
+        })
+        return
+      }
+
+      const newTripGallery: ITripImage[] = tripGalleryTemp
+      if (newGalleryFiles.length > 0) {
+        await Promise.all(
+          newGalleryFiles.map(async (file, index) => {
+            try {
+              await UploadFile(file, 'tripImage').then(async (resp) => {
+                newTripGallery[index] = {
+                  ...newTripGallery[index],
+                  tripImageId: (Math.random() + 1).toString(36).slice(2),
+                  src: resp || ''
+                }
+              })
+            } catch (exception) {
+              console.log(exception)
+            }
+          })
+        ).catch((err) => {
+          console.log(err)
+        })
+
+        setNewGalleryFiles([])
+        setTripGalleryTemp(newTripGallery)
+      }
+
+      if (mode === 'add') {
+        dispatch(
+          addTripLog({
+            userId,
+            tripLog: {
+              tripStartDate,
+              tripEndDate,
+              tripDescription,
+              tripGallery: newTripGallery,
+              tripRecommendations,
+              tripLocation,
+              tripCountryCode: selectedCountry
+            }
+          })
+        )
+      } else if (mode === 'edit') {
+        dispatch(
+          updateTripLog({
+            userId,
+            tripLog: {
+              tripLogId: tripLog?.tripLogId,
+              tripStartDate,
+              tripEndDate,
+              tripDescription,
+              tripGallery: newTripGallery,
+              tripRecommendations,
+              tripLocation,
+              tripCountryCode: selectedCountry
+            }
+          })
+        )
+      }
+      onClose()
     }
 
     const handleDeleteButtonClick = async () => {
