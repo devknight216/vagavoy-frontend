@@ -50,7 +50,7 @@ export const Avatar: FC<IAvatarProps> = memo(
           .catch((err: AxiosError) => {
             showToast({
               type: 'error',
-              message: err.message
+              message: err.response?.data
             })
           })
       }

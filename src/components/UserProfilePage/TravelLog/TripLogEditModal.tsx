@@ -194,7 +194,7 @@ export const TripLogEditModal: FC<ITripLogEditModalProps> = memo(
         .catch((err: AxiosError) => {
           showToast({
             type: 'error',
-            message: err.message
+            message: err.response?.data
           })
         })
 

@@ -35,7 +35,7 @@ export const BannerImage: FC<IBannerImageProps> = memo(
           .catch((err: AxiosError) => {
             showToast({
               type: 'error',
-              message: err.message
+              message: err.response?.data
             })
           })
       }

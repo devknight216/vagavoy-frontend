@@ -22,7 +22,7 @@ export const setProfileImage = createAsyncThunk(
         return profileImage
       })
       .catch((err: AxiosError) => {
-        console.log(err.message)
+        console.log(err.response?.data)
       })
   }
 )
@@ -38,7 +38,7 @@ export const setBannerImage = createAsyncThunk(
         return bannerImage
       })
       .catch((err: AxiosError) => {
-        console.log(err.message)
+        console.log(err.response?.data)
       })
   }
 )

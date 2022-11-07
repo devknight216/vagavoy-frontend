@@ -99,7 +99,7 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ open, onClose }) => {
             .catch((err: AxiosError) => {
               showToast({
                 type: 'error',
-                message: err.message
+                message: err
               })
             })
           onClose()

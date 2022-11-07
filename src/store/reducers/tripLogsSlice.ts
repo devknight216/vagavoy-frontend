@@ -34,7 +34,7 @@ export const fetchTripLogs = createAsyncThunk(
         return newTripLogs
       })
       .catch((err: AxiosError) => {
-        console.log(err.message)
+        console.log(err.response?.data)
       })
   }
 )
@@ -56,7 +56,7 @@ export const addTripLog = createAsyncThunk(
         }
       })
       .catch((err: AxiosError) => {
-        console.log(err.message)
+        console.log(err.response?.data)
       })
   }
 )
@@ -78,7 +78,7 @@ export const updateTripLog = createAsyncThunk(
         }
       })
       .catch((err: AxiosError) => {
-        console.log(err.message)
+        console.log(err.response?.data)
       })
   }
 )
