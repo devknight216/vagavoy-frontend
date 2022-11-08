@@ -16,6 +16,7 @@ import { ProvideAuth } from './hooks/useAuth'
 import {
   Connections,
   Home,
+  News,
   SearchResult,
   TripGallery,
   UserProfile
@@ -39,6 +40,7 @@ function App() {
                     <Route path="/profile/:id" element={<UserProfile />} />
                     <Route path="/searchResult" element={<SearchResult />} />
                     <Route path="/connections" element={<Connections />} />
+                    <Route path="/news" element={<News />} />
                     <Route
                       path="/gallery/:id/:tripLogId"
                       element={<TripGallery />}

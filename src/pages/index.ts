@@ -1,5 +1,6 @@
 export { Connections } from './Connections'
 export { Home } from './Home'
+export { News } from './News'
 export { SearchResult } from './SearchResult'
 export { UserProfile } from './UserProfile'
 export { TripGallery } from './TripGallery'
