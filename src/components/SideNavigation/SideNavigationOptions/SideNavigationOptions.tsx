@@ -119,6 +119,7 @@ export const SideNavigationOptions: FC<ISideNavigationOptionsProps> = memo(
               navigationOptionLabel="Connections"
               navigationOptionLink="connections"
               navigationOptionIconName="Users"
+              navigationOptionShowBottomBorder={false}
               onCloseSideNavigation={onCloseSideNavigation}
             />
             <NavigationOption
@@ -126,6 +127,7 @@ export const SideNavigationOptions: FC<ISideNavigationOptionsProps> = memo(
               navigationOptionLabel="News"
               navigationOptionLink="news"
               navigationOptionIconName="Join"
+              navigationOptionShowBottomBorder={false}
               onCloseSideNavigation={onCloseSideNavigation}
             />
             <NavigationOption
@@ -133,6 +135,7 @@ export const SideNavigationOptions: FC<ISideNavigationOptionsProps> = memo(
               navigationOptionLabel="Messages"
               navigationOptionLink="messages"
               navigationOptionIconName="Message"
+              navigationOptionShowBottomBorder={false}
               onCloseSideNavigation={onCloseSideNavigation}
             />
             <div

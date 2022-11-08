@@ -1,3 +1,4 @@
+import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined'
 import { Typography, useTheme } from '@mui/material'
 import { FC, memo } from 'react'
 // import { useNavigate } from 'react-router-dom'
@@ -23,12 +24,20 @@ export const UserCard: FC<IUserCardProps> = memo(
 
     return (
       <div className="rounded-2xl relative flex items-center flex-col shadow-3xl bg-white pb-[51px] cursor-pointer">
-        <img
-          src={userProfile.bannerImage}
-          className="w-full sm:h-[145px] h-[96px] rounded-2xl rounded-br-none rounded-bl-sm border-[1px] border-green-100"
-        />
+        {userProfile.bannerImage ? (
+          <img
+            src={userProfile.bannerImage}
+            className="w-full sm:h-[145px] h-[96px] rounded-2xl rounded-br-none rounded-bl-sm border-[1px] border-green-100"
+          />
+        ) : (
+          <div className="w-full sm:h-[145px] h-[96px] rounded-2xl rounded-br-none rounded-bl-sm border-[1px] border-green-100 bg-green-300"></div>
+        )}
         <div className="absolute top-[38px] sm:top-[99px] mx:auto">
-          <Avatar size={92} src={userProfile.profileImage} borderWidth={4} />
+          {userProfile.profileImage ? (
+            <Avatar size={92} src={userProfile.profileImage} borderWidth={4} />
+          ) : (
+            <AccountCircleOutlinedIcon className="text-green-700 w-[92px] h-[92px]" />
+          )}
         </div>
         <div className="mt-[50px] sm:mt-[62px] flex flex-col gap-y-2">
           <Typography

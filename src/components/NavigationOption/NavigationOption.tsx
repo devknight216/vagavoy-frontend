@@ -6,26 +6,12 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import { Avatar, Icon } from '../index'
 
 export interface INavigationOptionProps {
-  /**
-   * Navigation Option Direction
-   */
   navigationOptionDirection?: 'row' | 'column'
-  /**
-   * Navigation Option IconName
-   */
   navigationOptionIconName?: string
-  /**
-   * Navigation Option Avatar Source
-   */
   navigationOptionAvatarSrc?: string
-  /**
-   * Navigation Option Label
-   */
   navigationOptionLabel: string
-  /**
-   * Navigation Option Link
-   */
   navigationOptionLink: string
+  navigationOptionShowBottomBorder?: boolean
   onCloseSideNavigation?: () => void
 }
 
@@ -36,6 +22,7 @@ export const NavigationOption: FC<INavigationOptionProps> = memo(
     navigationOptionAvatarSrc = '',
     navigationOptionLabel,
     navigationOptionLink,
+    navigationOptionShowBottomBorder = true,
     onCloseSideNavigation,
     ...props
   }: INavigationOptionProps) => {
@@ -57,7 +44,9 @@ export const NavigationOption: FC<INavigationOptionProps> = memo(
     return (
       <div
         className={`cursor-pointer h-full flex justify-center items-center ${
-          isActive ? 'border-b-2 border-b-green-700' : ''
+          isActive && navigationOptionShowBottomBorder
+            ? 'border-b-2 border-b-green-700'
+            : ''
         }`}
         onClick={() => {
           navigate(navigationOptionLink)

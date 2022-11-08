@@ -1,14 +1,15 @@
 import { memo, useEffect, useState } from 'react'
-import { useNavigate, useSearchParams } from 'react-router-dom'
-import { Avatar, Button, Icon } from 'src/components'
+import { useSearchParams } from 'react-router-dom'
 import MainContainer from 'src/components/MainContainer'
+import UserConnectContainer from 'src/components/UserConnectContainer'
+import { useAuth } from 'src/hooks'
 import { axiosInstance } from 'src/services/jwtService'
 import { IProfile } from 'src/types'
 
 export const SearchResult = memo(() => {
   const [search] = useSearchParams()
   const [results, setResults] = useState<IProfile[]>([])
-  const navigate = useNavigate()
+  const { user } = useAuth()
 
   useEffect(() => {
     const term = search.get('term')
@@ -29,74 +30,15 @@ export const SearchResult = memo(() => {
         </span>
         <div className="flex flex-col gap-y-4 sm:gap-y-6 w-full">
           {results.length > 0 ? (
-            results.map((profile, index) => (
-              <div
-                key={profile._id || index}
-                className="flex sm:flex-row flex-col gap-x-6 relative w-full cursor-pointer"
-                onClick={() => navigate(`/profile/${profile._id}`)}>
-                <Avatar
-                  src={profile.profileImage}
-                  className="sm:w-[92px] sm:h-[92px] w-[42px] h-[42px] sm:block hidden"
-                  borderWidth={2}
+            results
+              .filter((result) => result._id !== user.id)
+              .map((profile, index) => (
+                <UserConnectContainer
+                  key={profile._id || index}
+                  profile={profile}
+                  type="search"
                 />
-                <div className="flex flex-1 flex-col gap-y-4 items-start border-b border-b-green-100 pb-6">
-                  <div className="flex flex-row gap-x-3 items-center justify-center">
-                    <Avatar
-                      src={profile.profileImage}
-                      className="sm:w-[92px] sm:h-[92px] w-[42px] h-[42px] sm:hidden block"
-                      borderWidth={2}
-                    />
-                    <span className="text-[22px] leading-6 font-bold text-green-700">
-                      {profile.mainInfo?.name}
-                    </span>
-                  </div>
-                  <div className="flex flex-row items-center">
-                    <Icon
-                      iconName="Location"
-                      iconColor="var(--var-green-light1)"
-                      iconSize={22}
-                    />
-                    <span className="ml-2 sm:text-lg text-sm text-green-500">
-                      Currently In:
-                    </span>
-                    <span className="ml-2 sm:text-lg text-sm text-green-700 font-bold">
-                      {profile.mainInfo?.location}
-                    </span>
-                  </div>
-                  <div className="flex flex-row items-center">
-                    <Icon
-                      iconName="Airplane"
-                      iconColor="var(--var-green-light1)"
-                      iconSize={22}
-                    />
-                    <span className="ml-2 sm:text-lg text-sm text-green-500">
-                      Last Trip:
-                    </span>
-                    <span className="ml-2 sm:text-lg text-sm text-green-700 font-bold">
-                      {profile.mainInfo?.lastTripLocation}
-                    </span>
-                  </div>
-                  <div className="flex flex-row items-center">
-                    <Icon
-                      iconName="Map"
-                      iconColor="var(--var-green-light1)"
-                      iconSize={22}
-                    />
-                    <span className="ml-2 sm:text-lg text-sm text-green-500">
-                      Next Spot On Bucket List:
-                    </span>
-                    <span className="ml-2 sm:text-lg text-sm text-green-700 font-bold">
-                      {profile.mainInfo?.nextSpotOnBucketList}
-                    </span>
-                  </div>
-                  <Button
-                    buttonLabel="Connect"
-                    variant="contained"
-                    className="sm:w-[124px] sm:h-[44px] w-[90px] h-[32px] sm:absolute top-0 right-0"
-                  />
-                </div>
-              </div>
-            ))
+              ))
           ) : (
             <span className="text-4xl font-semibold leading-6 text-green-700 text-center mt-8">
               No Result
