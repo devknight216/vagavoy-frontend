@@ -51,7 +51,11 @@ export const Connections = memo(() => {
                 key={index}
                 className="flex flex-wrap md:w-1/4 sm:w-1/3 w-1/2">
                 <div className="w-full p-2">
-                  <UserCard key={profile._id || index} userProfile={profile} />
+                  <UserCard
+                    key={profile._id || index}
+                    userProfile={profile}
+                    showConnectButton={true}
+                  />
                 </div>
               </div>
             ))

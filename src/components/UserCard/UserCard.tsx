@@ -4,7 +4,7 @@ import { FC, memo } from 'react'
 // import { useNavigate } from 'react-router-dom'
 import { IProfile } from 'src/types/IProfile'
 
-import { Avatar } from '../index'
+import { Avatar, Button } from '../index'
 
 export interface IUserCardProps {
   /**
@@ -18,12 +18,15 @@ export interface IUserCardProps {
 }
 
 export const UserCard: FC<IUserCardProps> = memo(
-  ({ userProfile }: IUserCardProps) => {
+  ({ userProfile, showConnectButton }: IUserCardProps) => {
     const theme = useTheme()
     // const navigate = useNavigate()
 
     return (
-      <div className="rounded-2xl relative flex items-center flex-col shadow-3xl bg-white pb-[51px] cursor-pointer">
+      <div
+        className={`rounded-2xl relative flex items-center flex-col shadow-3xl bg-white cursor-pointer ${
+          showConnectButton ? 'pb-8' : 'pb-[51px]'
+        }`}>
         {userProfile.bannerImage ? (
           <img
             src={userProfile.bannerImage}
@@ -58,6 +61,15 @@ export const UserCard: FC<IUserCardProps> = memo(
             }}>
             Last Trip: {userProfile.mainInfo?.lastTripLocation}
           </Typography>
+          {showConnectButton ? (
+            <Button
+              buttonLabel="Connect"
+              variant="contained"
+              className="w-[124px] mt-[11px]"
+            />
+          ) : (
+            <></>
+          )}
         </div>
       </div>
     )
