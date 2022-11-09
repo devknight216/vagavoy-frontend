@@ -20,7 +20,6 @@ export const AppLayout = memo(() => {
 
   useEffect(() => {
     const userId = user.id
-    console.log(userId)
     if (userId) {
       axiosInstance
         .get(`${process.env.REACT_APP_API_URL}/user/${userId}`)

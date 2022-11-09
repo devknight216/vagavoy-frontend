@@ -259,7 +259,13 @@ export const TripLogEditModal: FC<ITripLogEditModalProps> = memo(
           <div className="flex flex-row items-center justify-between sm:h-[88px] h-[72px] sm:px-8 px-4 border-b border-green-100">
             <div className="flex flex-col sm:flex-row">
               <span className="sm:text-[28px] text-[22px] sm:font-semibold font-bold">
-                {mode === 'edit' ? 'Edit Travel Log' : 'Add New Travel'}
+                {mode === 'edit'
+                  ? 'Edit Travel Log'
+                  : tripLog?.tripCountryCode
+                  ? `Add a Stop to Your ${regionNames.of(
+                      tripLog?.tripCountryCode || ''
+                    )} Trip`
+                  : 'Add New Travel'}
               </span>
               <span className="sm:text-[28px] text-[22px] sm:font-semibold font-bold">
                 {mode === 'edit'
@@ -308,6 +314,9 @@ export const TripLogEditModal: FC<ITripLogEditModalProps> = memo(
                   </span>
                   <CustomAutocomplete
                     apiKey={process.env.REACT_APP_GOOGLE_API_KEY}
+                    onChange={(e: React.FormEvent<HTMLInputElement>) =>
+                      setTripLocation(e.currentTarget.value)
+                    }
                     onPlaceSelected={(place) => {
                       setTripLocation(place?.formatted_address)
                     }}
