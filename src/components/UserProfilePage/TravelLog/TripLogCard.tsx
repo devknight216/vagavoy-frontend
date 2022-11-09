@@ -25,15 +25,16 @@ export const TripLogCard: FC<ITripLogCardProps> = memo(
           className="absolute sm:w-[64px] sm:h-[44px] w-[44px] h-[31px] sm:left-0 sm:top-8 z-10 left-0 top-[14px]"
         />
         <div>
+          <TripLogElement
+            userId={userId}
+            tripLog={tripLogs.filter((t) => t.mainTrip)[0]}
+            isFirstTripLog
+          />
           {tripLogs
             .slice(0, showAllLogs ? undefined : 1)
+            .filter((t) => !t.mainTrip)
             .map((tripLog, index) => (
-              <TripLogElement
-                key={index}
-                userId={userId}
-                tripLog={tripLog}
-                isFirstTripLog={index === 0}
-              />
+              <TripLogElement key={index} userId={userId} tripLog={tripLog} />
             ))}
         </div>
         {!showAllLogs && tripLogs.length > 1 && (

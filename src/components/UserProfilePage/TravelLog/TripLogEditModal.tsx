@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
 import { Dialog, Paper, styled } from '@mui/material'
 import { AxiosError } from 'axios'
 import { FC, memo, useEffect, useState } from 'react'
@@ -95,6 +94,7 @@ export const TripLogEditModal: FC<ITripLogEditModalProps> = memo(
     const { showToast } = useToast()
     const [selectedCountry, setSelectedCountry] = useState('')
     const [newGalleryFiles, setNewGalleryFiles] = useState<File[]>([])
+    const [mainTrip, setMainTrip] = useState(false)
 
     useEffect(() => {
       if (mode === 'add') {
@@ -116,6 +116,9 @@ export const TripLogEditModal: FC<ITripLogEditModalProps> = memo(
         setTripRecommendations(tripLog?.tripRecommendations || [])
         setSelectedCountry(tripLog?.tripCountryCode || '')
       }
+
+      if (tripLog && tripLog?.tripCountryCode) setMainTrip(false)
+      else setMainTrip(true)
     }, [tripLog, mode])
 
     const handleSaveButtonClick = async () => {
@@ -170,7 +173,8 @@ export const TripLogEditModal: FC<ITripLogEditModalProps> = memo(
               tripGallery: newTripGallery,
               tripRecommendations,
               tripLocation,
-              tripCountryCode: selectedCountry
+              tripCountryCode: selectedCountry,
+              mainTrip
             }
           })
         )

@@ -38,14 +38,21 @@ export const TravelLog: FC<ITravelLogProps> = memo(
     useEffect(() => {
       const newObj: { [key: string]: ITripLog[] } = {}
       if (tripLogs && tripLogs.length > 0) {
-        tripLogs.forEach((tripLog: ITripLog) => {
-          if (newObj[tripLog.tripCountryCode || '']?.length)
-            newObj[tripLog.tripCountryCode || ''].push(tripLog)
-          else
-            Object.assign(newObj, {
-              [tripLog.tripCountryCode || '']: [tripLog]
-            })
-        })
+        tripLogs
+          .sort((b, a) => {
+            if (b.tripStartDate && a.tripStartDate)
+              return b?.tripStartDate?.getTime() - a?.tripStartDate?.getTime()
+
+            return 0
+          })
+          .forEach((tripLog: ITripLog) => {
+            if (newObj[tripLog.tripCountryCode || '']?.length)
+              newObj[tripLog.tripCountryCode || ''].push(tripLog)
+            else
+              Object.assign(newObj, {
+                [tripLog.tripCountryCode || '']: [tripLog]
+              })
+          })
 
         setTripLogsByCountry(newObj)
       } else {

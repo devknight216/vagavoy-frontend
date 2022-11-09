@@ -9,7 +9,7 @@ import TripLogEditModal from './TripLogEditModal'
 export interface ITripLogElementProps {
   userId: string
   tripLog: ITripLog
-  isFirstTripLog: boolean
+  isFirstTripLog?: boolean
 }
 
 const getPeriod = (startDate: Date | undefined, endDate: Date | undefined) => {
@@ -48,7 +48,7 @@ const getPeriod = (startDate: Date | undefined, endDate: Date | undefined) => {
 }
 
 export const TripLogElement: FC<ITripLogElementProps> = memo(
-  ({ userId, tripLog, isFirstTripLog }: ITripLogElementProps) => {
+  ({ userId, tripLog, isFirstTripLog = false }: ITripLogElementProps) => {
     const { user } = useAuth()
     const regionNames = new Intl.DisplayNames(['en'], { type: 'region' })
     const [mode, setMode] = useState<'add' | 'edit'>('add')

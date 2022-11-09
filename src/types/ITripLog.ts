@@ -2,6 +2,7 @@ import { ITripImage } from './ITripImage'
 import { ITripRecommendation } from './ITripRecommendation'
 
 export interface ITripLogBase {
+  mainTrip?: boolean
   tripCountryCode?: string
   tripLocation?: string
   tripStartDate?: Date
