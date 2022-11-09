@@ -80,7 +80,7 @@ export const MainInfo: FC<IMainInfoProps> = memo(({ id }: IMainInfoProps) => {
               Currently In:
             </span>
             <span className="ml-2 sm:text-lg text-sm text-green-700 font-bold">
-              {userMainInfo?.location}
+              {userMainInfo?.location?.split(',')[0]}
             </span>
           </div>
           <div className="flex flex-row items-center mt-4">
@@ -93,7 +93,7 @@ export const MainInfo: FC<IMainInfoProps> = memo(({ id }: IMainInfoProps) => {
               Last Trip:
             </span>
             <span className="ml-2 sm:text-lg text-sm text-green-700 font-bold">
-              {userMainInfo?.lastTripLocation}
+              {userMainInfo?.lastTripLocation?.split(',')[0]}
             </span>
           </div>
           <div className="flex flex-row items-center mt-4">
@@ -106,7 +106,7 @@ export const MainInfo: FC<IMainInfoProps> = memo(({ id }: IMainInfoProps) => {
               Next Spot On Bucket List:
             </span>
             <span className="ml-2 sm:text-lg text-sm text-green-700 font-bold">
-              {userMainInfo?.nextSpotOnBucketList}
+              {userMainInfo?.nextSpotOnBucketList?.split(',')[0]}
             </span>
           </div>
         </div>

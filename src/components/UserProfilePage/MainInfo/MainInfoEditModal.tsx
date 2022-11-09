@@ -1,5 +1,6 @@
 import { Dialog, Paper, styled } from '@mui/material'
 import { FC, memo, useEffect, useState } from 'react'
+import Autocomplete from 'react-google-autocomplete'
 import { Button, CloseButton, TextField } from 'src/components'
 import { IMainInfo } from 'src/types'
 
@@ -17,6 +18,26 @@ const StyledPaper = styled(Paper)`
   max-width: 980px !important;
   width: 100%;
 `
+
+const CustomAutocomplete = styled(Autocomplete)(({ theme }) => ({
+  width: '100%',
+  padding: theme.spacing(2.5, 3),
+  fontFamily: 'proxima_nova',
+  fontSize: '14px',
+  fontWeight: '400',
+  fontStyle: 'normal',
+  lineHeight: '21px',
+  color: '#003300',
+  border: `1px solid ${theme.palette.green.light1}`,
+  borderRadius: '4px',
+  '&:focus': {
+    border: `1px solid ${theme.palette.green.light1}`
+  },
+  '&::placeholder': {
+    color: theme.palette.green.middle
+  },
+  outline: 'none'
+}))
 
 export const MainInfoEditModal: FC<IMainInfoEditModalProps> = memo(
   ({
@@ -71,24 +92,51 @@ export const MainInfoEditModal: FC<IMainInfoEditModalProps> = memo(
             placeholder="Enter your full name"
             onChange={(e) => setName(e.target.value)}
           />
-          <TextField
-            value={location}
-            label="Currently In"
-            placeholder="Enter your current location"
-            onChange={(e) => setLocation(e.target.value)}
-          />
-          <TextField
-            value={lastTripLocation}
-            label="Last Trip"
-            placeholder="Enter your last trip location"
-            onChange={(e) => setLastTripLocation(e.target.value)}
-          />
-          <TextField
-            value={nextSpotOnBucketList}
-            label="Next Spot on Bucket List"
-            placeholder="Enter your next spot"
-            onChange={(e) => setNextSpotOnBucketList(e.target.value)}
-          />
+          <div className="w-full flex flex-col gap-y-2">
+            <span className="w-full text-green-500 leading-[21px] text-sm text-left">
+              Currently In
+            </span>
+            <CustomAutocomplete
+              apiKey={process.env.REACT_APP_GOOGLE_API_KEY}
+              onChange={(e: React.FormEvent<HTMLInputElement>) =>
+                setLocation(e.currentTarget.value)
+              }
+              onPlaceSelected={(place) => {
+                setLocation(place?.formatted_address)
+              }}
+              defaultValue={location || ''}
+            />
+          </div>
+          <div className="w-full flex flex-col gap-y-2">
+            <span className="w-full text-green-500 leading-[21px] text-sm text-left">
+              Last Trip
+            </span>
+            <CustomAutocomplete
+              apiKey={process.env.REACT_APP_GOOGLE_API_KEY}
+              onChange={(e: React.FormEvent<HTMLInputElement>) =>
+                setLastTripLocation(e.currentTarget.value)
+              }
+              onPlaceSelected={(place) => {
+                setLastTripLocation(place?.formatted_address)
+              }}
+              defaultValue={location || ''}
+            />
+          </div>
+          <div className="w-full flex flex-col gap-y-2">
+            <span className="w-full text-green-500 leading-[21px] text-sm text-left">
+              Next Spot on Bucket List
+            </span>
+            <CustomAutocomplete
+              apiKey={process.env.REACT_APP_GOOGLE_API_KEY}
+              onChange={(e: React.FormEvent<HTMLInputElement>) =>
+                setNextSpotOnBucketList(e.currentTarget.value)
+              }
+              onPlaceSelected={(place) => {
+                setNextSpotOnBucketList(place?.formatted_address)
+              }}
+              defaultValue={location || ''}
+            />
+          </div>
           <Button
             buttonLabel="Save"
             variant="contained"
