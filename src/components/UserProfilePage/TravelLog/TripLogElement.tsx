@@ -62,10 +62,10 @@ export const TripLogElement: FC<ITripLogElementProps> = memo(
             <Typography className="font-bold text-lg leading-6 text-green-700">
               {tripLog?.tripLocation?.split(',')[0] +
                 ', ' +
-                regionNames.of(tripLog.tripCountryCode || '')}
+                regionNames.of(tripLog?.tripCountryCode || '')}
             </Typography>
             <Typography className="font-bold text-[14px] leading-[21px] text-green-500 -mt-[2px]">
-              {getPeriod(tripLog.tripStartDate, tripLog.tripEndDate)}
+              {getPeriod(tripLog?.tripStartDate, tripLog?.tripEndDate)}
             </Typography>
           </div>
           <div className="flex flex-row gap-x-4">
@@ -88,17 +88,17 @@ export const TripLogElement: FC<ITripLogElementProps> = memo(
           </div>
         </div>
         <Typography className="text-base leading-6 text-green-700 mt-3">
-          {tripLog.tripDescription || ''}
+          {tripLog?.tripDescription || ''}
         </Typography>
         <div className="mt-4 flex flex-col gap-x-4 md:flex-row gap-y-2">
           <TripButton
             tripButtonType="Gallery"
-            tripLogId={tripLog.tripLogId || ''}
+            tripLogId={tripLog?.tripLogId || ''}
             userId={userId}
           />
           <TripButton
             tripButtonType="Recommendation"
-            tripLogId={tripLog.tripLogId || ''}
+            tripLogId={tripLog?.tripLogId || ''}
             userId={userId}
           />
         </div>

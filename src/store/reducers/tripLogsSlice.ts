@@ -28,7 +28,8 @@ export const fetchTripLogs = createAsyncThunk(
             tripGallery: value.tripGallery,
             tripRecommendations: value.tripRecommendations,
             tripLocation: value.tripLocation,
-            tripDescription: value.tripDescription
+            tripDescription: value.tripDescription,
+            mainTrip: value.mainTrip
           })
         })
         return newTripLogs
