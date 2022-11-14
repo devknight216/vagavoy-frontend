@@ -162,8 +162,6 @@ export const TripLogEditModal: FC<ITripLogEditModalProps> = memo(
         setTripGalleryTemp(newTripGallery)
       }
 
-      tripRecommendations.filter((tr) => tr.title && tr.description)
-
       if (mode === 'add') {
         dispatch(
           addTripLog({
@@ -173,7 +171,9 @@ export const TripLogEditModal: FC<ITripLogEditModalProps> = memo(
               tripEndDate,
               tripDescription,
               tripGallery: newTripGallery,
-              tripRecommendations,
+              tripRecommendations: tripRecommendations.filter(
+                (tr) => tr.title !== '' && tr.description !== ''
+              ),
               tripLocation,
               tripCountryCode: selectedCountry,
               mainTrip
@@ -190,7 +190,9 @@ export const TripLogEditModal: FC<ITripLogEditModalProps> = memo(
               tripEndDate,
               tripDescription,
               tripGallery: newTripGallery,
-              tripRecommendations,
+              tripRecommendations: tripRecommendations.filter(
+                (tr) => tr.title !== '' && tr.description !== ''
+              ),
               tripLocation,
               tripCountryCode: selectedCountry
             }
