@@ -42,7 +42,7 @@ export const UserCard: FC<IUserCardProps> = memo(
             <AccountCircleOutlinedIcon className="text-green-700 w-[92px] h-[92px]" />
           )}
         </div>
-        <div className="mt-[50px] sm:mt-[62px] flex flex-col gap-y-2">
+        <div className="mt-[50px] sm:mt-[62px] flex flex-col gap-y-2 items-center justify-center">
           <Typography
             sx={{
               fontWeight: 700,
@@ -59,7 +59,7 @@ export const UserCard: FC<IUserCardProps> = memo(
               lineHeight: '24px',
               color: theme.palette.green.middle
             }}>
-            Last Trip: {userProfile.mainInfo?.lastTripLocation}
+            Last Trip: {userProfile.mainInfo?.lastTripLocation?.split(',')[0]}
           </Typography>
           {showConnectButton ? (
             <Button
