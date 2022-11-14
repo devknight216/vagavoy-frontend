@@ -119,7 +119,7 @@ export const MainInfoEditModal: FC<IMainInfoEditModalProps> = memo(
               onPlaceSelected={(place) => {
                 setLastTripLocation(place?.formatted_address)
               }}
-              defaultValue={location || ''}
+              defaultValue={lastTripLocation || ''}
             />
           </div>
           <div className="w-full flex flex-col gap-y-2">
@@ -134,7 +134,7 @@ export const MainInfoEditModal: FC<IMainInfoEditModalProps> = memo(
               onPlaceSelected={(place) => {
                 setNextSpotOnBucketList(place?.formatted_address)
               }}
-              defaultValue={location || ''}
+              defaultValue={nextSpotOnBucketList || ''}
             />
           </div>
           <Button
