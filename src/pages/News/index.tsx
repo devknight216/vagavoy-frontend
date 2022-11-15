@@ -31,13 +31,11 @@ export const News = memo(() => {
       .then((res) => {
         const logs: ITripLog[] = []
         setTripLogs(logs.concat(res.data))
+        console.log(res.data)
         setPopularTripLogs(logs.concat(res.data))
       })
       .catch((err: AxiosError) => {
-        showToast({
-          type: 'error',
-          message: err.response?.data
-        })
+        console.log(err)
       })
   }, [])
 
@@ -107,7 +105,7 @@ export const News = memo(() => {
                 ) : (
                   <></>
                 )}
-                <div className='flex flex-1 flex-col gap-y-2'>
+                <div className="flex flex-1 flex-col gap-y-2">
                   <div className="flex flex-row gap-x-[14px]">
                     <Avatar
                       src={profile.profileImage}

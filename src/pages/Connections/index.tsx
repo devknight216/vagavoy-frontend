@@ -2,11 +2,13 @@ import { memo, useEffect, useState } from 'react'
 import { UserCard } from 'src/components'
 import MainContainer from 'src/components/MainContainer'
 import UserConnectContainer from 'src/components/UserConnectContainer'
+import { useAuth } from 'src/hooks'
 import { axiosInstance } from 'src/services/jwtService'
 import { IProfile } from 'src/types'
 
 export const Connections = memo(() => {
   const [results, setResults] = useState<IProfile[]>([])
+  const { user } = useAuth()
 
   useEffect(() => {
     /** Need to Fetch Requested Connections, Recommended Connections & Existing Connections Here. */
@@ -46,19 +48,21 @@ export const Connections = memo(() => {
 
         <div className="flex flex-wrap w-full mb-8">
           {results.length > 0 ? (
-            results.map((profile, index) => (
-              <div
-                key={index}
-                className="flex flex-wrap md:w-1/4 sm:w-1/3 w-1/2">
-                <div className="w-full p-2">
-                  <UserCard
-                    key={profile._id || index}
-                    userProfile={profile}
-                    showConnectButton={true}
-                  />
+            results
+              .filter((r) => r._id !== user.id)
+              .map((profile, index) => (
+                <div
+                  key={index}
+                  className="flex flex-wrap md:w-1/4 sm:w-1/3 w-1/2">
+                  <div className="w-full p-2">
+                    <UserCard
+                      key={profile._id || index}
+                      userProfile={profile}
+                      showConnectButton={true}
+                    />
+                  </div>
                 </div>
-              </div>
-            ))
+              ))
           ) : (
             <span className="text-4xl font-semibold leading-6 text-green-700 text-center mt-4 mb-4 w-full">
               No Recommended Connections

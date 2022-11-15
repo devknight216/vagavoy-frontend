@@ -1,7 +1,9 @@
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined'
 import { Typography, useTheme } from '@mui/material'
+import { AxiosError } from 'axios'
 import { FC, memo } from 'react'
-// import { useNavigate } from 'react-router-dom'
+import { useToast } from 'src/hooks'
+import { axiosInstance } from 'src/services/jwtService'
 import { IProfile } from 'src/types/IProfile'
 
 import { Avatar, Button } from '../index'
@@ -20,7 +22,26 @@ export interface IUserCardProps {
 export const UserCard: FC<IUserCardProps> = memo(
   ({ userProfile, showConnectButton }: IUserCardProps) => {
     const theme = useTheme()
-    // const navigate = useNavigate()
+    const { showToast } = useToast()
+
+    const handleConnectButtonClick = async () => {
+      await axiosInstance
+        .post(`${process.env.REACT_APP_API_URL}/user/connectRequest`, {
+          userId: userProfile._id
+        })
+        .then(() => {
+          showToast({
+            type: 'success',
+            message: 'Connect Request Success'
+          })
+        })
+        .catch((err: AxiosError) => {
+          showToast({
+            type: 'error',
+            message: err.response?.data
+          })
+        })
+    }
 
     return (
       <div
@@ -66,6 +87,7 @@ export const UserCard: FC<IUserCardProps> = memo(
               buttonLabel="Connect"
               variant="contained"
               className="w-[124px] mt-[11px]"
+              onClick={handleConnectButtonClick}
             />
           ) : (
             <></>

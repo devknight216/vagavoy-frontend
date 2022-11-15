@@ -1,6 +1,10 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined'
+import { AxiosError } from 'axios'
 import { FC, memo } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useToast } from 'src/hooks'
+import { axiosInstance } from 'src/services/jwtService'
 import { IProfile } from 'src/types/IProfile'
 
 import { Avatar, Button, Icon } from '../index'
@@ -10,19 +14,40 @@ export interface IUserConnectContainerProps {
   type: 'request' | 'existing' | 'search'
 }
 
+type ActionType = 'Request' | 'Accept' | 'Reject' | 'Remove'
+
 export const UserConnectContainer: FC<IUserConnectContainerProps> = memo(
   ({ profile, type }: IUserConnectContainerProps) => {
     const navigate = useNavigate()
+    const { showToast } = useToast()
+
+    const handleConnectActionButtonClick = async (actionType: ActionType) => {
+      await axiosInstance
+        .post(`${process.env.REACT_APP_API_URL}/user/connect${actionType}`, {
+          userId: profile._id
+        })
+        .then(() => {
+          showToast({
+            type: 'success',
+            message: `Connect ${actionType}ed Successfully`
+          })
+        })
+        .catch((err: AxiosError) => {
+          showToast({
+            type: 'error',
+            message: err.response?.data
+          })
+        })
+    }
 
     return (
-      <div
-        className="flex sm:flex-row flex-col gap-x-6 relative w-full cursor-pointer"
-        onClick={() => navigate(`/profile/${profile._id}`)}>
+      <div className="flex sm:flex-row flex-col gap-x-6 relative w-full">
         {profile.profileImage ? (
           <Avatar
             src={profile.profileImage}
-            className="sm:w-[92px] sm:h-[92px] w-[42px] h-[42px] sm:block hidden"
+            className="sm:w-[92px] sm:h-[92px] w-[42px] h-[42px] sm:block hidden cursor-pointer"
             borderWidth={2}
+            onClick={() => navigate(`/profile/${profile._id}`)}
           />
         ) : (
           <AccountCircleOutlinedIcon className="text-green-700 w-[92px] h-[92px] sm:block hidden" />
@@ -35,6 +60,7 @@ export const UserConnectContainer: FC<IUserConnectContainerProps> = memo(
                 src={profile.profileImage}
                 className="sm:w-[92px] sm:h-[92px] w-[42px] h-[42px] sm:hidden block"
                 borderWidth={2}
+                onClick={() => navigate(`/profile/${profile._id}`)}
               />
             ) : (
               <AccountCircleOutlinedIcon className="text-green-700 w-[92px] h-[92px] sm:hidden block" />
@@ -83,18 +109,20 @@ export const UserConnectContainer: FC<IUserConnectContainerProps> = memo(
               {profile.mainInfo?.nextSpotOnBucketList}
             </span>
           </div>
-          <div className="flex flex-row gap-x-[30px] sm:absolute top-0 right-0">
+          <div className="flex flex-row gap-x-[30px] sm:absolute top-0 right-0 z-50">
             {type === 'request' ? (
               <>
                 <Button
                   buttonLabel="Reject"
                   variant="outlined"
                   className="sm:w-[124px] sm:h-[44px] w-[90px] h-[32px] border-green-500 text-green-500"
+                  onClick={() => handleConnectActionButtonClick('Reject')}
                 />
                 <Button
                   buttonLabel="Accept"
                   variant="outlined"
                   className="sm:w-[124px] sm:h-[44px] w-[90px] h-[32px]"
+                  onClick={() => handleConnectActionButtonClick('Accept')}
                 />
               </>
             ) : type === 'existing' ? (
@@ -103,6 +131,7 @@ export const UserConnectContainer: FC<IUserConnectContainerProps> = memo(
                   buttonLabel="Remove"
                   variant="outlined"
                   className="sm:w-[124px] sm:h-[44px] w-[90px] h-[32px] border-green-500 text-green-500"
+                  onClick={() => handleConnectActionButtonClick('Remove')}
                 />
                 <Button
                   buttonLabel="Message"
@@ -114,7 +143,8 @@ export const UserConnectContainer: FC<IUserConnectContainerProps> = memo(
               <Button
                 buttonLabel="Connect"
                 variant="contained"
-                className="sm:w-[124px] sm:h-[44px] w-[90px] h-[32px]"
+                className="sm:w-[124px] sm:h-[44px] w-[90px] h-[32px] z-50"
+                onClick={() => handleConnectActionButtonClick('Request')}
               />
             ) : (
               <></>

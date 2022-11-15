@@ -17,6 +17,7 @@ interface IAvatarProps {
   borderWidth?: number
   src?: string
   className?: string
+  onClick?: () => void
 }
 
 const CustomAvatar = styled('img')<IAvatarProps>(({ size, borderWidth }) => ({
@@ -32,7 +33,7 @@ const Input = styled('input')(() => ({
 }))
 
 export const Avatar: FC<IAvatarProps> = memo(
-  ({ src = '', size, borderWidth, id, className }) => {
+  ({ src = '', size, borderWidth, id, className, onClick }) => {
     const theme = useTheme()
     const dispatch = useAppDispatch()
     const { user } = useAuth()
@@ -76,7 +77,7 @@ export const Avatar: FC<IAvatarProps> = memo(
     }
 
     return (
-      <div className="w-fit relative">
+      <div className="w-fit relative" onClick={onClick}>
         {avatarSrc && (
           <CustomAvatar
             src={avatarSrc}

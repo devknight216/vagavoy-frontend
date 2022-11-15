@@ -58,6 +58,25 @@ export const MainInfo: FC<IMainInfoProps> = memo(({ id }: IMainInfoProps) => {
       })
   }
 
+  const handleConnectButtonClick = async () => {
+    await axiosInstance
+      .post(`${process.env.REACT_APP_API_URL}/user/connectRequest`, {
+        userId: id
+      })
+      .then(() => {
+        showToast({
+          type: 'success',
+          message: 'Connect Request Success'
+        })
+      })
+      .catch((err: AxiosError) => {
+        showToast({
+          type: 'error',
+          message: err.response?.data
+        })
+      })
+  }
+
   return (
     <div className="relative">
       <div className="flex flex-row justify-between items-end text-green-700">
@@ -133,6 +152,7 @@ export const MainInfo: FC<IMainInfoProps> = memo(({ id }: IMainInfoProps) => {
                 buttonLabel="Connect"
                 variant="contained"
                 className="w-full sm:w-[124px]"
+                onClick={handleConnectButtonClick}
               />
             </div>
           )}
