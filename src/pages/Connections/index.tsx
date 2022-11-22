@@ -20,15 +20,18 @@ export const Connections = memo(() => {
   const { user } = useAuth()
 
   useEffect(() => {
-    axiosInstance
-      .get('/connection')
-      .then((res: AxiosResponse<ConnectionResponse>) => {
-        setConnectedUsers(res.data.connectedUsers)
-        setRequestedUsers(res.data.requestedUsers)
-        setRecommendedUsers(res.data.recommendedUsers)
-      })
-      .catch((err) => console.log(err))
-  }, [])
+    const userId = user.id
+    if (userId) {
+      axiosInstance
+        .get('/connection')
+        .then((res: AxiosResponse<ConnectionResponse>) => {
+          setConnectedUsers(res.data.connectedUsers)
+          setRequestedUsers(res.data.requestedUsers)
+          setRecommendedUsers(res.data.recommendedUsers)
+        })
+        .catch((err) => console.log(err))
+    }
+  }, [user])
 
   return (
     <MainContainer className="w-full min-h-[calc(100vh-80px)]">
