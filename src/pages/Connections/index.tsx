@@ -40,8 +40,8 @@ export const Connections = memo(() => {
           Connection Requests
         </span>
         <div className="flex flex-col gap-y-4 sm:gap-y-6 w-full">
-          {connectedUsers && connectedUsers.length > 0 ? (
-            connectedUsers.map((profile, index) => (
+          {requestedUsers && requestedUsers.length > 0 ? (
+            requestedUsers.map((profile, index) => (
               <UserConnectContainer
                 key={index}
                 profile={profile || []}
@@ -87,8 +87,8 @@ export const Connections = memo(() => {
           Existing Connections
         </span>
         <div className="flex flex-col gap-y-4 sm:gap-y-6 w-full mb-8">
-          {requestedUsers && requestedUsers.length > 0 ? (
-            requestedUsers.map((profile, index) => (
+          {connectedUsers && connectedUsers.length > 0 ? (
+            connectedUsers.map((profile, index) => (
               <UserConnectContainer
                 key={profile?._id || index}
                 profile={profile || []}
