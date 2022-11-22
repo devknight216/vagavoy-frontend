@@ -1,3 +1,4 @@
+import { AxiosResponse } from 'axios'
 import { memo, useEffect, useState } from 'react'
 import { UserCard } from 'src/components'
 import MainContainer from 'src/components/MainContainer'
@@ -6,16 +7,25 @@ import { useAuth } from 'src/hooks'
 import { axiosInstance } from 'src/services/jwtService'
 import { IProfile } from 'src/types'
 
+interface ConnectionResponse {
+  connectedUsers: IProfile[]
+  recommendedUsers: IProfile[]
+  requestedUsers: IProfile[]
+}
+
 export const Connections = memo(() => {
-  const [results, setResults] = useState<IProfile[]>([])
+  const [connectedUsers, setConnectedUsers] = useState<IProfile[]>([])
+  const [recommendedUsers, setRecommendedUsers] = useState<IProfile[]>([])
+  const [requestedUsers, setRequestedUsers] = useState<IProfile[]>([])
   const { user } = useAuth()
 
   useEffect(() => {
-    /** Need to Fetch Requested Connections, Recommended Connections & Existing Connections Here. */
     axiosInstance
-      .post('/user/search', { searchKey: 'london' })
-      .then((res) => {
-        setResults(res.data)
+      .get('/connection')
+      .then((res: AxiosResponse<ConnectionResponse>) => {
+        setConnectedUsers(res.data.connectedUsers)
+        setRequestedUsers(res.data.requestedUsers)
+        setRecommendedUsers(res.data.recommendedUsers)
       })
       .catch((err) => console.log(err))
   }, [])
@@ -27,11 +37,11 @@ export const Connections = memo(() => {
           Connection Requests
         </span>
         <div className="flex flex-col gap-y-4 sm:gap-y-6 w-full">
-          {results.length > 0 ? (
-            results.map((profile, index) => (
+          {connectedUsers && connectedUsers.length > 0 ? (
+            connectedUsers.map((profile, index) => (
               <UserConnectContainer
-                key={profile._id || index}
-                profile={profile}
+                key={index}
+                profile={profile || []}
                 type="request"
               />
             ))
@@ -47,8 +57,8 @@ export const Connections = memo(() => {
         </span>
 
         <div className="flex flex-wrap w-full mb-8">
-          {results.length > 0 ? (
-            results
+          {recommendedUsers && recommendedUsers.length > 0 ? (
+            recommendedUsers
               .filter((r) => r._id !== user.id)
               .map((profile, index) => (
                 <div
@@ -56,8 +66,8 @@ export const Connections = memo(() => {
                   className="flex flex-wrap md:w-1/4 sm:w-1/3 w-1/2">
                   <div className="w-full p-2">
                     <UserCard
-                      key={profile._id || index}
-                      userProfile={profile}
+                      key={profile?._id || index}
+                      userProfile={profile || []}
                       showConnectButton={true}
                     />
                   </div>
@@ -71,14 +81,14 @@ export const Connections = memo(() => {
         </div>
 
         <span className="text-[28px] font-semibold leading-6">
-          Existing Requests
+          Existing Connections
         </span>
         <div className="flex flex-col gap-y-4 sm:gap-y-6 w-full mb-8">
-          {results.length > 0 ? (
-            results.map((profile, index) => (
+          {requestedUsers && requestedUsers.length > 0 ? (
+            requestedUsers.map((profile, index) => (
               <UserConnectContainer
-                key={profile._id || index}
-                profile={profile}
+                key={profile?._id || index}
+                profile={profile || []}
                 type="existing"
               />
             ))
