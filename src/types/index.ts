@@ -1,3 +1,5 @@
+export * from './IConnectActionType'
+export * from './IConnectionResponse'
 export * from './IProfile'
 export * from './IToastState'
 export * from './ITripLog'

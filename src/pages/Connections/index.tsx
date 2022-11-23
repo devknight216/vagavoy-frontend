@@ -5,18 +5,12 @@ import MainContainer from 'src/components/MainContainer'
 import UserConnectContainer from 'src/components/UserConnectContainer'
 import { useAuth } from 'src/hooks'
 import { axiosInstance } from 'src/services/jwtService'
-import { IProfile } from 'src/types'
-
-interface ConnectionResponse {
-  connectedUsers: IProfile[]
-  recommendedUsers: IProfile[]
-  requestedUsers: IProfile[]
-}
+import { ConnectActionType, ConnectionResponse, IProfile } from 'src/types'
 
 export const Connections = memo(() => {
-  const [connectedUsers, setConnectedUsers] = useState<IProfile[]>([])
-  const [recommendedUsers, setRecommendedUsers] = useState<IProfile[]>([])
   const [requestedUsers, setRequestedUsers] = useState<IProfile[]>([])
+  const [recommendedUsers, setRecommendedUsers] = useState<IProfile[]>([])
+  const [connectedUsers, setConnectedUsers] = useState<IProfile[]>([])
   const { user } = useAuth()
 
   useEffect(() => {
@@ -33,6 +27,17 @@ export const Connections = memo(() => {
     }
   }, [user])
 
+  const onActionButtonClick = (actionType: ConnectActionType, id: string) => {
+    if (actionType === 'Accept') {
+      const user = requestedUsers.filter((user) => user._id === id)
+      setRequestedUsers(requestedUsers.filter((user) => user._id !== id))
+      setConnectedUsers(connectedUsers.concat(user))
+    } else if (actionType === 'Reject')
+      setRequestedUsers(requestedUsers.filter((user) => user._id !== id))
+    else if (actionType === 'Remove')
+      setConnectedUsers(connectedUsers.filter((user) => user._id !== id))
+  }
+
   return (
     <MainContainer className="w-full min-h-[calc(100vh-80px)]">
       <div className="flex flex-col sm:gap-y-9 gap-y-8 w-full h-full mt-8 xl:px-6 items-start">
@@ -46,6 +51,7 @@ export const Connections = memo(() => {
                 key={index}
                 profile={profile || []}
                 type="request"
+                handleActionButtonClick={onActionButtonClick}
               />
             ))
           ) : (
@@ -93,6 +99,7 @@ export const Connections = memo(() => {
                 key={profile?._id || index}
                 profile={profile || []}
                 type="existing"
+                handleActionButtonClick={onActionButtonClick}
               />
             ))
           ) : (

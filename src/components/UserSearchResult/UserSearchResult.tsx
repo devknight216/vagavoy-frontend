@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined'
 import { AxiosError } from 'axios'
 import { FC, memo, useState } from 'react'
@@ -13,15 +12,14 @@ import { Avatar, Button, Icon } from '../index'
 
 export interface IUserConnectContainerProps {
   profile: IProfile
-  type: 'request' | 'existing' | 'search'
-  handleActionButtonClick: (actionType: ConnectActionType, id: string) => void
+  requestSent: boolean
 }
 
 export const UserConnectContainer: FC<IUserConnectContainerProps> = memo(
-  ({ profile, type, handleActionButtonClick }: IUserConnectContainerProps) => {
+  ({ profile, requestSent }: IUserConnectContainerProps) => {
     const navigate = useNavigate()
     const { showToast } = useToast()
-    const [connectRequestSent, setConnectRequestSent] = useState(false)
+    const [connectRequestSent, setConnectRequestSent] = useState(requestSent)
 
     const handleConnectActionButtonClick = async (
       actionType: ConnectActionType
@@ -35,8 +33,7 @@ export const UserConnectContainer: FC<IUserConnectContainerProps> = memo(
             type: 'success',
             message: `Connect ${actionType}ed Successfully`
           })
-          handleActionButtonClick(actionType, profile._id || '')
-          if (actionType === 'Request') setConnectRequestSent(true)
+          setConnectRequestSent(true)
         })
         .catch((err: AxiosError) => {
           showToast({
@@ -116,45 +113,13 @@ export const UserConnectContainer: FC<IUserConnectContainerProps> = memo(
             </span>
           </div>
           <div className="flex flex-row gap-x-[30px] sm:absolute top-0 right-0 z-50">
-            {type === 'request' ? (
-              <>
-                <Button
-                  buttonLabel="Reject"
-                  variant="outlined"
-                  className="sm:w-[124px] sm:h-[44px] w-[90px] h-[32px] border-green-500 text-green-500"
-                  onClick={() => handleConnectActionButtonClick('Reject')}
-                />
-                <Button
-                  buttonLabel="Accept"
-                  variant="outlined"
-                  className="sm:w-[124px] sm:h-[44px] w-[90px] h-[32px]"
-                  onClick={() => handleConnectActionButtonClick('Accept')}
-                />
-              </>
-            ) : type === 'existing' ? (
-              <>
-                <Button
-                  buttonLabel="Remove"
-                  variant="outlined"
-                  className="sm:w-[124px] sm:h-[44px] w-[90px] h-[32px] border-green-500 text-green-500"
-                  onClick={() => handleConnectActionButtonClick('Remove')}
-                />
-                <Button
-                  buttonLabel="Message"
-                  variant="outlined"
-                  className="sm:w-[124px] sm:h-[44px] w-[90px] h-[32px]"
-                />
-              </>
-            ) : type === 'search' ? (
-              <Button
-                buttonLabel={connectRequestSent ? 'Pending' : 'Connect'}
-                variant="contained"
-                className="sm:w-[124px] sm:h-[44px] w-[90px] h-[32px] z-50"
-                onClick={() => handleConnectActionButtonClick('Request')}
-              />
-            ) : (
-              <></>
-            )}
+            <Button
+              buttonLabel={connectRequestSent ? 'Pending' : 'Connect'}
+              variant="contained"
+              disabled={connectRequestSent}
+              className="sm:w-[124px] sm:h-[44px] w-[90px] h-[32px] z-50"
+              onClick={() => handleConnectActionButtonClick('Request')}
+            />
           </div>
         </div>
       </div>

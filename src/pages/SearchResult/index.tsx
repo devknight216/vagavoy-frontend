@@ -1,15 +1,17 @@
+import { AxiosResponse } from 'axios'
 import { memo, useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import MainContainer from 'src/components/MainContainer'
-import UserConnectContainer from 'src/components/UserConnectContainer'
+import UserSearchResult from 'src/components/UserSearchResult'
 import { useAuth } from 'src/hooks'
 import { axiosInstance } from 'src/services/jwtService'
-import { IProfile } from 'src/types'
+import { ConnectionResponse, IProfile } from 'src/types'
 
 export const SearchResult = memo(() => {
   const [search] = useSearchParams()
   const [results, setResults] = useState<IProfile[]>([])
   const { user } = useAuth()
+  const [requestedUsers, setRequestedUsers] = useState<IProfile[]>([])
 
   useEffect(() => {
     const term = search.get('term')
@@ -22,6 +24,19 @@ export const SearchResult = memo(() => {
       .catch((err) => console.log(err))
   }, [search])
 
+  useEffect(() => {
+    const userId = user.id
+    if (userId) {
+      axiosInstance
+        .get('/connection')
+        .then((res: AxiosResponse<ConnectionResponse>) => {
+          console.log(res.data)
+          setRequestedUsers(res.data.requestedUsers)
+        })
+        .catch((err) => console.log(err))
+    }
+  }, [user])
+
   return (
     <MainContainer className="w-full min-h-[calc(100vh-80px)]">
       <div className="flex flex-col sm:gap-y-9 gap-y-8 w-full h-full mt-8 xl:px-6 items-start">
@@ -33,10 +48,13 @@ export const SearchResult = memo(() => {
             results
               .filter((result) => result._id !== user.id)
               .map((profile, index) => (
-                <UserConnectContainer
+                <UserSearchResult
                   key={profile._id || index}
                   profile={profile}
-                  type="search"
+                  requestSent={
+                    requestedUsers.filter((user) => user._id === profile._id)
+                      .length > 0
+                  }
                 />
               ))
           ) : (
