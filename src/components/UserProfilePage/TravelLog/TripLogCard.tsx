@@ -1,7 +1,9 @@
 import Typography from '@mui/material/Typography'
-import { FC, memo, useState } from 'react'
+import { AxiosError } from 'axios'
+import { FC, memo, useEffect, useState } from 'react'
 import Flag from 'react-world-flags'
-import { useAuth } from 'src/hooks'
+import { useToast } from 'src/hooks'
+import { axiosInstance } from 'src/services/jwtService'
 import { ITripLog } from 'src/types'
 
 import { TripLogElement } from './TripLogElement'
@@ -16,7 +18,22 @@ export const TripLogCard: FC<ITripLogCardProps> = memo(
   ({ userId, tripLogCardCountryCode, tripLogs = [] }: ITripLogCardProps) => {
     const [showAllLogs, setShowAllLogs] = useState(false)
     const regionNames = new Intl.DisplayNames(['en'], { type: 'region' })
-    const { user } = useAuth()
+    const { showToast } = useToast()
+    const [username, setUsername] = useState('')
+
+    useEffect(() => {
+      axiosInstance
+        .get(`${process.env.REACT_APP_API_URL}/user/${userId}`)
+        .then((res) => {
+          setUsername(res.data.mainInfo.name)
+        })
+        .catch((err: AxiosError) => {
+          showToast({
+            type: 'error',
+            message: err.response?.data
+          })
+        })
+    }, [userId])
 
     return (
       <div className="flex flex-col border-b border-b-green-100 sm:pt-8 pt-4 sm:pl-8 pl-5 showBottomBorder last:border-none relative">
@@ -42,9 +59,9 @@ export const TripLogCard: FC<ITripLogCardProps> = memo(
             className="cursor-pointer sm:pl-[46px] pl-9 mb-5"
             onClick={() => setShowAllLogs(true)}>
             <Typography className="text-lg font-bold leading-6 text-green-700">
-              {`See all ${
-                user.userProfile?.mainInfo.name.split(' ')[0]
-              }'s Stops In ${regionNames.of(tripLogCardCountryCode)}...`}
+              {`See all ${username.split(' ')[0]}'s Stops In ${regionNames.of(
+                tripLogCardCountryCode
+              )}...`}
             </Typography>
           </div>
         )}

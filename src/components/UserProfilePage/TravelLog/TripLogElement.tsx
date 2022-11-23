@@ -69,7 +69,7 @@ export const TripLogElement: FC<ITripLogElementProps> = memo(
             </Typography>
           </div>
           <div className="flex flex-row gap-x-4">
-            {isFirstTripLog ? (
+            {user.id === userId && isFirstTripLog ? (
               <PlusButton
                 onClick={() => {
                   setMode('add')
@@ -79,12 +79,16 @@ export const TripLogElement: FC<ITripLogElementProps> = memo(
             ) : (
               <></>
             )}
-            <EditButton
-              onClick={() => {
-                setMode('edit')
-                setOpenEditModal(true)
-              }}
-            />
+            {user.id === userId ? (
+              <EditButton
+                onClick={() => {
+                  setMode('edit')
+                  setOpenEditModal(true)
+                }}
+              />
+            ) : (
+              <></>
+            )}
           </div>
         </div>
         <Typography className="text-base leading-6 text-green-700 mt-3">
