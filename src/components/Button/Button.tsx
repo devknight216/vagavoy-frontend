@@ -66,6 +66,10 @@ const CustomButton = styled(MuiButton, {
     fontWeight: buttonFontBold ? 700 : 400,
     fontSize: '1rem',
     lineHeight: '24px'
+  },
+
+  '&:disabled': {
+    backgroundColor: theme.palette.green.light1
   }
 }))
 

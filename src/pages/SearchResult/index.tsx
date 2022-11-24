@@ -1,41 +1,26 @@
-import { AxiosResponse } from 'axios'
 import { memo, useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import MainContainer from 'src/components/MainContainer'
 import UserSearchResult from 'src/components/UserSearchResult'
 import { useAuth } from 'src/hooks'
 import { axiosInstance } from 'src/services/jwtService'
-import { ConnectionResponse, IProfile } from 'src/types'
+import { IProfile } from 'src/types'
 
 export const SearchResult = memo(() => {
   const [search] = useSearchParams()
   const [results, setResults] = useState<IProfile[]>([])
   const { user } = useAuth()
-  const [requestedUsers, setRequestedUsers] = useState<IProfile[]>([])
 
   useEffect(() => {
     const term = search.get('term')
 
     axiosInstance
-      .post('/user/search', { searchKey: term })
+      .post('/user/search', { userId: user.id || '', searchKey: term })
       .then((res) => {
         setResults(res.data)
       })
       .catch((err) => console.log(err))
-  }, [search])
-
-  useEffect(() => {
-    const userId = user.id
-    if (userId) {
-      axiosInstance
-        .get('/connection')
-        .then((res: AxiosResponse<ConnectionResponse>) => {
-          console.log(res.data)
-          setRequestedUsers(res.data.requestedUsers)
-        })
-        .catch((err) => console.log(err))
-    }
-  }, [user])
+  }, [search, user])
 
   return (
     <MainContainer className="w-full min-h-[calc(100vh-80px)]">
@@ -51,10 +36,6 @@ export const SearchResult = memo(() => {
                 <UserSearchResult
                   key={profile._id || index}
                   profile={profile}
-                  requestSent={
-                    requestedUsers.filter((user) => user._id === profile._id)
-                      .length > 0
-                  }
                 />
               ))
           ) : (

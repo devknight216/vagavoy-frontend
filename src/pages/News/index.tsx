@@ -31,7 +31,6 @@ export const News = memo(() => {
       .then((res) => {
         const logs: ITripLog[] = []
         setTripLogs(logs.concat(res.data))
-        console.log(res.data)
         setPopularTripLogs(logs.concat(res.data))
       })
       .catch((err: AxiosError) => {

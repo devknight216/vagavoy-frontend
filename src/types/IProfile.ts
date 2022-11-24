@@ -1,3 +1,4 @@
+import { ConnectStatus } from './IConnectStatus'
 export interface IMainInfo {
   name?: string
   location?: string
@@ -10,4 +11,5 @@ export interface IProfile {
   profileImage?: string
   bannerImage?: string
   about?: string
+  connectionStatus?: ConnectStatus
 }

@@ -1,25 +1,29 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined'
 import { AxiosError } from 'axios'
-import { FC, memo, useState } from 'react'
+import { FC, memo, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useToast } from 'src/hooks'
+import { useAuth, useToast } from 'src/hooks'
 import { axiosInstance } from 'src/services/jwtService'
-import { ConnectActionType } from 'src/types'
+import { ConnectActionType, ConnectStatus } from 'src/types'
 import { IProfile } from 'src/types/IProfile'
 
 import { Avatar, Button, Icon } from '../index'
 
 export interface IUserConnectContainerProps {
   profile: IProfile
-  requestSent: boolean
 }
 
 export const UserConnectContainer: FC<IUserConnectContainerProps> = memo(
-  ({ profile, requestSent }: IUserConnectContainerProps) => {
+  ({ profile }: IUserConnectContainerProps) => {
     const navigate = useNavigate()
     const { showToast } = useToast()
-    const [connectRequestSent, setConnectRequestSent] = useState(requestSent)
+    const [connectionStatus, setConnectionStatus] =
+      useState<ConnectStatus>('NotConnected')
+    const { user } = useAuth()
+
+    useEffect(() => {
+      setConnectionStatus(profile.connectionStatus || 'NotConnected')
+    }, [profile])
 
     const handleConnectActionButtonClick = async (
       actionType: ConnectActionType
@@ -33,7 +37,7 @@ export const UserConnectContainer: FC<IUserConnectContainerProps> = memo(
             type: 'success',
             message: `Connect ${actionType}ed Successfully`
           })
-          setConnectRequestSent(true)
+          setConnectionStatus('Pending')
         })
         .catch((err: AxiosError) => {
           showToast({
@@ -113,13 +117,30 @@ export const UserConnectContainer: FC<IUserConnectContainerProps> = memo(
             </span>
           </div>
           <div className="flex flex-row gap-x-[30px] sm:absolute top-0 right-0 z-50">
-            <Button
-              buttonLabel={connectRequestSent ? 'Pending' : 'Connect'}
-              variant="contained"
-              disabled={connectRequestSent}
-              className="sm:w-[124px] sm:h-[44px] w-[90px] h-[32px] z-50"
-              onClick={() => handleConnectActionButtonClick('Request')}
-            />
+            {user.id ? (
+              <Button
+                buttonLabel={
+                  connectionStatus === 'Requested'
+                    ? 'Accept'
+                    : connectionStatus === 'NotConnected'
+                    ? 'Connect'
+                    : connectionStatus
+                }
+                variant="contained"
+                disabled={
+                  connectionStatus === 'Pending' ||
+                  connectionStatus === 'Connected'
+                }
+                className="sm:w-[124px] sm:h-[44px] w-[90px] h-[32px] z-50"
+                onClick={() =>
+                  handleConnectActionButtonClick(
+                    connectionStatus === 'Requested' ? 'Accept' : 'Request'
+                  )
+                }
+              />
+            ) : (
+              <></>
+            )}
           </div>
         </div>
       </div>
