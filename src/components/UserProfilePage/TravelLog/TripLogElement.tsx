@@ -95,16 +95,26 @@ export const TripLogElement: FC<ITripLogElementProps> = memo(
           {tripLog?.tripDescription || ''}
         </Typography>
         <div className="mt-4 flex flex-col gap-x-4 md:flex-row gap-y-2">
-          <TripButton
-            tripButtonType="Gallery"
-            tripLogId={tripLog?.tripLogId || ''}
-            userId={userId}
-          />
-          <TripButton
-            tripButtonType="Recommendation"
-            tripLogId={tripLog?.tripLogId || ''}
-            userId={userId}
-          />
+          {tripLog.tripGallery && tripLog.tripGallery?.length > 0 ? (
+            <TripButton
+              tripButtonType="Gallery"
+              tripLogId={tripLog?.tripLogId || ''}
+              userId={userId}
+              tripButtonThumbnail={tripLog?.tripGallery[0].src}
+            />
+          ) : (
+            <></>
+          )}
+          {tripLog.tripRecommendations &&
+          tripLog.tripRecommendations.length > 0 ? (
+            <TripButton
+              tripButtonType="Recommendation"
+              tripLogId={tripLog?.tripLogId || ''}
+              userId={userId}
+            />
+          ) : (
+            <></>
+          )}
         </div>
         <TripLogEditModal
           open={openEditModal}

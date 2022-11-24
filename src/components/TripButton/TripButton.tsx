@@ -8,6 +8,7 @@ export interface ITripButtonProps {
   userId: string
   tripLogId: string
   tripButtonType?: 'Gallery' | 'Recommendation'
+  tripButtonThumbnail?: string
   onClick?: () => void
 }
 
@@ -22,7 +23,12 @@ const StyledDiv = styled('div')(({ theme }) => ({
 }))
 
 export const TripButton: FC<ITripButtonProps> = memo(
-  ({ userId, tripLogId, tripButtonType = 'Gallery' }: ITripButtonProps) => {
+  ({
+    userId,
+    tripLogId,
+    tripButtonType = 'Gallery',
+    tripButtonThumbnail
+  }: ITripButtonProps) => {
     const navigate = useNavigate()
 
     const handleGalleryButtonCLick = () => {
@@ -40,8 +46,8 @@ export const TripButton: FC<ITripButtonProps> = memo(
             className="md:w-1/2 bg-[#e5e8db] bg-opacity-20 sm:h-[70px] h-[47px] rounded-lg w-full border border-green-100 p-2 pr-3 flex md:justify-between items-center max-w-[381px] cursor-pointer"
             onClick={handleGalleryButtonCLick}>
             <img
-              src="/images/trip-image.png"
-              className="md:mr-3 mr-2 sm:w-[69px] sm:h-[54px] w-[50px] h-[39px]"
+              src={tripButtonThumbnail}
+              className="md:mr-3 mr-2 sm:w-[69px] sm:h-[54px] w-[50px] h-[39px] rounded-md"
             />
             <StyledDiv>
               <span className="font-bold text-green-700 text-[14px] w-full truncate">
