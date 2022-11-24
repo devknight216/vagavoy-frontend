@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Avatar } from '@mui/material'
 import { AxiosError } from 'axios'
 import { memo, useEffect, useState } from 'react'
@@ -8,20 +7,13 @@ import { useAuth, useToast } from 'src/hooks'
 import { axiosInstance } from 'src/services/jwtService'
 import { IProfile, ITripLog } from 'src/types'
 
-const profile: IProfile = {
-  profileImage:
-    'https://vagavoybucket.s3-us-east-2.amazonaws.com/avatar/1n5SqZ7H8vvj8uhfCxD58W.webp',
-  mainInfo: {
-    name: 'Charlie Hummel',
-    location: 'Utila, Honduras'
-  }
+export interface NewsfeedResponseType extends ITripLog {
+  userId: IProfile
 }
 
 export const News = memo(() => {
-  const [results, setResults] = useState<IProfile[]>([])
   const { user } = useAuth()
-  const [tripLogs, setTripLogs] = useState<ITripLog[]>([])
-  const [popularTripLogs, setPopularTripLogs] = useState<ITripLog[]>([])
+  const [tripLogs, setTripLogs] = useState<NewsfeedResponseType[]>([])
   const { showToast } = useToast()
 
   useEffect(() => {
@@ -30,12 +22,13 @@ export const News = memo(() => {
       axiosInstance
         .get(`${process.env.REACT_APP_API_URL}/newsfeed`)
         .then((res) => {
-          const logs: ITripLog[] = []
-          setTripLogs(logs.concat(res.data))
-          setPopularTripLogs(logs.concat(res.data))
+          setTripLogs(res.data)
         })
         .catch((err: AxiosError) => {
-          console.log(err)
+          showToast({
+            type: 'error',
+            message: err.response?.data
+          })
         })
     }
   }, [user])
@@ -64,15 +57,15 @@ export const News = memo(() => {
                 )}
                 <div className="w-full flex flex-row gap-x-4">
                   <Avatar
-                    src={profile.profileImage}
+                    src={tripLog.userId.profileImage}
                     className="w-[44px] h-[44px]"
                   />
                   <div className="flex flex-col">
                     <span className="font-bold text-lg leading-6 text-green-700 text-left">
-                      {profile.mainInfo?.name}
+                      {tripLog.userId.mainInfo?.name}
                     </span>
                     <span className="font text[14px] leading-[21px] text-green-500 text-left mb-1">
-                      {profile.mainInfo?.location}
+                      {tripLog.userId.mainInfo?.location}
                     </span>
                     <span className="text-[14px] leading-[21px] text-green-700 text-left">
                       {tripLog.tripDescription}
@@ -109,15 +102,15 @@ export const News = memo(() => {
                 <div className="flex flex-1 flex-col gap-y-2">
                   <div className="flex flex-row gap-x-[14px]">
                     <Avatar
-                      src={profile.profileImage}
+                      src={tripLog.userId.profileImage}
                       className="w-[44px] h-[44px]"
                     />
                     <div className="w-full flex flex-col text-left">
                       <span className="font-bold text-lg leading-6 text-green-700 text-left">
-                        {profile.mainInfo?.name}
+                        {tripLog.userId.mainInfo?.name}
                       </span>
                       <span className="font text[14px] leading-[21px] text-green-500 text-left">
-                        {profile.mainInfo?.location}
+                        {tripLog.userId.mainInfo?.location}
                       </span>
                     </div>
                   </div>
