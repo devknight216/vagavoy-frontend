@@ -71,7 +71,7 @@ export const News = memo(() => {
                       {tripLog.userId.mainInfo?.name}
                     </span>
                     <span className="font text[14px] leading-[21px] text-green-500 text-left mb-1">
-                      {tripLog.userId.mainInfo?.location}
+                      {tripLog.tripLocation}
                     </span>
                     <span className="text-[14px] leading-[21px] text-green-700 text-left">
                       {tripLog.tripDescription}
@@ -119,7 +119,7 @@ export const News = memo(() => {
                         {tripLog.userId.mainInfo?.name}
                       </span>
                       <span className="font text[14px] leading-[21px] text-green-500 text-left">
-                        {tripLog.userId.mainInfo?.location}
+                        {tripLog.tripLocation}
                       </span>
                     </div>
                   </div>
