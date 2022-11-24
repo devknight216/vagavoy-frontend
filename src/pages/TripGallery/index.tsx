@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined'
 import { useTheme } from '@mui/material'
 import { AxiosError } from 'axios'

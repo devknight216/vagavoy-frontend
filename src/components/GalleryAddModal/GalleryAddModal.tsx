@@ -1,6 +1,5 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Dialog, Paper, styled } from '@mui/material'
-import { FC, memo, useEffect, useState } from 'react'
+import { FC, memo, useState } from 'react'
 import { Button, CloseButton } from 'src/components'
 import { updateTripLog } from 'src/store/reducers/tripLogsSlice'
 import { useAppDispatch } from 'src/store/store'
