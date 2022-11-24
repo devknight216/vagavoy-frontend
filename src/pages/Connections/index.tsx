@@ -8,7 +8,7 @@ import { axiosInstance } from 'src/services/jwtService'
 import { ConnectActionType, ConnectionResponse, IProfile } from 'src/types'
 
 export const Connections = memo(() => {
-  const [requestedUsers, setRequestedUsers] = useState<IProfile[]>([])
+  const [requestingUsers, setRequestingUsers] = useState<IProfile[]>([])
   const [recommendedUsers, setRecommendedUsers] = useState<IProfile[]>([])
   const [connectedUsers, setConnectedUsers] = useState<IProfile[]>([])
   const { user } = useAuth()
@@ -20,7 +20,7 @@ export const Connections = memo(() => {
         .get('/connection')
         .then((res: AxiosResponse<ConnectionResponse>) => {
           setConnectedUsers(res.data.connectedUsers)
-          setRequestedUsers(res.data.requestedUsers)
+          setRequestingUsers(res.data.requestingUsers)
           setRecommendedUsers(res.data.recommendedUsers)
         })
         .catch((err) => console.log(err))
@@ -29,11 +29,11 @@ export const Connections = memo(() => {
 
   const onActionButtonClick = (actionType: ConnectActionType, id: string) => {
     if (actionType === 'Accept') {
-      const user = requestedUsers.filter((user) => user._id === id)
-      setRequestedUsers(requestedUsers.filter((user) => user._id !== id))
+      const user = requestingUsers.filter((user) => user._id === id)
+      setRequestingUsers(requestingUsers.filter((user) => user._id !== id))
       setConnectedUsers(connectedUsers.concat(user))
     } else if (actionType === 'Reject')
-      setRequestedUsers(requestedUsers.filter((user) => user._id !== id))
+      setRequestingUsers(requestingUsers.filter((user) => user._id !== id))
     else if (actionType === 'Remove')
       setConnectedUsers(connectedUsers.filter((user) => user._id !== id))
   }
@@ -45,8 +45,8 @@ export const Connections = memo(() => {
           Connection Requests
         </span>
         <div className="flex flex-col gap-y-4 sm:gap-y-6 w-full">
-          {requestedUsers && requestedUsers.length > 0 ? (
-            requestedUsers.map((profile, index) => (
+          {requestingUsers && requestingUsers.length > 0 ? (
+            requestingUsers.map((profile, index) => (
               <UserConnectContainer
                 key={index}
                 profile={profile || []}
