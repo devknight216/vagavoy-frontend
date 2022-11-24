@@ -37,7 +37,8 @@ export const UserConnectContainer: FC<IUserConnectContainerProps> = memo(
             type: 'success',
             message: `Connect ${actionType}ed Successfully`
           })
-          setConnectionStatus('Pending')
+          if (actionType === 'Request') setConnectionStatus('Pending')
+          else if (actionType === 'Accept') setConnectionStatus('Connected')
         })
         .catch((err: AxiosError) => {
           showToast({
