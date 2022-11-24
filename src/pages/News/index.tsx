@@ -47,7 +47,7 @@ export const News = memo(() => {
             tripLogs.map((tripLog, index) => (
               <div
                 key={tripLog.tripLogId || index}
-                className="flex flex-col gap-y-4 border-b border-b-green-100 pb-6 mb-6">
+                className="flex flex-col gap-y-4 border-b border-b-green-100 pb-6 mb-6 w-full">
                 {tripLog.tripGallery && tripLog.tripGallery?.length > 0 ? (
                   <a href={`/gallery/${tripLog.userId._id}/${tripLog._id}`}>
                     <img
