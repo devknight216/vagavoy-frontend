@@ -1,6 +1,7 @@
 import { Avatar } from '@mui/material'
 import { AxiosError } from 'axios'
 import { memo, useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import TextTruncate from 'react-text-truncate'
 import MainContainer from 'src/components/MainContainer'
 import { useAuth, useToast } from 'src/hooks'
@@ -8,6 +9,7 @@ import { axiosInstance } from 'src/services/jwtService'
 import { IProfile, ITripLog } from 'src/types'
 
 export interface NewsfeedResponseType extends ITripLog {
+  _id: string
   userId: IProfile
 }
 
@@ -15,6 +17,7 @@ export const News = memo(() => {
   const { user } = useAuth()
   const [tripLogs, setTripLogs] = useState<NewsfeedResponseType[]>([])
   const { showToast } = useToast()
+  const navigate = useNavigate()
 
   useEffect(() => {
     const userId = user.id
@@ -46,19 +49,22 @@ export const News = memo(() => {
                 key={tripLog.tripLogId || index}
                 className="flex flex-col gap-y-4 border-b border-b-green-100 pb-6 mb-6">
                 {tripLog.tripGallery && tripLog.tripGallery?.length > 0 ? (
-                  <img
-                    src={tripLog.tripGallery[0].src}
-                    alt={tripLog.tripGallery[0].backgroundInfo}
-                    loading="lazy"
-                    className="w-full max-w-[800px] sm:max-h-[586px] max-h-[250px]"
-                  />
+                  <a href={`/gallery/${tripLog.userId._id}/${tripLog._id}`}>
+                    <img
+                      src={tripLog.tripGallery[0].src}
+                      alt={tripLog.tripGallery[0].backgroundInfo}
+                      loading="lazy"
+                      className="w-full max-w-[800px] sm:max-h-[586px] max-h-[250px]"
+                    />
+                  </a>
                 ) : (
                   <></>
                 )}
                 <div className="w-full flex flex-row gap-x-4">
                   <Avatar
                     src={tripLog.userId.profileImage}
-                    className="w-[44px] h-[44px]"
+                    className="w-[44px] h-[44px] cursor-pointer"
+                    onClick={() => navigate(`/profile/${tripLog.userId._id}`)}
                   />
                   <div className="flex flex-col">
                     <span className="font-bold text-lg leading-6 text-green-700 text-left">
@@ -90,12 +96,14 @@ export const News = memo(() => {
                 key={tripLog.tripLogId || index}
                 className="w-full flex flex-row gap-x-[14px] mb-4">
                 {tripLog.tripGallery && tripLog.tripGallery?.length > 0 ? (
-                  <img
-                    src={tripLog.tripGallery[0].src}
-                    alt={tripLog.tripGallery[0].backgroundInfo}
-                    loading="lazy"
-                    className="max-w-[144px] h-[104px] w-[144px] rounded-md"
-                  />
+                  <a href={`/gallery/${tripLog.userId._id}/${tripLog._id}`}>
+                    <img
+                      src={tripLog.tripGallery[0].src}
+                      alt={tripLog.tripGallery[0].backgroundInfo}
+                      loading="lazy"
+                      className="max-w-[144px] h-[104px] w-[144px] rounded-md"
+                    />
+                  </a>
                 ) : (
                   <></>
                 )}
@@ -103,7 +111,8 @@ export const News = memo(() => {
                   <div className="flex flex-row gap-x-[14px]">
                     <Avatar
                       src={tripLog.userId.profileImage}
-                      className="w-[44px] h-[44px]"
+                      className="w-[44px] h-[44px] cursor-pointer"
+                      onClick={() => navigate(`/profile/${tripLog.userId._id}`)}
                     />
                     <div className="w-full flex flex-col text-left">
                       <span className="font-bold text-lg leading-6 text-green-700 text-left">
