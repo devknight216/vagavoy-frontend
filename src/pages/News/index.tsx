@@ -25,18 +25,20 @@ export const News = memo(() => {
   const { showToast } = useToast()
 
   useEffect(() => {
-    /** Fetch News & Popular News Feed Here. */
-    axiosInstance
-      .get(`${process.env.REACT_APP_API_URL}/travel/636aa9daa6a1e866ffaf6b72`)
-      .then((res) => {
-        const logs: ITripLog[] = []
-        setTripLogs(logs.concat(res.data))
-        setPopularTripLogs(logs.concat(res.data))
-      })
-      .catch((err: AxiosError) => {
-        console.log(err)
-      })
-  }, [])
+    const userId = user.id
+    if (userId) {
+      axiosInstance
+        .get(`${process.env.REACT_APP_API_URL}/newsfeed`)
+        .then((res) => {
+          const logs: ITripLog[] = []
+          setTripLogs(logs.concat(res.data))
+          setPopularTripLogs(logs.concat(res.data))
+        })
+        .catch((err: AxiosError) => {
+          console.log(err)
+        })
+    }
+  }, [user])
 
   return (
     <MainContainer className="w-full min-h-[calc(100vh-80px)]">
