@@ -79,7 +79,7 @@ export const MainInfo: FC<IMainInfoProps> = memo(({ id }: IMainInfoProps) => {
 
   return (
     <div className="relative">
-      <div className="flex flex-row justify-between items-end text-green-700">
+      <div className="flex flex-row justify-between items-center text-green-700">
         <span className="text-lg sm:text-[24px] font-bold">
           {userMainInfo.name}
         </span>
