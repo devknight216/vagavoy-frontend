@@ -50,7 +50,6 @@ const getPeriod = (startDate: Date | undefined, endDate: Date | undefined) => {
 export const TripLogElement: FC<ITripLogElementProps> = memo(
   ({ userId, tripLog, isFirstTripLog = false }: ITripLogElementProps) => {
     const { user } = useAuth()
-    const regionNames = new Intl.DisplayNames(['en'], { type: 'region' })
     const [mode, setMode] = useState<'add' | 'edit'>('add')
     const [openEditModal, setOpenEditModal] = useState(false)
 
@@ -60,9 +59,7 @@ export const TripLogElement: FC<ITripLogElementProps> = memo(
         <div className="flex flex-row justify-between">
           <div className="flex flex-col sm:mt-0 -mt-[6px]">
             <Typography className="font-bold text-lg leading-6 text-green-700">
-              {tripLog?.tripLocation?.split(',')[0] +
-                ', ' +
-                regionNames.of(tripLog?.tripCountryCode || '')}
+              {tripLog?.tripLocation}
             </Typography>
             <Typography className="font-bold text-[14px] leading-[21px] text-green-500 -mt-[2px]">
               {getPeriod(tripLog?.tripStartDate, tripLog?.tripEndDate)}

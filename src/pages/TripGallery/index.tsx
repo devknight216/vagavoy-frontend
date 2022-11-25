@@ -23,7 +23,6 @@ export const TripGallery = memo(() => {
   const { tripLogId } = useParams()
   const theme = useTheme()
   const [tripLog, setTripLog] = useState<ITripLog>()
-  const regionNames = new Intl.DisplayNames(['en'], { type: 'region' })
   const [mode, setMode] = useState('tile')
   const { user } = useAuth()
   const currentUser = id === user.id
@@ -107,11 +106,7 @@ export const TripGallery = memo(() => {
             />
             <span className="text-[28px] font-semibold leading-6 text-green-700">
               {tripLog?.tripCountryCode
-                ? `Trip Gallery - ${
-                    tripLog?.tripLocation?.split(',')[0] +
-                    ', ' +
-                    regionNames.of(tripLog?.tripCountryCode)
-                  }`
+                ? `Trip Gallery - ${tripLog?.tripLocation}`
                 : ''}
             </span>
           </div>

@@ -33,7 +33,6 @@ export const TripRecommendations = memo(() => {
   const { id } = useParams()
   const { tripLogId } = useParams()
   const [tripLog, setTripLog] = useState<ITripLog>()
-  const regionNames = new Intl.DisplayNames(['en'], { type: 'region' })
   const { user } = useAuth()
   const currentUser = id === user.id
   const [userInfo, setUserInfo] = useState<IProfile>()
@@ -83,11 +82,7 @@ export const TripRecommendations = memo(() => {
           />
           <span className="sm:text-[28px] sm:font-semibold font-bold text-[22px] leading-6 text-green-700 w-fit">
             {tripLog?.tripCountryCode
-              ? `Trip Recommendations - ${
-                  tripLog?.tripLocation?.split(',')[0] +
-                  ', ' +
-                  regionNames.of(tripLog?.tripCountryCode)
-                }`
+              ? `Trip Recommendations - ${tripLog?.tripLocation}`
               : ''}
           </span>
         </div>

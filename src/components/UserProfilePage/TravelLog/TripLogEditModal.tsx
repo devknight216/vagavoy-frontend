@@ -276,13 +276,7 @@ export const TripLogEditModal: FC<ITripLogEditModalProps> = memo(
                   : 'Add New Travel'}
               </span>
               <span className="sm:text-[28px] text-[22px] sm:font-semibold font-bold">
-                {mode === 'edit'
-                  ? ` - ${
-                      tripLog?.tripLocation?.split(',')[0] +
-                      ', ' +
-                      regionNames.of(tripLog?.tripCountryCode || '')
-                    }`
-                  : ''}
+                {mode === 'edit' ? ` - ${tripLog?.tripLocation}` : ''}
               </span>
             </div>
             <div className="flex flex-row-reverse">
