@@ -17,6 +17,8 @@ interface IAvatarProps {
   borderWidth?: number
   src?: string
   className?: string
+  editButtonPosClassName?: string
+  showAddLabel?: boolean
   onClick?: () => void
 }
 
@@ -33,7 +35,16 @@ const Input = styled('input')(() => ({
 }))
 
 export const Avatar: FC<IAvatarProps> = memo(
-  ({ src = '', size, borderWidth, id, className, onClick }) => {
+  ({
+    src = '',
+    size,
+    borderWidth,
+    id,
+    className,
+    editButtonPosClassName,
+    showAddLabel = true,
+    onClick
+  }) => {
     const theme = useTheme()
     const dispatch = useAppDispatch()
     const { user } = useAuth()
@@ -108,9 +119,13 @@ export const Avatar: FC<IAvatarProps> = memo(
                   iconSize={44}
                   iconColor={theme.palette.green.middle}
                 />
-                <Typography className="text-lg leading-6 font-bold mt-3 text-green-500 xl:flex hidden">
-                  Add Your Profile Picture
-                </Typography>
+                {showAddLabel ? (
+                  <Typography className="text-lg leading-6 font-bold mt-3 text-green-500 xl:flex hidden">
+                    Add Your Profile Picture
+                  </Typography>
+                ) : (
+                  <></>
+                )}
               </div>
             </label>
           ) : (
@@ -126,7 +141,10 @@ export const Avatar: FC<IAvatarProps> = memo(
         {avatarSrc && currentUser && (
           <label
             htmlFor="File-Upload-Avatar"
-            className="w-fit absolute xl:bottom-3 xl:right-[38px] bottom-[0px] right-[0px]">
+            className={
+              `w-fit absolute xl:bottom-3 xl:right-[38px] bottom-[0px] right-[0px] ` +
+              editButtonPosClassName
+            }>
             <div className="flex-col items-center justify-center cursor-pointer">
               <EditButton />
             </div>

@@ -89,11 +89,20 @@ export const TripRecommendations = memo(() => {
 
         {/* User Info */}
         <div className="flex flex-col items-center w-full">
-          {userInfo?.profileImage ? (
+          {currentUser ? (
+            <Avatar
+              id={id}
+              className="w-[124px] h-[124px]"
+              borderWidth={4}
+              showAddLabel={false}
+              editButtonPosClassName="xl:bottom-0 xl:right-0 sm:bottom-0 sm:right-0 bottom-1 right-1"
+            />
+          ) : userInfo?.profileImage ? (
             <Avatar
               src={userInfo?.profileImage}
               className="w-[124px] h-[124px]"
               borderWidth={4}
+              editButtonPosClassName="xl:bottom-0 xl:right-0 sm:bottom-0 sm:right-0 bottom-1 right-1"
             />
           ) : (
             <AccountCircleOutlinedIcon className="text-green-700 w-[124px] h-[124px]" />
