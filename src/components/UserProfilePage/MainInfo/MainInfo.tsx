@@ -95,7 +95,7 @@ export const MainInfo: FC<IMainInfoProps> = memo(({ id }: IMainInfoProps) => {
               iconColor="var(--var-green-light1)"
               iconSize={22}
             />
-            <span className="ml-2 sm:text-lg text-sm text-green-500">
+            <span className="ml-2 sm:text-lg text-sm text-green-500 text-left">
               Currently In:
             </span>
             <span className="ml-2 sm:text-lg text-sm text-green-700 font-bold">
@@ -108,7 +108,7 @@ export const MainInfo: FC<IMainInfoProps> = memo(({ id }: IMainInfoProps) => {
               iconColor="var(--var-green-light1)"
               iconSize={22}
             />
-            <span className="ml-2 sm:text-lg text-sm text-green-500">
+            <span className="ml-2 sm:text-lg text-sm text-green-500 text-left">
               Last Trip:
             </span>
             <span className="ml-2 sm:text-lg text-sm text-green-700 font-bold">
@@ -121,7 +121,7 @@ export const MainInfo: FC<IMainInfoProps> = memo(({ id }: IMainInfoProps) => {
               iconColor="var(--var-green-light1)"
               iconSize={22}
             />
-            <span className="ml-2 sm:text-lg text-sm text-green-500">
+            <span className="ml-2 sm:text-lg text-sm text-green-500 text-left">
               Next Spot On Bucket List:
             </span>
             <span className="ml-2 sm:text-lg text-sm text-green-700 font-bold">
