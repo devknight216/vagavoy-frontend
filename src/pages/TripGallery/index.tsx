@@ -228,7 +228,7 @@ export const TripGallery = memo(() => {
                     src={tripImage.src}
                     alt={tripImage.backgroundInfo}
                     loading="lazy"
-                    className="max-w-[800px] sm:max-h-[586px] max-h-[250px]"
+                    className="max-w-[800px] w-full"
                   />
                   <span className="font-normal text-base leading-6 text-green-700 w-fit">
                     {tripImage.backgroundInfo}
