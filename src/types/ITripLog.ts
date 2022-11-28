@@ -10,6 +10,7 @@ export interface ITripLogBase {
   tripDescription?: string
   tripGallery?: ITripImage[]
   tripRecommendations?: ITripRecommendation[]
+  notification?: boolean
 }
 
 export interface ITripLog extends ITripLogBase {

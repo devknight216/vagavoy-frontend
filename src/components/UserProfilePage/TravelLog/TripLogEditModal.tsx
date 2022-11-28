@@ -91,6 +91,7 @@ export const TripLogEditModal: FC<ITripLogEditModalProps> = memo(
     const [tripRecommendations, setTripRecommendations] = useState<
       ITripRecommendation[]
     >([])
+    const [notification, setNotification] = useState(false)
     const { showToast } = useToast()
     const [selectedCountry, setSelectedCountry] = useState('')
     const [newGalleryFiles, setNewGalleryFiles] = useState<File[]>([])
@@ -106,6 +107,7 @@ export const TripLogEditModal: FC<ITripLogEditModalProps> = memo(
         setTripGalleryTemp([])
         setTripRecommendations([])
         setSelectedCountry(tripLog?.tripCountryCode || '')
+        setNotification(false)
       } else if (mode === 'edit') {
         setTripStartDate(tripLog?.tripStartDate || new Date())
         setTripEndDate(tripLog?.tripEndDate || new Date())
@@ -115,6 +117,7 @@ export const TripLogEditModal: FC<ITripLogEditModalProps> = memo(
         setTripGalleryTemp(tripLog?.tripGallery || [])
         setTripRecommendations(tripLog?.tripRecommendations || [])
         setSelectedCountry(tripLog?.tripCountryCode || '')
+        setNotification(tripLog?.notification || false)
       }
 
       if (tripLog && tripLog?.tripCountryCode) setMainTrip(false)
@@ -176,6 +179,7 @@ export const TripLogEditModal: FC<ITripLogEditModalProps> = memo(
               ),
               tripLocation,
               tripCountryCode: selectedCountry,
+              notification,
               mainTrip
             }
           })
@@ -194,7 +198,8 @@ export const TripLogEditModal: FC<ITripLogEditModalProps> = memo(
                 (tr) => tr.title !== '' && tr.description !== ''
               ),
               tripLocation,
-              tripCountryCode: selectedCountry
+              tripCountryCode: selectedCountry,
+              notification
             }
           })
         )
@@ -367,8 +372,6 @@ export const TripLogEditModal: FC<ITripLogEditModalProps> = memo(
                 userId={userId}
                 tripLogId={tripLog?.tripLogId || ''}
                 gallery={tripGallery}
-                // handleChangeTripGallery={handleChangeTripGallery}
-                // handleChangeGalleryFiles={handleChangeGalleryFiles}
                 handleAddGalleryFiles={handleAddGalleryFiles}
                 handleEditGalleryFile={handleEditGalleryFile}
                 handleRemoveGalleryFile={handleRemoveGalleryFile}
@@ -389,7 +392,11 @@ export const TripLogEditModal: FC<ITripLogEditModalProps> = memo(
                   Do you want to notify your connections about this trip now?
                   You can come back and do this at any time
                 </span>
-                <Checkbox checkboxLabel="Yes" />
+                <Checkbox
+                  checkboxLabel="Yes"
+                  checked={notification}
+                  onClick={() => setNotification((state) => !state)}
+                />
               </div>
 
               {/** Save Button */}
