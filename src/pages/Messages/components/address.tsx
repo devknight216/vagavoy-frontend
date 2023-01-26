@@ -75,7 +75,7 @@ export const Address: FC<AddressType> = memo((props) => {
           onChange={(e) => handleSeachChange(e)}
         />
       </div>
-      <div className="pr-0 md:pr-[20px]">
+      <div className="pr-0 md:pr-[20px] overflow-y-auto scroll-smooth">
         {address.length > 0 &&
           address.map((item: any, index: number) => (
             <div
@@ -106,7 +106,7 @@ export const Address: FC<AddressType> = memo((props) => {
                   <p className="text-[16px]">
                     {item.time ? item.time.split('T')[0] : 'Today'}
                   </p>
-                  {item.unreadNumber === 0 && (
+                  {(!item.unreadNumber || item.unreadNumber === 0) && (
                     <div className="flex justify-end">
                       <DoneAllIcon />
                     </div>

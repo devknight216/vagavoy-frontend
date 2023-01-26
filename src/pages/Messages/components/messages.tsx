@@ -12,7 +12,6 @@ export const MessagePanel = memo(() => {
   const { messages, activeAddress, directMessages } = useSelector(
     (state: RootState) => state.message
   )
-
   const dispatch = useAppDispatch()
 
   useEffect(() => {
@@ -20,6 +19,10 @@ export const MessagePanel = memo(() => {
       console.log('direct message', data)
       handleDirectMessage(data, false)
     })
+    // socket.on('message', (data: any) => {
+    //   console.log('direct message', data)
+    //   handleDirectMessage(data, false)
+    // })
     socket.on('report', (data: any) => {
       console.log('report message', data)
       handleDirectMessage(data, true)
@@ -52,132 +55,140 @@ export const MessagePanel = memo(() => {
         name: user.name,
         avatar: user.profileImage
       })
+      setMessage('')
     }
   }
   return (
-    <div className="relative min-h-[calc(100%-190px)] md:min-h-[calc(100%-207px)] pl-[16px] md:pl-[32px] pr-[16px] md:pr-[32px] pt-5">
-      {messages.length > 0 &&
-        messages.map((messageGroup: any, index: number) => (
-          <div key={'messageGroup' + index}>
+    <div className="relative h-[calc(100%-70px)] md:h-[calc(100%-80px)] pl-[16px] md:pl-[32px] pt-5 ">
+      <div className="h-[calc(100%-127px)] pr-[16px] md:pr-[32px] overflow-y-auto scroll-smooth">
+        {messages.length > 0 &&
+          messages.map((messageGroup: any, index: number) => (
+            <div key={'messageGroup' + index}>
+              <div className="flex items-center justify-center mb-5 pr-[35px] md:pr-[20px]">
+                <hr className="w-[88px]" />
+                <p className=" pl-[16px] pr-[16px] text-[14px] text-[#707268]">
+                  {messageGroup.date}
+                </p>
+                <hr className="w-[88px]" />
+              </div>
+              {messageGroup.messagePack.length > 0 &&
+                messageGroup.messagePack.map(
+                  (messagePack: any, index: number) => {
+                    if (messagePack.direction)
+                      return (
+                        <div
+                          key={'messagePack' + index}
+                          className="flex items-start justify-end">
+                          <div className="mr-[16px]">
+                            {messagePack.message.length > 0 &&
+                              messagePack.message.map(
+                                (item: any, index1: number) => (
+                                  <div
+                                    key={'message' + index1}
+                                    className="flex justify-end">
+                                    <p className="m-0 mb-[8px] bg-[#003300] opacity-50 rounded-[25px] pl-[16px] pr-[16px] pt-[10px] pb-[10px] text-[18px] text-white">
+                                      {item.content}
+                                    </p>
+                                  </div>
+                                )
+                              )}
+                          </div>
+                          <Avatar
+                            src={user.profileImage}
+                            sx={{ width: '44px', height: '44px' }}
+                          />
+                        </div>
+                      )
+                    else
+                      return (
+                        <div
+                          key={'messagePack' + index}
+                          className="flex items-start justify-start">
+                          <Avatar
+                            src={activeAddress?.avatar}
+                            sx={{ width: '44px', height: '44px' }}
+                          />
+                          <div className="ml-[16px]">
+                            {messagePack.message.length > 0 &&
+                              messagePack.message.map(
+                                (item: any, index1: number) => (
+                                  <div
+                                    key={'message' + index1}
+                                    className="flex">
+                                    <p className="m-0 mb-[8px] bg-[#E5E8DB] rounded-[25px] pl-[16px] pr-[16px] pt-[10px] pb-[10px] text-[18px] text-[#003300]">
+                                      {item.content}
+                                    </p>
+                                  </div>
+                                )
+                              )}
+                          </div>
+                        </div>
+                      )
+                  }
+                )}
+            </div>
+          ))}
+        {directMessages.length > 0 && (
+          <div>
             <div className="flex items-center justify-center mb-5 pr-[35px] md:pr-[20px]">
               <hr className="w-[88px]" />
               <p className=" pl-[16px] pr-[16px] text-[14px] text-[#707268]">
-                {messageGroup.date}
+                {directMessages[0].message[0].time.split('T')[0]}
               </p>
               <hr className="w-[88px]" />
             </div>
-            {messageGroup.messagePack.length > 0 &&
-              messageGroup.messagePack.map(
-                (messagePack: any, index: number) => {
-                  if (messagePack.direction)
-                    return (
-                      <div
-                        key={'messagePack' + index}
-                        className="flex items-start justify-end">
-                        <div className="mr-[16px]">
-                          {messagePack.message.length > 0 &&
-                            messagePack.message.map(
-                              (item: any, index1: number) => (
-                                <div
-                                  key={'message' + index1}
-                                  className="flex justify-end">
-                                  <p className="m-0 mb-[8px] bg-[#003300] opacity-50 rounded-[25px] pl-[16px] pr-[16px] pt-[10px] pb-[10px] text-[18px] text-white">
-                                    {item.content}
-                                  </p>
-                                </div>
-                              )
-                            )}
-                        </div>
-                        <Avatar
-                          src={user.profileImage}
-                          sx={{ width: '44px', height: '44px' }}
-                        />
-                      </div>
-                    )
-                  else
-                    return (
-                      <div
-                        key={'messagePack' + index}
-                        className="flex items-start justify-start">
-                        <Avatar
-                          src={activeAddress?.avatar}
-                          sx={{ width: '44px', height: '44px' }}
-                        />
-                        <div className="ml-[16px]">
-                          {messagePack.message.length > 0 &&
-                            messagePack.message.map(
-                              (item: any, index1: number) => (
-                                <div key={'message' + index1} className="flex">
-                                  <p className="m-0 mb-[8px] bg-[#E5E8DB] rounded-[25px] pl-[16px] pr-[16px] pt-[10px] pb-[10px] text-[18px] text-[#003300]">
-                                    {item.content}
-                                  </p>
-                                </div>
-                              )
-                            )}
-                        </div>
-                      </div>
-                    )
-                }
-              )}
-          </div>
-        ))}
-      {directMessages.length > 0 && (
-        <div>
-          <div className="flex items-center justify-center mb-5 pr-[35px] md:pr-[20px]">
-            <hr className="w-[88px]" />
-            <p className=" pl-[16px] pr-[16px] text-[14px] text-[#707268]">
-              {directMessages[0].message[0].time.split('T')[0]}
-            </p>
-            <hr className="w-[88px]" />
-          </div>
-          {directMessages.map((messagePack: any, index: number) => {
-            if (messagePack.direction)
-              return (
-                <div
-                  key={'messagePack' + index}
-                  className="flex items-start justify-end">
-                  <div className="mr-[16px]">
-                    {messagePack.message.length > 0 &&
-                      messagePack.message.map((item: any, index1: number) => (
-                        <div
-                          key={'message' + index1}
-                          className="flex justify-end">
-                          <p className="m-0 mb-[8px] bg-[#003300] opacity-50 rounded-[25px] pl-[16px] pr-[16px] pt-[10px] pb-[10px] text-[18px] text-white">
-                            {item.content}
-                          </p>
-                        </div>
-                      ))}
+            {directMessages.map((messagePack: any, index: number) => {
+              if (messagePack.direction)
+                return (
+                  <div
+                    key={'messagePack' + index}
+                    className="flex items-start justify-end">
+                    <div className="mr-[16px]">
+                      {messagePack.message.length > 0 &&
+                        messagePack.message.map((item: any, index1: number) => (
+                          <div
+                            key={'message' + index1}
+                            className="flex justify-end">
+                            <p className="m-0 mb-[8px] bg-[#003300] opacity-50 rounded-[25px] pl-[16px] pr-[16px] pt-[10px] pb-[10px] text-[18px] text-white">
+                              {item.content}
+                            </p>
+                          </div>
+                        ))}
+                    </div>
+                    <Avatar src={user.profileImage} sx={{ width: '44px' }} />
                   </div>
-                  <Avatar src={user.profileImage} sx={{ width: '44px' }} />
-                </div>
-              )
-            else
-              return (
-                <div
-                  key={'messagePack' + index}
-                  className="flex items-start justify-start">
-                  <Avatar src={activeAddress?.avatar} sx={{ width: '44px' }} />
-                  <div className="ml-[16px]">
-                    {messagePack.message.length > 0 &&
-                      messagePack.message.map((item: any, index1: number) => (
-                        <div key={'message' + index1} className="flex">
-                          <p className="m-0 mb-[8px] bg-[#E5E8DB] rounded-[25px] pl-[16px] pr-[16px] pt-[10px] pb-[10px] text-[18px] text-[#003300]">
-                            {item.content}
-                          </p>
-                        </div>
-                      ))}
+                )
+              else
+                return (
+                  <div
+                    key={'messagePack' + index}
+                    className="flex items-start justify-start">
+                    <Avatar
+                      src={activeAddress?.avatar}
+                      sx={{ width: '44px' }}
+                    />
+                    <div className="ml-[16px]">
+                      {messagePack.message.length > 0 &&
+                        messagePack.message.map((item: any, index1: number) => (
+                          <div key={'message' + index1} className="flex">
+                            <p className="m-0 mb-[8px] bg-[#E5E8DB] rounded-[25px] pl-[16px] pr-[16px] pt-[10px] pb-[10px] text-[18px] text-[#003300]">
+                              {item.content}
+                            </p>
+                          </div>
+                        ))}
+                    </div>
                   </div>
-                </div>
-              )
-          })}
-        </div>
-      )}
+                )
+            })}
+          </div>
+        )}
+      </div>
 
-      <div className="absolute left-0 bottom-[-127px] flex flex-wrap justify-between w-full h-[127px] bg-[#E5E8DB] pl-5 pt-5 pr-5">
+      <div className="absolute left-0 bottom-0 flex flex-wrap justify-between w-full h-[127px] bg-[#E5E8DB] pl-5 pt-5 pr-5">
         <TextField
           multiline
           rows={4}
-          defaultValue=""
+          value={message}
           placeholder="Type your Message Here..."
           variant="standard"
           sx={{ width: '80%' }}
