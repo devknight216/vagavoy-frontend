@@ -19,10 +19,10 @@ export const MessagePanel = memo(() => {
       console.log('direct message', data)
       handleDirectMessage(data, false)
     })
-    // socket.on('message', (data: any) => {
-    //   console.log('direct message', data)
-    //   handleDirectMessage(data, false)
-    // })
+    socket.on('newUser', (data: any) => {
+      console.log('direct message', data)
+      handleDirectMessage(data, false)
+    })
     socket.on('report', (data: any) => {
       console.log('report message', data)
       handleDirectMessage(data, true)

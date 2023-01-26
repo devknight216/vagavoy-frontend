@@ -141,6 +141,7 @@ export const UserConnectContainer: FC<IUserConnectContainerProps> = memo(
                   buttonLabel="Message"
                   variant="outlined"
                   className="sm:w-[124px] sm:h-[44px] w-[90px] h-[32px]"
+                  onClick={() => navigate(`/messages`)}
                 />
               </>
             ) : type === 'search' ? (

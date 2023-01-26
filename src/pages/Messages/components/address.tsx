@@ -5,8 +5,7 @@ import { useSelector } from 'react-redux'
 import { TextField } from 'src/components'
 import { useAuth } from 'src/hooks'
 import {
-  findUsers,
-  getAddress,
+  filterAddress,
   getMessage,
   setActiveAddress
 } from 'src/store/reducers/messageSlice'
@@ -55,12 +54,7 @@ export const Address: FC<AddressType> = memo((props) => {
     const value = e.target.value
     console.log(e)
     console.log(e.target.value)
-    if (value !== '') {
-      dispatch(findUsers({ userId: user.id, searchText: value }))
-    } else {
-      console.log('getaddress')
-      dispatch(getAddress({ userId: user.id }))
-    }
+    dispatch(filterAddress(value))
   }
 
   return (

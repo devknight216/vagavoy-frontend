@@ -5,6 +5,7 @@ import { AddressUser, MessageGroup, MessagePack } from 'src/types/IAddressUser'
 
 interface AddressStateType {
   address: AddressUser[]
+  totalAddress: AddressUser[]
   messages: MessageGroup[]
   activeAddress: AddressUser | null
   directMessages: MessagePack[]
@@ -12,6 +13,7 @@ interface AddressStateType {
 
 const addressState: AddressStateType = {
   address: [],
+  totalAddress: [],
   messages: [],
   activeAddress: null,
   directMessages: []
@@ -168,6 +170,20 @@ const messageSlice = createSlice({
         ...state,
         directMessages: [...arr]
       }
+    },
+    filterAddress: (state, action): any => {
+      const searchText = action.payload
+      const filteredAddress = state.totalAddress.filter(
+        (address) =>
+          address.name.toLowerCase().indexOf(searchText.toLowerCase()) >= 0
+      )
+      return {
+        ...state,
+        address: [...filteredAddress],
+        activeAddress:
+          filteredAddress.length > 0 ? { ...filteredAddress[0] } : null,
+        messages: filteredAddress.length > 0 ? [...state.messages] : []
+      }
     }
   },
   extraReducers: {
@@ -175,6 +191,7 @@ const messageSlice = createSlice({
       return {
         ...state,
         address: action.payload.length > 0 ? [...action.payload] : [],
+        totalAddress: action.payload.length > 0 ? [...action.payload] : [],
         activeAddress:
           action.payload.length > 0 ? { ...action.payload[0] } : null
       }
@@ -195,5 +212,6 @@ const messageSlice = createSlice({
     }
   }
 })
-export const { setActiveAddress, addDirectMessage } = messageSlice.actions
+export const { setActiveAddress, addDirectMessage, filterAddress } =
+  messageSlice.actions
 export default messageSlice.reducer
