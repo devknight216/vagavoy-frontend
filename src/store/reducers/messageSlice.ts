@@ -82,12 +82,14 @@ const messageSlice = createSlice({
         return {
           ...state,
           address: [...newAddr],
-          activeAddress: { ...action.payload }
+          activeAddress: { ...action.payload },
+          directMessages: []
         }
       } else
         return {
           ...state,
-          activeAddress: { ...action.payload }
+          activeAddress: { ...action.payload },
+          directMessages: []
         }
     },
     addDirectMessage: (state, action): any => {
