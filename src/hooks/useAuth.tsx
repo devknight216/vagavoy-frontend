@@ -1,12 +1,17 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { createContext, useContext, useEffect, useState } from 'react'
+import io from 'socket.io-client'
 import { updateProfile } from 'src/store/reducers/accountSlice'
 import { useAppDispatch } from 'src/store/store'
 
 import jwtService from '../services/jwtService'
 
+const socket = io('http://localhost:8001')
+
 const authContext = createContext<any>({
+  socket: null,
   isAuthorized: false,
+  isConnected: false,
   checkingAuthorization: false,
   user: {},
   setUser: () => {},
@@ -37,7 +42,7 @@ function useProvideAuth() {
     return new Promise((resolve, reject) => {
       jwtService
         .signInWithEmailAndPassword(email, password)
-        .then((res) => {
+        .then((res: any) => {
           setIsAuthorized(true)
           resolve(res)
         })
@@ -54,6 +59,7 @@ function useProvideAuth() {
   }
 
   useEffect(() => {
+    socket.connect()
     jwtService.on('onAutoLogin', (value: boolean) => {
       setIsAuthorized(value)
       setCheckingAuthorization(false)
@@ -75,6 +81,7 @@ function useProvideAuth() {
   }, [])
 
   return {
+    socket,
     isAuthorized,
     checkingAuthorization,
     user,

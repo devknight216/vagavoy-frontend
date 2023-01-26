@@ -35,6 +35,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ open, onClose }) => {
   const dispatch = useDispatch()
   const [password, setPassword] = useState('')
   const auth = useAuth()
+  const { socket } = useAuth()
   const { showToast } = useToast()
   const navigate = useNavigate()
 
@@ -45,6 +46,9 @@ const LoginModal: React.FC<LoginModalProps> = ({ open, onClose }) => {
         dispatch(updateProfile(res.userProfile))
         navigate(`/profile/${res.id}`)
         onClose()
+        socket.emit('register', {
+          userId: res.id
+        })
       })
       .catch((err: AxiosError) => {
         showToast({

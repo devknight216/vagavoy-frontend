@@ -78,6 +78,7 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ open, onClose }) => {
       return
     }
     if (agree) {
+      console.log(process.env.REACT_APP_API_URL);
       axios
         .post(`${process.env.REACT_APP_API_URL}/auth/register`, {
           name,
@@ -105,6 +106,7 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ open, onClose }) => {
           onClose()
         })
         .catch((err: AxiosError) => {
+          console.log(err);
           showToast({
             type: 'error',
             message: err.response?.data
