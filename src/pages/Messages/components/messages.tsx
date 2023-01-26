@@ -55,7 +55,7 @@ export const MessagePanel = memo(() => {
     }
   }
   return (
-    <div className="relative min-h-[calc(100%-70px)] md:min-h-[calc(100%-80px)] pl-[16px] md:pl-[32px] pr-[16px] md:pr-[32px] pt-5">
+    <div className="relative min-h-[calc(100%-190px)] md:min-h-[calc(100%-207px)] pl-[16px] md:pl-[32px] pr-[16px] md:pr-[32px] pt-5">
       {messages.length > 0 &&
         messages.map((messageGroup: any, index: number) => (
           <div key={'messageGroup' + index}>
@@ -173,7 +173,7 @@ export const MessagePanel = memo(() => {
         </div>
       )}
 
-      <div className="absolute left-0 bottom-0 flex flex-wrap justify-between w-full h-[127px] bg-[#E5E8DB] pl-5 pt-5 pr-5">
+      <div className="absolute left-0 bottom-[-127px] flex flex-wrap justify-between w-full h-[127px] bg-[#E5E8DB] pl-5 pt-5 pr-5">
         <TextField
           multiline
           rows={4}
