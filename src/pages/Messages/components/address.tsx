@@ -42,6 +42,9 @@ export const Address: FC<AddressType> = memo((props) => {
       )
   }, [activeAddress])
 
+  useEffect(() => {
+    console.log('address address', address)
+  }, [address])
   const [searchTerm, setSearchTerm] = useState<string>('')
 
   const handleAddressClick = (address: AddressUser): void => {

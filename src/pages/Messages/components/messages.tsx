@@ -83,12 +83,17 @@ export const MessagePanel = memo(() => {
                             {messagePack.message.length > 0 &&
                               messagePack.message.map(
                                 (item: any, index1: number) => (
-                                  <div
-                                    key={'message' + index1}
-                                    className="flex justify-end">
-                                    <p className="m-0 mb-[8px] bg-[#003300] opacity-50 rounded-[25px] pl-[16px] pr-[16px] pt-[10px] pb-[10px] text-[18px] text-white">
-                                      {item.content}
-                                    </p>
+                                  <div>
+                                    <div
+                                      key={'message' + index1}
+                                      className="flex justify-end items-center">
+                                      <p className="text-right mr-2 text-[14px] text-[#888888]">
+                                        {item.time.split('T')[1].split('.')[0]}
+                                      </p>
+                                      <p className="m-0 mb-[8px] bg-[#003300] opacity-50 rounded-[25px] pl-[16px] pr-[16px] pt-[10px] pb-[10px] text-[18px] text-white">
+                                        {item.content}
+                                      </p>
+                                    </div>
                                   </div>
                                 )
                               )}
@@ -112,12 +117,17 @@ export const MessagePanel = memo(() => {
                             {messagePack.message.length > 0 &&
                               messagePack.message.map(
                                 (item: any, index1: number) => (
-                                  <div
-                                    key={'message' + index1}
-                                    className="flex">
-                                    <p className="m-0 mb-[8px] bg-[#E5E8DB] rounded-[25px] pl-[16px] pr-[16px] pt-[10px] pb-[10px] text-[18px] text-[#003300]">
-                                      {item.content}
-                                    </p>
+                                  <div>
+                                    <div
+                                      key={'message' + index1}
+                                      className="flex  items-center">
+                                      <p className="m-0 mr-2 mb-[8px] bg-[#E5E8DB] rounded-[25px] pl-[16px] pr-[16px] pt-[10px] pb-[10px] text-[18px] text-[#003300]">
+                                        {item.content}
+                                      </p>
+                                      <p className="text-left text-[14px] text-[#888888]">
+                                        {item.time.split('T')[1].split('.')[0]}
+                                      </p>
+                                    </div>
                                   </div>
                                 )
                               )}
@@ -146,12 +156,17 @@ export const MessagePanel = memo(() => {
                     <div className="mr-[16px]">
                       {messagePack.message.length > 0 &&
                         messagePack.message.map((item: any, index1: number) => (
-                          <div
-                            key={'message' + index1}
-                            className="flex justify-end">
-                            <p className="m-0 mb-[8px] bg-[#003300] opacity-50 rounded-[25px] pl-[16px] pr-[16px] pt-[10px] pb-[10px] text-[18px] text-white">
-                              {item.content}
-                            </p>
+                          <div>
+                            <div
+                              key={'message' + index1}
+                              className="flex justify-end  items-center">
+                              <p className="text-right mr-2 text-[14px] text-[#888888]">
+                                {item.time.split('T')[1].split('.')[0]}
+                              </p>
+                              <p className="m-0 mb-[8px] bg-[#003300] opacity-50 rounded-[25px] pl-[16px] pr-[16px] pt-[10px] pb-[10px] text-[18px] text-white">
+                                {item.content}
+                              </p>
+                            </div>
                           </div>
                         ))}
                     </div>
@@ -170,10 +185,17 @@ export const MessagePanel = memo(() => {
                     <div className="ml-[16px]">
                       {messagePack.message.length > 0 &&
                         messagePack.message.map((item: any, index1: number) => (
-                          <div key={'message' + index1} className="flex">
-                            <p className="m-0 mb-[8px] bg-[#E5E8DB] rounded-[25px] pl-[16px] pr-[16px] pt-[10px] pb-[10px] text-[18px] text-[#003300]">
-                              {item.content}
-                            </p>
+                          <div>
+                            <div
+                              key={'message' + index1}
+                              className="flex  items-center">
+                              <p className="m-0 mr-2 mb-[8px] bg-[#E5E8DB] rounded-[25px] pl-[16px] pr-[16px] pt-[10px] pb-[10px] text-[18px] text-[#003300]">
+                                {item.content}
+                              </p>
+                              <p className="text-left text-[14px] text-[#888888]">
+                                {item.time.split('T')[1].split('.')[0]}
+                              </p>
+                            </div>
                           </div>
                         ))}
                     </div>
@@ -195,7 +217,7 @@ export const MessagePanel = memo(() => {
           onChange={(e) => handleChange(e)}
         />
         <div
-          className="flex items-center justify-center w-[69px] h-[36px] bg-[#003300] text-white rounded-[50px] text-[16px] cursor-pointer"
+          className="flex items-center justify-center w-[59px] md:w-[69px] h-[36px] bg-[#003300] text-white rounded-[50px] text-[16px] cursor-pointer"
           onClick={() => handleSendMessage()}>
           Send
         </div>
