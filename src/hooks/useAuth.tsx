@@ -6,7 +6,7 @@ import { useAppDispatch } from 'src/store/store'
 
 import jwtService from '../services/jwtService'
 
-const socket = io('http://localhost:8001')
+const socket = io(`${process.env.REACT_APP_API_URL}`)
 
 const authContext = createContext<any>({
   socket: null,

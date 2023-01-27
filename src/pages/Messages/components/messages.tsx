@@ -12,8 +12,9 @@ export const MessagePanel = memo(() => {
   const { messages, activeAddress, directMessages } = useSelector(
     (state: RootState) => state.message
   )
+  const avatar = useSelector((state: RootState) => state.account.profileImage)
   const dispatch = useAppDispatch()
-
+  console.log('user', user)
   useEffect(() => {
     socket.on('message', (data: any) => {
       console.log('direct message', data)
@@ -94,7 +95,7 @@ export const MessagePanel = memo(() => {
                               )}
                           </div>
                           <Avatar
-                            src={user.profileImage}
+                            src={avatar}
                             sx={{ width: '44px', height: '44px' }}
                           />
                         </div>
@@ -155,7 +156,7 @@ export const MessagePanel = memo(() => {
                           </div>
                         ))}
                     </div>
-                    <Avatar src={user.profileImage} sx={{ width: '44px' }} />
+                    <Avatar src={avatar} sx={{ width: '44px' }} />
                   </div>
                 )
               else
