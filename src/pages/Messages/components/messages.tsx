@@ -14,7 +14,6 @@ export const MessagePanel = memo(() => {
   )
   const avatar = useSelector((state: RootState) => state.account.profileImage)
   const dispatch = useAppDispatch()
-  console.log('user', user)
   useEffect(() => {
     socket.on('message', (data: any) => {
       console.log('direct message', data)
