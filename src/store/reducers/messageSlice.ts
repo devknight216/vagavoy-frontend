@@ -123,6 +123,18 @@ const messageSlice = createSlice({
           address: [...address]
         }
       }
+      const address = state.address.map((item: any) => {
+        if (item.id === senderId) {
+          const newItem = {
+            ...item,
+            content,
+            time
+          }
+          return newItem
+        }
+        return item
+      })
+
       const arr = [...state.directMessages]
       if (arr.length === 0) {
         arr.push({
@@ -168,7 +180,8 @@ const messageSlice = createSlice({
       console.log(444)
       return {
         ...state,
-        directMessages: [...arr]
+        directMessages: [...arr],
+        address: [...address]
       }
     },
     filterAddress: (state, action): any => {
