@@ -17,7 +17,7 @@ export const Connections = memo(() => {
     const userId = user.id
     if (userId) {
       axiosInstance
-        .get('/connection')
+        .get(`/connection/${userId}`)
         .then((res: AxiosResponse<ConnectionResponse>) => {
           setConnectedUsers(res.data.connectedUsers)
           setRequestingUsers(res.data.requestingUsers)
