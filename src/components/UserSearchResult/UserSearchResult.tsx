@@ -74,8 +74,8 @@ export const UserConnectContainer: FC<IUserConnectContainerProps> = memo(
               <AccountCircleOutlinedIcon className="text-green-700 w-[92px] h-[92px] sm:hidden block" />
             )}
 
-            <span className="text-[22px] leading-6 font-bold text-green-700">
-              {profile.mainInfo?.name}
+            <span className="text-[22px] leading-6 font-bold text-green-700" onClick={() => navigate(`/profile/${profile._id}`)}>
+              <a href=''>{profile.mainInfo?.name}</a>
             </span>
           </div>
           <div className="flex flex-row items-center">

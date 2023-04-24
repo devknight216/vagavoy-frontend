@@ -41,7 +41,7 @@ export const TravelLog: FC<ITravelLogProps> = memo(
         tripLogs
           .sort((b, a) => {
             if (b.tripStartDate && a.tripStartDate)
-              return b?.tripStartDate?.getTime() - a?.tripStartDate?.getTime()
+              return a?.tripStartDate?.getTime() - b?.tripStartDate?.getTime()
 
             return 0
           })

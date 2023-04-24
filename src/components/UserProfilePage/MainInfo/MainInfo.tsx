@@ -1,9 +1,9 @@
-import { AxiosError } from 'axios'
+import { AxiosError, AxiosResponse } from 'axios'
 import { FC, memo, useEffect, useState } from 'react'
 import { Button, EditButton, Icon } from 'src/components'
 import { useAuth, useToast } from 'src/hooks'
 import { axiosInstance } from 'src/services/jwtService'
-import { IMainInfo } from 'src/types'
+import { ConnectionResponse, IMainInfo, IProfile } from 'src/types'
 
 import MainInfoEditModal from './MainInfoEditModal'
 
@@ -15,9 +15,9 @@ export const MainInfo: FC<IMainInfoProps> = memo(({ id }: IMainInfoProps) => {
   const [openEditModal, setOpenEditModal] = useState(false)
   const [userMainInfo, setUserMainInfo] = useState<IMainInfo>({})
   const { user } = useAuth()
+  const [connectedUsers, setConnectedUsers] = useState<IProfile[]>([])
   const currentUser = id === user.id
   const { showToast } = useToast()
-
   useEffect(() => {
     axiosInstance
       .get(`${process.env.REACT_APP_API_URL}/user/${id}`)
@@ -35,7 +35,16 @@ export const MainInfo: FC<IMainInfoProps> = memo(({ id }: IMainInfoProps) => {
           message: err.response?.data
         })
       })
-  }, [id])
+    // const userId = user.id
+    if (id) {
+      axiosInstance
+        .get('/connection', { params: {userId: id}})
+        .then((res: AxiosResponse<ConnectionResponse>) => {
+          setConnectedUsers(res.data.connectedUsers)
+        })
+        .catch((err) => console.log(err))
+    }
+  }, [id, user])
 
   const handleSaveMainInfo = (mainInfo: IMainInfo) => {
     axiosInstance
@@ -84,7 +93,7 @@ export const MainInfo: FC<IMainInfoProps> = memo(({ id }: IMainInfoProps) => {
           {userMainInfo.name}
         </span>
         <span className="text-sm sm:text-[22px] font-normal sm:font-bold">
-          500+ Connections
+        {connectedUsers.length} {connectedUsers.length>1? "Connections" : "Connection"}
         </span>
       </div>
       <div className="flex flex-col sm:flex-row sm:justify-between mt-3 sm:mt-4">
@@ -96,9 +105,9 @@ export const MainInfo: FC<IMainInfoProps> = memo(({ id }: IMainInfoProps) => {
               iconSize={22}
             />
             <span className="ml-2 sm:text-lg text-sm text-green-500 text-left">
-              Currently In:
+              Currently&nbsp;In:
             </span>
-            <span className="ml-2 sm:text-lg text-sm text-green-700 font-bold">
+            <span className="ml-2 sm:text-lg text-sm text-green-700 font-bold truncate ...">
               {userMainInfo?.location}
             </span>
           </div>
@@ -109,9 +118,9 @@ export const MainInfo: FC<IMainInfoProps> = memo(({ id }: IMainInfoProps) => {
               iconSize={22}
             />
             <span className="ml-2 sm:text-lg text-sm text-green-500 text-left">
-              Last Trip:
+              Last&nbsp;Trip:
             </span>
-            <span className="ml-2 sm:text-lg text-sm text-green-700 font-bold">
+            <span className="ml-2 sm:text-lg text-sm text-green-700 font-bold truncate ...">
               {userMainInfo?.lastTripLocation}
             </span>
           </div>
@@ -122,9 +131,9 @@ export const MainInfo: FC<IMainInfoProps> = memo(({ id }: IMainInfoProps) => {
               iconSize={22}
             />
             <span className="ml-2 sm:text-lg text-sm text-green-500 text-left">
-              Next Spot On Bucket List:
+              Next&nbsp;Spot&nbsp;On&nbsp;Bucket&nbsp;List:
             </span>
-            <span className="ml-2 sm:text-lg text-sm text-green-700 font-bold">
+            <span className="ml-2 sm:text-lg text-sm text-green-700 font-bold truncate ...">
               {userMainInfo?.nextSpotOnBucketList}
             </span>
           </div>
