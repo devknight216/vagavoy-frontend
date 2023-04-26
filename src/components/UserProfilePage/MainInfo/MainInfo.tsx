@@ -36,6 +36,7 @@ export const MainInfo: FC<IMainInfoProps> = memo(({ id }: IMainInfoProps) => {
         })
       })
     // const userId = user.id
+    
       axiosInstance
         .get(`${process.env.REACT_APP_API_URL}/connection/${id}`)
         .then((res: AxiosResponse<ConnectionResponse>) => {
