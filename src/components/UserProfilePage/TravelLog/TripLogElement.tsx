@@ -92,7 +92,7 @@ export const TripLogElement: FC<ITripLogElementProps> = memo(
           {tripLog?.tripDescription || ''}
         </Typography>
         <div className="mt-4 flex flex-col gap-x-4 md:flex-row gap-y-2">
-          {tripLog.tripGallery && tripLog.tripGallery?.length > 0 ? (
+          {tripLog?.tripGallery && tripLog.tripGallery?.length > 0 ? (
             <TripButton
               tripButtonType="Gallery"
               tripLogId={tripLog?.tripLogId || ''}
@@ -102,8 +102,8 @@ export const TripLogElement: FC<ITripLogElementProps> = memo(
           ) : (
             <></>
           )}
-          {tripLog.tripRecommendations &&
-          tripLog.tripRecommendations.length > 0 ? (
+          {tripLog?.tripRecommendations &&
+          tripLog?.tripRecommendations.length > 0 ? (
             <TripButton
               tripButtonType="Recommendation"
               tripLogId={tripLog?.tripLogId || ''}
