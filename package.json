@@ -95,9 +95,5 @@
     "postcss": "^8.4.16",
     "prettier": "^2.7.1",
     "tailwindcss": "^3.1.8"
-  },
-  "engines" : { 
-    "npm" : ">=9.0.0",
-    "node" : ">=18.0.0"
   }
 }
