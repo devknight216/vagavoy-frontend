@@ -4,12 +4,15 @@ import { AxiosError } from 'axios'
 import { FC, memo, useEffect, useState } from 'react'
 // import ReactS3Client from 'react-aws-s3-typescript'
 import { EditButton, Icon } from 'src/components'
+// import { AddImgButton } from 'src/components/AddImgButton'
 // import { s3Config } from 'src/config/aws-config'
 import { useAuth, useToast } from 'src/hooks'
 import { axiosInstance } from 'src/services/jwtService'
 import { setProfileImage } from 'src/store/reducers/accountSlice'
 import { useAppDispatch } from 'src/store/store'
 import { UploadFile } from 'src/utils/UploadFile'
+
+import AvatarEditModal from './AvatarEditModal'
 
 interface IAvatarProps {
   id?: string
@@ -18,6 +21,7 @@ interface IAvatarProps {
   src?: string
   className?: string
   editButtonPosClassName?: string
+  addButtonPosClassName?: string
   showAddLabel?: boolean
   onClick?: () => void
 }
@@ -52,6 +56,8 @@ export const Avatar: FC<IAvatarProps> = memo(
     const [avatar, setAvatar] = useState('')
     const { showToast } = useToast()
 
+    const [openEditModal, setOpenEditModal] = useState(false)
+
     useEffect(() => {
       if (id) {
         axiosInstance
@@ -70,22 +76,35 @@ export const Avatar: FC<IAvatarProps> = memo(
 
     const avatarSrc = avatar || src
 
-    const onFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-      if (e.target.files && e.target.files.length > 0) {
-        const file = e.target.files[0]
-
-        try {
-          UploadFile(file, 'avatar').then(async (resp) => {
-            dispatch(
-              setProfileImage({ userId: id || '', profileImage: resp || '' })
-            )
-            setAvatar(resp || '')
-          })
-        } catch (exception) {
-          console.log(exception)
-        }
+    const handleSaveAvatar = (avatar: any) => {
+      try {
+        UploadFile(avatar, 'avatar').then(async (resp) => {
+          dispatch(
+            setProfileImage({ userId: id || '', profileImage: resp || '' })
+          )
+          setAvatar(resp || '')
+        })
+      } catch (exception) {
+        console.log(exception)
       }
     }
+
+    // const onFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    //   if (e.target.files && e.target.files.length > 0) {
+    //     const file = e.target.files[0]
+
+    //     try {
+    //       UploadFile(file, 'avatar').then(async (resp) => {
+    //         dispatch(
+    //           setProfileImage({ userId: id || '', profileImage: resp || '' })
+    //         )
+    //         setAvatar(resp || '')
+    //       })
+    //     } catch (exception) {
+    //       console.log(exception)
+    //     }
+    //   }
+    // }
 
     return (
       <div className="w-fit relative" onClick={onClick}>
@@ -106,12 +125,12 @@ export const Avatar: FC<IAvatarProps> = memo(
                 className
           }>
           {currentUser ? (
-            <label htmlFor="File-Upload-Avatar">
+            <label>
               <Input
                 id="File-Upload-Avatar"
                 type="file"
                 accept="image/*"
-                onChange={onFileChange}
+                // onChange={onFileChange}
               />
               <div className="flex flex-col items-center justify-center cursor-pointer">
                 <Icon
@@ -138,18 +157,33 @@ export const Avatar: FC<IAvatarProps> = memo(
             </div>
           )}
         </div>
-        {avatarSrc && currentUser && (
+        {avatarSrc && currentUser ? (
           <label
-            htmlFor="File-Upload-Avatar"
             className={
               `w-fit absolute xl:bottom-3 xl:right-[38px] bottom-[0px] right-[0px] ` +
               editButtonPosClassName
             }>
             <div className="flex-col items-center justify-center cursor-pointer">
-              <EditButton />
+              <EditButton onClick={() => setOpenEditModal(true)} />
             </div>
           </label>
+        ) : (
+          <></>
+          // <label
+          //   htmlFor="File-Upload-Avatar"
+          //   className={
+          //     `w-fit absolute xl:bottom-3 xl:right-[38px] bottom-[0px] right-[0px] `
+          //   }>
+          //   <div className="flex-col items-center justify-center cursor-pointer">
+          //     <AddImgButton />
+          //   </div>
+          // </label>
         )}
+        <AvatarEditModal
+          open={openEditModal}
+          handleSaveAvatar={handleSaveAvatar}
+          onClose={() => setOpenEditModal(false)}
+        />
       </div>
     )
   }

@@ -1,5 +1,5 @@
 import { Dialog, Paper, styled } from '@mui/material'
-import { FC, memo, useState } from 'react'
+import React, { FC, memo, useState } from 'react'
 import { Button, CloseButton } from 'src/components'
 import { updateTripLog } from 'src/store/reducers/tripLogsSlice'
 import { useAppDispatch } from 'src/store/store'
@@ -195,7 +195,7 @@ export const GalleryAddModal: FC<IGalleryAddModalProps> = memo(
                   <Input
                     id="File-Upload-Travel-Log-Trip-Gallery"
                     type="file"
-                    accept="image/*"
+                    accept="*"
                     onChange={onFileChange}
                     multiple
                   />

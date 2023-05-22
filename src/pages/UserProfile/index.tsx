@@ -1,5 +1,5 @@
 import { Typography, useTheme } from '@mui/material'
-import { memo } from 'react'
+import React, { memo } from 'react'
 import { useParams } from 'react-router-dom'
 import { Avatar, Button, Logo, MainInfo } from 'src/components'
 import MainContainer from 'src/components/MainContainer'

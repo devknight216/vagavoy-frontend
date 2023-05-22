@@ -1,5 +1,5 @@
 import { AxiosResponse } from 'axios'
-import { memo, useEffect, useState } from 'react'
+import React, { memo, useEffect, useState } from 'react'
 import { UserCard } from 'src/components'
 import MainContainer from 'src/components/MainContainer'
 import UserConnectContainer from 'src/components/UserConnectContainer'

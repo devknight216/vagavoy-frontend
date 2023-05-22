@@ -1,4 +1,4 @@
-import { memo, useEffect, useState } from 'react'
+import React, { memo, useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import MainContainer from 'src/components/MainContainer'
 import UserSearchResult from 'src/components/UserSearchResult'
@@ -13,7 +13,6 @@ export const SearchResult = memo(() => {
 
   useEffect(() => {
     const term = search.get('term')
-
     axiosInstance
       .post('/user/search', { userId: user.id || '', searchKey: term })
       .then((res) => {

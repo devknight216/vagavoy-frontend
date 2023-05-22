@@ -1,5 +1,5 @@
 import { Typography } from '@mui/material'
-import { FC, memo } from 'react'
+import React, { FC, memo } from 'react'
 
 export interface IFaqCardProps {
   /**

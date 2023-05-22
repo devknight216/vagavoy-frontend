@@ -4,7 +4,7 @@ import {
   DividerProps as MuiDividerProps,
   styled
 } from '@mui/material'
-import { FC, memo } from 'react'
+import React, { FC, memo } from 'react'
 
 export interface IDividerProps extends MuiDividerProps {}
 

@@ -58,7 +58,10 @@ export const UserConnectContainer: FC<IUserConnectContainerProps> = memo(
             onClick={() => navigate(`/profile/${profile._id}`)}
           />
         ) : (
-          <AccountCircleOutlinedIcon className="text-green-700 w-[92px] h-[92px] sm:block hidden" />
+          <AccountCircleOutlinedIcon
+            className="text-green-700 w-[92px] h-[92px] sm:block hidden cursor-pointer"
+            onClick={() => navigate(`/profile/${profile._id}`)}
+          />
         )}
 
         <div className="flex flex-1 flex-col gap-y-4 items-start border-b border-b-green-100 pb-6">
@@ -74,8 +77,10 @@ export const UserConnectContainer: FC<IUserConnectContainerProps> = memo(
               <AccountCircleOutlinedIcon className="text-green-700 w-[92px] h-[92px] sm:hidden block" />
             )}
 
-            <span className="text-[22px] leading-6 font-bold text-green-700" onClick={() => navigate(`/profile/${profile._id}`)}>
-              <a href=''>{profile.mainInfo?.name}</a>
+            <span
+              className="text-[22px] leading-6 font-bold text-green-700"
+              onClick={() => navigate(`/profile/${profile._id}`)}>
+              <a href="">{profile.mainInfo?.name}</a>
             </span>
           </div>
           <div className="flex flex-row items-center">

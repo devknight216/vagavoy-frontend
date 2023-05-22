@@ -1,6 +1,6 @@
 import { Close } from '@mui/icons-material'
 import { IconButton, styled } from '@mui/material'
-import { FC, memo } from 'react'
+import React, { FC, memo } from 'react'
 
 export interface ICloseButtonProps {
   onClose: () => void

@@ -2,13 +2,13 @@ import React, { FC, memo } from 'react'
 
 import Icon from '../Icon'
 
-export interface IEditButtonProps {
+export interface AddImgButtonProps {
   onClick?: () => void
   className?: string
 }
 
-export const EditButton: FC<IEditButtonProps> = memo(
-  ({ onClick, className, ...props }: IEditButtonProps) => {
+export const AddImgButton: FC<AddImgButtonProps> = memo(
+  ({ onClick, className, ...props }: AddImgButtonProps) => {
     return (
       <div
         onClick={onClick}
@@ -18,15 +18,15 @@ export const EditButton: FC<IEditButtonProps> = memo(
         }
         {...props}>
         <Icon
-          iconName="Pencil"
+          iconName="Camera"
           iconSize={24}
-          className="text-green-700 sm:w-6 sm:h-6 w-[18px] h-[18px]"
+          className="text-green-100 sm:w-6 sm:h-6 w-[18px] h-[18px]"
         />
       </div>
     )
   }
 )
 
-EditButton.displayName = 'EditButton'
+AddImgButton.displayName = 'AddImgButton'
 
-export default EditButton
+export default AddImgButton

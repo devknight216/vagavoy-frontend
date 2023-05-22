@@ -1,5 +1,5 @@
 import { Typography } from '@mui/material'
-import { FC, memo, useState } from 'react'
+import React, { FC, memo, useState } from 'react'
 import { Button, Icon } from 'src/components'
 
 import TripLogEditModal from './TripLogEditModal'

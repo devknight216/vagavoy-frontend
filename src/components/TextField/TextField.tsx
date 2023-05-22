@@ -3,8 +3,7 @@ import {
   InputAdornment as MuiInputAdornment,
   styled,
   TextField as MuiTextField,
-  TextFieldProps as MuiTextFieldProps
-} from '@mui/material'
+  TextFieldProps as MuiTextFieldProps} from '@mui/material'
 import Typography from '@mui/material/Typography'
 import { FC, memo } from 'react'
 

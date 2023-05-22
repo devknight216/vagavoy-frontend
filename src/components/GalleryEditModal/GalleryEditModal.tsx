@@ -1,5 +1,5 @@
 import { Dialog, Paper, styled } from '@mui/material'
-import { FC, memo, useEffect, useState } from 'react'
+import React, { FC, memo, useEffect, useState } from 'react'
 import { Button, CloseButton } from 'src/components'
 import { updateTripLog } from 'src/store/reducers/tripLogsSlice'
 import { useAppDispatch } from 'src/store/store'

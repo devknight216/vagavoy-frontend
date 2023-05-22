@@ -5,7 +5,7 @@ import {
   useMediaQuery,
   useTheme
 } from '@mui/material'
-import { FC, memo } from 'react'
+import React, { FC, memo } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { ReactComponent as Full } from '../../assets/logo/full.svg'

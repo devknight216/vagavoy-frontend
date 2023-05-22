@@ -2,9 +2,8 @@ import {
   Button as MuiButton,
   ButtonProps as MuiButtonProps,
   styled,
-  Typography
-} from '@mui/material'
-import { FC, memo } from 'react'
+  Typography} from '@mui/material'
+import React, { FC, memo } from 'react'
 
 import Icon from '../Icon'
 

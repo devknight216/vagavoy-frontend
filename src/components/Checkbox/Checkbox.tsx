@@ -3,9 +3,8 @@ import {
   CheckboxProps as MuiCheckboxProps,
   FormControlLabel as MuiFormControlLabel,
   styled,
-  Typography
-} from '@mui/material'
-import { FC, memo } from 'react'
+  Typography} from '@mui/material'
+import React, { FC, memo } from 'react'
 
 export interface ICheckboxProps extends MuiCheckboxProps {
   /**

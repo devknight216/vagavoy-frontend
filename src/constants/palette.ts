@@ -1,10 +1,6 @@
 import { PaletteOptions } from '@mui/material'
 
 declare module '@mui/material/styles' {
-  interface Theme {}
-
-  interface ThemeOptions {}
-
   interface Palette {
     black: string
     green: {

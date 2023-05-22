@@ -7,13 +7,15 @@ import { axiosInstance } from 'src/services/jwtService'
 import { updateProfile } from 'src/store/reducers/accountSlice'
 import { useAppDispatch } from 'src/store/store'
 
+import ForgotPsw from '../Auth/ForgotPsw'
 import LoginModal from '../Auth/Login'
 import SignUpModal from '../Auth/SignUp'
 import { Header } from '../index'
 
 export const AppLayout = memo(() => {
   const [login, setLogin] = React.useState(false)
-  const [signup, setSignup] = React.useState(false)
+  const [signup, setSignUp] = React.useState(false)
+  const [forgot, setForgot] = React.useState(false)
   const { user } = useAuth()
   const { showToast } = useToast()
   const dispatch = useAppDispatch()
@@ -39,15 +41,23 @@ export const AppLayout = memo(() => {
       <div className="w-full mx-auto xl:max-w-[1200px]">
         <Header
           onLogin={() => setLogin(true)}
-          onSignup={() => setSignup(true)}
+          onSignup={() => setSignUp(true)}
         />
       </div>
 
       <Box sx={{ display: 'flex', flexDirection: 'row', flex: 1 }}>
         <Outlet />
       </Box>
-      <LoginModal open={login} onClose={() => setLogin(false)} />
-      <SignUpModal open={signup} onClose={() => setSignup(false)} />
+      <LoginModal
+        open={login}
+        onClose={() => setLogin(false)}
+        onForgotPsw={() => {
+          setLogin(false)
+          setForgot(true)
+        }}
+      />
+      <SignUpModal open={signup} onClose={() => setSignUp(false)} />
+      <ForgotPsw open={forgot} onClose={() => setForgot(false)} />
     </div>
   )
 })

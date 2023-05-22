@@ -1,6 +1,6 @@
 import { Avatar } from '@mui/material'
 import { AxiosError } from 'axios'
-import { memo, useEffect, useState } from 'react'
+import React, { memo, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import TextTruncate from 'react-text-truncate'
 import MainContainer from 'src/components/MainContainer'

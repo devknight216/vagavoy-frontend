@@ -1,4 +1,5 @@
 import { ConnectStatus } from './IConnectStatus'
+
 export interface IMainInfo {
   name?: string
   location?: string

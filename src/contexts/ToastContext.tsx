@@ -1,5 +1,5 @@
 import type { PropsWithChildren } from 'react'
-import { createContext, Reducer, useReducer } from 'react'
+import React, { createContext, Reducer, useReducer } from 'react'
 import { Toast } from 'src/components'
 import { IToastState } from 'src/types'
 

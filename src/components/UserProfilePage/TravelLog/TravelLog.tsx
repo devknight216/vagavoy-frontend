@@ -1,5 +1,5 @@
 import { Typography } from '@mui/material'
-import { FC, memo, useEffect, useState } from 'react'
+import React, { FC, memo, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { Button } from 'src/components'
 import { useAuth } from 'src/hooks'

@@ -1,7 +1,16 @@
-import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined'
+// Default theme
+import '@splidejs/react-splide/css'
+// or only core styles
+import '@splidejs/react-splide/css/core'
+import '@splidejs/react-splide/css/sea-green'
+// or other themes
+import '@splidejs/react-splide/css/skyblue'
+
+import { AccountCircleOutlined } from '@mui/icons-material'
 import { useTheme } from '@mui/material'
+import { Splide, SplideSlide } from '@splidejs/react-splide'
 import { AxiosError } from 'axios'
-import { memo, useCallback, useEffect, useState } from 'react'
+import React, { memo, useCallback, useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import ImageViewer from 'react-simple-image-viewer'
 import {
@@ -152,7 +161,7 @@ export const TripGallery = memo(() => {
               editButtonPosClassName="xl:bottom-0 xl:right-0 sm:bottom-0 sm:right-0 bottom-1 right-1"
             />
           ) : (
-            <AccountCircleOutlinedIcon className="text-green-700 w-[124px] h-[124px]" />
+            <AccountCircleOutlined className="text-green-700 w-[124px] h-[124px]" />
           )}
 
           <span className="font-semibold text-[28px] leading-6 text-green-700 mt-2 mb-4">
@@ -196,9 +205,18 @@ export const TripGallery = memo(() => {
         {/* Gallery */}
         {mode === 'tile' ? (
           <div className="flex flex-wrap -m-1 md:-m-2 w-full">
+            <Splide
+              options={{
+                rewind: true,
+                gap: '1rem',
+                type   : 'loop',
+                perPage: 1,
+                focus  : 'center'
+              }}
+              aria-label="My Favorite Images">
             {tripLog?.tripGallery && tripLog?.tripGallery?.length > 0 ? (
               tripLog?.tripGallery.map((tripImage, index) => (
-                <div key={index} className="flex flex-wrap md:w-1/4 w-1/3">
+                <SplideSlide  key={index} className="md:w-1/4">
                   <div className="w-full p-1">
                     <img
                       src={tripImage.src}
@@ -208,11 +226,12 @@ export const TripGallery = memo(() => {
                       className="block object-cover object-center w-full aspect-square rounded-lg"
                     />
                   </div>
-                </div>
+                </SplideSlide>
               ))
             ) : (
               <></>
             )}
+            </Splide>
             {isViewerOpen && (
               <ImageViewer
                 src={imageSource}
@@ -225,6 +244,7 @@ export const TripGallery = memo(() => {
                 closeOnClickOutside={true}
               />
             )}
+          
           </div>
         ) : (
           <div className="flex flex-col gap-y-6">

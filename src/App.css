@@ -2,6 +2,14 @@
   text-align: center;
 }
 
+#banner-image-croppie {
+  display: none;
+}
+
+.show-croppie {
+  display: block !important;
+}
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;
@@ -78,9 +86,11 @@
 }
 
 ::-webkit-scrollbar-track {
-  background: linear-gradient(180deg, rgba(173, 173, 173, 0.05), hsla(0, 0%, 100%, 0)),
+  background: linear-gradient(
+      180deg,
+      rgba(173, 173, 173, 0.05),
+      hsla(0, 0%, 100%, 0)
+    ),
     linear-gradient(0deg, #7b7b80, #1c1c22), #c4c4c4;
   border-radius: 1px;
 }
-
-

@@ -11,8 +11,7 @@ import { updateProfile } from 'src/store/reducers/accountSlice'
 import Button from '../Button'
 import TextField from '../TextField'
 
-interface LoginModalProps extends DialogProps {
-  onForgotPsw: () => void
+interface ForgotPswProps extends DialogProps {
   onClose: () => void
 }
 
@@ -31,22 +30,18 @@ const StyledPaper = styled(Paper)`
   }
 `
 
-const LoginModal: React.FC<LoginModalProps> = ({
-  open,
-  onClose,
-  onForgotPsw
-}) => {
+const ForgotPsw: React.FC<ForgotPswProps> = ({ open, onClose }) => {
   const [email, setEmail] = useState('')
   const dispatch = useDispatch()
-  const [password, setPassword] = useState('')
   const auth = useAuth()
   const { socket } = useAuth()
   const { showToast } = useToast()
   const navigate = useNavigate()
 
   const handleSignIn = () => {
+    console.log(email.toLowerCase())
     auth
-      .signin(email.toLowerCase(), password)
+      .signin(email.toLowerCase())
       .then((res: any) => {
         dispatch(updateProfile(res.userProfile))
         navigate(`/profile/${res.id}`)
@@ -78,9 +73,13 @@ const LoginModal: React.FC<LoginModalProps> = ({
           </BorderButton>
         </div>
         <div className="xl:pr-20 flex flex-col items-center mx-auto max-w-[320px] xl:max-w-none w-full">
-          <span className="text-[28px] font-semibold py-5">Welcome Back!</span>
+          <span className="text-[28px] font-semibold py-5">
+            Reset your password!
+          </span>
+          <span className="text-center pb-4">
+            Enter your email address so we can reset your password.
+          </span>
           <div className="items-start w-full mb-4">
-            <div className="text-[14px] text-green-500 mb-1.5">Email</div>
             <TextField
               value={email}
               textFieldHeight={44}
@@ -88,25 +87,10 @@ const LoginModal: React.FC<LoginModalProps> = ({
               onChange={(e) => setEmail(e.target.value)}
             />
           </div>
-          <div className="items-start w-full mb-4">
-            <div className="text-[14px] text-green-500 pb-1.5">Password</div>
-            <TextField
-              value={password}
-              textFieldHeight={44}
-              type="password"
-              fullWidth
-              onChange={(e) => setPassword(e.target.value)}
-            />
-            <div className="text-right pt-2">
-              <span className="cursor-pointer" onClick={() => onForgotPsw()}>
-                Forgot password?
-              </span>
-            </div>
-          </div>
           <Button
             fullWidth
             variant="contained"
-            buttonLabel="Sign In"
+            buttonLabel="Reset"
             onClick={handleSignIn}
           />
         </div>
@@ -115,4 +99,4 @@ const LoginModal: React.FC<LoginModalProps> = ({
   )
 }
 
-export default LoginModal
+export default ForgotPsw

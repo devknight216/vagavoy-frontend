@@ -42,7 +42,7 @@ const StyledPaper = styled(Paper)`
 const SignUpModal: React.FC<SignUpModalProps> = ({ open, onClose }) => {
   const theme = useTheme()
   const [name, setName] = useState('')
-  const [email, setEmail] = useState('')
+  const [emails, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [agree, setAgree] = useState(false)
   const [showError, setShowError] = useState(false)
@@ -56,6 +56,7 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ open, onClose }) => {
     /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 
   const handleSignup = () => {
+    const email = emails.toLowerCase()
     if (!email || !password || !name) {
       showToast({
         type: 'warning',
@@ -78,7 +79,7 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ open, onClose }) => {
       return
     }
     if (agree) {
-      console.log(process.env.REACT_APP_API_URL);
+      console.log(process.env.REACT_APP_API_URL)
       axios
         .post(`${process.env.REACT_APP_API_URL}/auth/register`, {
           name,
@@ -106,7 +107,7 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ open, onClose }) => {
           onClose()
         })
         .catch((err: AxiosError) => {
-          console.log(err);
+          console.log(err)
           showToast({
             type: 'error',
             message: err.response?.data
@@ -147,7 +148,7 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ open, onClose }) => {
           <div className="items-start w-full mb-4">
             <div className="text-[14px] text-green-500 mb-1.5">Email</div>
             <TextField
-              value={email}
+              value={emails}
               textFieldHeight={44}
               fullWidth
               onChange={(e) => setEmail(e.target.value)}

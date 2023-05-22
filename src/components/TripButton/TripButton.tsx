@@ -4,6 +4,7 @@ import { FC, memo } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import Icon from '../Icon'
+
 export interface ITripButtonProps {
   userId: string
   tripLogId: string

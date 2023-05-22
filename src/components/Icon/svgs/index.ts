@@ -4,6 +4,7 @@ import { ReactComponent as Airplane } from './airplane.svg'
 import { ReactComponent as ArrowLeft } from './arrowLeft.svg'
 import { ReactComponent as ButtonPicture } from './buttonPicture.svg'
 import { ReactComponent as Calendar } from './calendar.svg'
+import { ReactComponent as Camera } from './camera.svg'
 import { ReactComponent as Close } from './close.svg'
 import { ReactComponent as Cross } from './cross.svg'
 import { ReactComponent as Document } from './document.svg'
@@ -56,7 +57,8 @@ const RawIcons: IIcon = {
   Travel,
   Upload,
   User,
-  Users
+  Users,
+  Camera
 }
 
 export default RawIcons
